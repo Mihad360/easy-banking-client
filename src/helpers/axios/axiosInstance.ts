@@ -1,3 +1,4 @@
+import { TResponse } from "@/types/common.type";
 import { getFromLocalStorage } from "@/utils/local-storage";
 import axios from "axios";
 
@@ -12,7 +13,6 @@ axiosInstance.interceptors.request.use(
     if (accessToken) {
       config.headers.Authorization = accessToken;
     }
-
     return config;
   },
   function (error) {
@@ -21,11 +21,22 @@ axiosInstance.interceptors.request.use(
 );
 
 axiosInstance.interceptors.response.use(
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-ignore
   function (response) {
-    return response;
+    const responseObject: TResponse = {
+      data: response?.data?.data,
+      meta: response?.data?.meta,
+    };
+    return responseObject;
   },
   function (error) {
-    return Promise.reject(error);
+    const responseError = {
+      statusCode: error?.response?.data?.statusCode,
+      message: error?.response?.data?.message || "Something went wrong",
+      errorMessages: error?.response?.data?.message,
+    };
+    return responseError;
   }
 );
 
