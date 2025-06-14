@@ -1,6 +1,5 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { useLoginUser } from "@/hooks/auth.hook";
 import EBForm from "@/shared/form/EBForm";
 import EBInput from "@/shared/form/EBInput";
 import { Key, Mail } from "lucide-react";
@@ -9,14 +8,13 @@ import React from "react";
 import { FieldValues } from "react-hook-form";
 
 const Login = () => {
-  const { mutate: loginUser } = useLoginUser();
   const onSubmit = (data: FieldValues) => {
     const userData = {
       email: data.email,
       password: data.password,
     };
-    const res = loginUser(userData);
-    console.log(res);
+    // const res = loginUser(userData);
+    // console.log(res);
   };
 
   return (

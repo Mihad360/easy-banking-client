@@ -4,11 +4,9 @@ import EBInput from "@/shared/form/EBInput";
 import { KeyIcon } from "lucide-react";
 import { FieldValues } from "react-hook-form";
 import { useEffect, useState } from "react";
-import { useVerifyOtp } from "@/hooks/auth.hook";
 
 const VerifyOtp = () => {
   const [email, setEmail] = useState<string | null>(null);
-  const { mutate: verifyOtp } = useVerifyOtp();
 
   useEffect(() => {
     const storedEmail = localStorage.getItem("email");
@@ -25,8 +23,8 @@ const VerifyOtp = () => {
         otp: data.otp,
       };
       console.log(verifyData);
-      const res = verifyOtp(verifyData);
-      console.log(res);
+      // const res = verifyOtp(verifyData);
+      // console.log(res);
     }
   };
 

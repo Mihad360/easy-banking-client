@@ -2,6 +2,7 @@
 import { axiosUrl } from "@/lib/axiosInstance";
 import { TLogin } from "@/types/auth.type";
 import { cookies } from "next/headers";
+import { jwtDecode } from "jwt-decode";
 
 export const loginUser = async (userData: TLogin) => {
   try {
@@ -37,4 +38,14 @@ export const verifyOtp = async (otpData) => {
   } catch (error) {
     throw new Error(error?.response?.data?.message);
   }
+};
+
+export const getUser = async () => {
+  const accessToken = (await cookies()).get("accessToken")?.value;
+  let decoded = null;
+  if (accessToken) {
+    decoded = await jwtDecode(accessToken);
+    return decoded;
+  }
+  return decoded;
 };
