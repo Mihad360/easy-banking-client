@@ -2,36 +2,48 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useSignupUserMutation } from "@/redux/api/authApi";
 import EBForm from "@/shared/form/EBForm";
 import EBInput from "@/shared/form/EBInput";
 import AuthLoading from "@/shared/loader/AuthLoading";
 import { FolderPen, Key, Mail, Phone, PictureInPicture } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import { Controller, FieldValues } from "react-hook-form";
+import { toast } from "sonner";
 
 const SignUp = () => {
+  const [signupUser, { data: signupData, isLoading, isSuccess, isError }] =
+    useSignupUserMutation();
   const router = useRouter();
-  const onSubmit = (data: FieldValues) => {
+  
+  const onSubmit = async (data: FieldValues) => {
     const { profilePhotoUrl, ...rest } = data;
-    console.log(data);
     const formData = new FormData();
     const userData = {
       ...rest,
     };
-    // console.log(imageFile);
     formData.append("data", JSON.stringify(userData));
     formData.append("file", profilePhotoUrl);
-    // const res = signupUser(formData);
-    // console.log(res);
+    // for (const [key, value] of formData.entries()) {
+    //   console.log(`${key}:`, value);
+    // }
+    await signupUser(formData);
   };
-  // console.log(isPending, isSuccess);
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     router.push("/verify-otp");
-  //   }
-  // }, [isSuccess, router]);
+
+  useEffect(() => {
+    console.log(signupData)
+    if (isSuccess && signupData) {
+      localStorage.setItem("email", signupData.email);
+      router.push("/verify-otp");
+    }
+
+    if (isError || (isSuccess && !signupData)) {
+      toast.error("Sign up failed. Please try again.");
+      console.log("Error details:");
+    }
+  }, [isSuccess, isError, signupData, router]);
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700">
@@ -111,13 +123,13 @@ const SignUp = () => {
             </Link>
           </div>
           <div className="pt-2 w-96 mx-auto">
-            {/* <Button
+            <Button
               type="submit"
-              disabled={isPending}
-              className="w-full py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-lg transition-all duration-300 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={isLoading}
+              className="cursor-pointer w-full py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-lg transition-all duration-300 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isPending ? <AuthLoading /> : "Sign Up"}
-            </Button> */}
+              {isLoading ? <AuthLoading /> : "Sign Up"}
+            </Button>
           </div>
         </EBForm>
       </div>

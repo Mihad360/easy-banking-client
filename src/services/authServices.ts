@@ -1,13 +1,10 @@
-"use server";
-import { cookies } from "next/headers";
-import { jwtDecode } from "jwt-decode";
+import { decodeToken } from "@/utils/decodeToken";
+import { getFromLocalStorage } from "@/utils/local-storage";
 
-export const getUser = async () => {
-  const accessToken = (await cookies()).get("accessToken")?.value;
-  let decoded = null;
+export const getUser = () => {
+  const accessToken = getFromLocalStorage("accessToken");
   if (accessToken) {
-    decoded = await jwtDecode(accessToken);
+    const decoded = decodeToken(accessToken);
     return decoded;
   }
-  return decoded;
 };

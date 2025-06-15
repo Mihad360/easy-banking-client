@@ -1,21 +1,56 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { useLoginUserMutation } from "@/redux/api/authApi";
 import EBForm from "@/shared/form/EBForm";
 import EBInput from "@/shared/form/EBInput";
+import AuthLoading from "@/shared/loader/AuthLoading";
 import { Key, Mail } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 import { FieldValues } from "react-hook-form";
+import { toast } from "sonner";
 
 const Login = () => {
-  const onSubmit = (data: FieldValues) => {
-    const userData = {
-      email: data.email,
-      password: data.password,
-    };
-    // const res = loginUser(userData);
-    // console.log(res);
+  const [loginUser, { data: loginData, isSuccess, isLoading }] =
+    useLoginUserMutation();
+  const router = useRouter();
+  console.log(loginData);
+  const onSubmit = async (data: FieldValues) => {
+    try {
+      const userData = {
+        email: data.email,
+        password: data.password,
+      };
+      const res = await loginUser(userData);
+      console.log(res);
+      if (res?.data?.accessToken) {
+        localStorage.setItem("accessToken", res?.data?.accessToken);
+        toast.success("Login Successfull", { duration: 3000 });
+        router.push("/");
+      } else {
+        toast.error(
+          res?.error?.data?.message === "The user is not found"
+            ? "Invalid details or Something went wrong"
+            : res?.error?.data?.message,
+          { duration: 4000 }
+        );
+      }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      // console.log(error);
+      toast.error("Login Failed", { duration: 3000 });
+    }
   };
+
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     localStorage.setItem("accessToken", loginData?.accessToken);
+  //     toast.success("Login Successfull", { duration: 3000 });
+  //   } else {
+  //     toast.error("Login Failed", { duration: 3000 });
+  //   }
+  // }, [isSuccess, loginData]);
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700">
@@ -46,9 +81,9 @@ const Login = () => {
             <div className="pt-2">
               <Button
                 type="submit"
-                className="w-full py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-lg transition-all duration-300 shadow-md hover:shadow-lg"
+                className="cursor-pointer w-full py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-lg transition-all duration-300 shadow-md hover:shadow-lg"
               >
-                Login
+                {isLoading ? <AuthLoading /> : "Login"}
               </Button>
             </div>
           </EBForm>

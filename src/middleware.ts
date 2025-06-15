@@ -5,15 +5,16 @@ import { getUser } from "./services/authServices";
 type TRole = keyof typeof roleBasedRoutes;
 const authRoutes = ["/login", "/signup"];
 const roleBasedRoutes = {
-  user: [],
-  admin: [/^\/admin/],
+  customer: [/^\/dashboard\/customer/],
+  manager: [/^\/dashboard\/manager/],
+  admin: [/^\/dashboard\/admin/],
 };
 
 // This function can be marked `async` if using `await` inside
-export async function middleware(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const user = await getUser();
-  //   console.log(user);
+  const user = getUser();
+  console.log(user);
   if (!user) {
     if (authRoutes.includes(pathname)) {
       return NextResponse.next();

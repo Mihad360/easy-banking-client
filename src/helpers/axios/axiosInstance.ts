@@ -28,6 +28,7 @@ axiosInstance.interceptors.response.use(
       data: response?.data?.data,
       meta: response?.data?.meta,
     };
+    console.log(response);
     return responseObject;
   },
   function (error) {
@@ -36,7 +37,14 @@ axiosInstance.interceptors.response.use(
       message: error?.response?.data?.message || "Something went wrong",
       errorMessages: error?.response?.data?.message,
     };
-    return responseError;
+    console.log(responseError);
+    // return responseError;
+    return Promise.reject({
+      response: {
+        status: error?.response?.status,
+        data: responseError,
+      },
+    });
   }
 );
 

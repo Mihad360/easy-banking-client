@@ -4,9 +4,12 @@ import EBInput from "@/shared/form/EBInput";
 import { KeyIcon } from "lucide-react";
 import { FieldValues } from "react-hook-form";
 import { useEffect, useState } from "react";
+import { useVerifyOtpMutation } from "@/redux/api/authApi";
+import { toast } from "sonner";
 
 const VerifyOtp = () => {
   const [email, setEmail] = useState<string | null>(null);
+  const [verifyOtp] = useVerifyOtpMutation();
 
   useEffect(() => {
     const storedEmail = localStorage.getItem("email");
@@ -16,15 +19,26 @@ const VerifyOtp = () => {
     console.log("Loaded email:", storedEmail);
   }, []);
 
-  const onSubmit = (data: FieldValues) => {
+  const onSubmit = async (data: FieldValues) => {
     if (email) {
       const verifyData = {
-        email: email,
+        email,
         otp: data.otp,
       };
-      console.log(verifyData);
-      // const res = verifyOtp(verifyData);
-      // console.log(res);
+
+      try {
+        const res = await verifyOtp(verifyData);
+        console.log("OTP Verified:", res);
+        if (res) {
+          toast.success("Sign up successfully", { duration: 3000 });
+          localStorage.removeItem("email");
+        }
+        // Optionally redirect
+      } catch (err) {
+        console.error("OTP verification failed:", err);
+        toast.error("Sign up failed. Invalid OTP.", { duration: 3000 });
+        // Don’t remove email yet — maybe allow retry
+      }
     }
   };
 
@@ -50,7 +64,7 @@ const VerifyOtp = () => {
           />
           <button
             type="submit"
-            className="mt-6 w-full py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg transition duration-300 shadow-md hover:shadow-lg"
+            className="cursor-pointer mt-6 w-full py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg transition duration-300 shadow-md hover:shadow-lg"
           >
             Verify
           </button>

@@ -10,3 +10,12 @@ export type TResponse = {
   data: any;
   meta?: IMeta;
 };
+
+export interface JwtPayload {
+  user: string; // No undefined allowed
+  email: string;
+  role: string;
+  profilePhotoUrl?: string;
+  phoneNumber: string;
+  name?: string;
+}
