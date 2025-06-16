@@ -89,11 +89,11 @@ const Navbar = () => {
           >
             <motion.div variants={logoVariants} className="relative">
               <Image
-                src="https://i.ibb.co/GQsQ37kS/Messenger-creation-E9-E425-D7-CA9-C-4507-A947-BCBC8-E5-A58-C2-jpeg.jpg"
+                src="https://i.ibb.co/S4tfrcxP/c4802a9c-12a1-4281-88bb-ee49e81e814c.jpg"
                 alt="Easy Bank Logo"
-                width={48}
-                height={48}
-                className="w-14 h-14 rounded-xl"
+                width={40}
+                height={40}
+                className="w-14 h-12 rounded-xl"
                 priority
               />
             </motion.div>
@@ -138,9 +138,9 @@ const Navbar = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <Link href="/login" className="text-pink-600 font-bold group">
+                  <Link href="/login" className="text-pink-600 font-bold group relative py-2">
                     Login
-                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-pink-600 to-pink-800 rounded-full transition-all duration-300 group-hover:w-full" />
+                    <span className="absolute -bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-pink-600 to-pink-800 rounded-full transition-all duration-300 group-hover:w-full" />
                   </Link>
                 </motion.div>
                 <motion.div
