@@ -6,6 +6,7 @@ const axiosInstance = axios.create();
 axiosInstance.defaults.headers.post["Content-Type"] = "application/json";
 axiosInstance.defaults.headers["Accept"] = "application/json";
 axiosInstance.defaults.timeout = 60000;
+axiosInstance.defaults.withCredentials = true;
 
 axiosInstance.interceptors.request.use(
   function (config) {
@@ -28,7 +29,7 @@ axiosInstance.interceptors.response.use(
       data: response?.data?.data,
       meta: response?.data?.meta,
     };
-    console.log(response);
+    // console.log(response);
     return responseObject;
   },
   function (error) {
@@ -37,7 +38,7 @@ axiosInstance.interceptors.response.use(
       message: error?.response?.data?.message || "Something went wrong",
       errorMessages: error?.response?.data?.message,
     };
-    console.log(responseError);
+    // console.log(responseError);
     // return responseError;
     return Promise.reject({
       response: {

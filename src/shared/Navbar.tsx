@@ -27,10 +27,12 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { JwtPayload } from "@/types/common.type";
+import { removeCookie } from "@/utils/deleteCookie";
+import { removeFromLocalStorage } from "@/utils/local-storage";
 
 const Navbar = () => {
   const [user, setUser] = useState<JwtPayload | null>(null);
-  console.log(user);
+  // console.log(user);
   useEffect(() => {
     setUser(getUser() as JwtPayload);
   }, []);
@@ -64,6 +66,12 @@ const Navbar = () => {
     },
   };
 
+  const handleSignOut = async () => {
+    await removeCookie("accessToken", "refreshToken");
+    removeFromLocalStorage("accessToken");
+    window.location.href = "/";
+  };
+
   return (
     <motion.nav
       initial="hidden"
@@ -90,8 +98,8 @@ const Navbar = () => {
               />
             </motion.div>
             <div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-blue-800 bg-clip-text text-transparent">
-                Easy <span className="text-sky-700">Bank</span>
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-pink-800 bg-clip-text text-transparent">
+                Easy <span className="text-pink-600">Bank</span>
               </h1>
               <p className="text-xs text-gray-500 -mt-1">Secure Banking</p>
             </div>
@@ -110,10 +118,10 @@ const Navbar = () => {
               >
                 <Link
                   href={route.path}
-                  className="relative text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 group py-2"
+                  className="relative text-gray-700 hover:text-pink-600 transition-colors duration-200 group py-2 font-bold"
                 >
                   {route.label}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-blue-800 rounded-full transition-all duration-300 group-hover:w-full" />
+                  <span className="absolute -bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-pink-600 to-pink-800 rounded-full transition-all duration-300 group-hover:w-full" />
                 </Link>
               </motion.div>
             ))}
@@ -125,26 +133,23 @@ const Navbar = () => {
             className="hidden md:flex items-center gap-4"
           >
             {!user ? (
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-4">
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <Link href="/login">
-                    <Button variant="ghost" className="font-medium">
-                      Login
-                    </Button>
+                  <Link href="/login" className="text-pink-600 font-bold group">
+                    Login
+                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-pink-600 to-pink-800 rounded-full transition-all duration-300 group-hover:w-full" />
                   </Link>
                 </motion.div>
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <Link href="/signup">
-                    <Button className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium px-6 shadow-lg hover:shadow-xl transition-all duration-200">
-                      Get Started
-                    </Button>
-                  </Link>
+                  <Avatar>
+                    <AvatarImage src="https://i.ibb.co/YBF0wVrJ/profile-icon-design-free-vector-removebg-preview.png" />
+                  </Avatar>
                 </motion.div>
               </div>
             ) : (
@@ -152,18 +157,18 @@ const Navbar = () => {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className="flex items-center gap-2 p-1 rounded-full hover:bg-gray-100 transition-colors duration-200"
+                    className="flex items-center gap-2 p-1 rounded-full hover:bg-gray-100 transition-colors duration-200 cursor-pointer"
                   >
                     <motion.div
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       className="flex items-center gap-2"
                     >
-                      <Avatar className="w-9 h-9 border-2 border-blue-200">
+                      <Avatar className="w-9 h-9 border-2 border-pink-200">
                         <AvatarImage
                           src={user?.profilePhotoUrl || "/placeholder.svg"}
                         />
-                        <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white font-semibold">
+                        <AvatarFallback className="bg-gradient-to-br from-pink-500 to-pink-600 text-white font-semibold">
                           {user?.name?.charAt(0) || "U"}
                         </AvatarFallback>
                       </Avatar>
@@ -182,21 +187,30 @@ const Navbar = () => {
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem className="cursor-pointer">
-                    <User className="w-4 h-4 mr-2" />
-                    Profile
+                    <Link href={`/dashboard/${user?.role}/my-account`}>
+                      <User className="w-4 h-4 mr-2" />
+                      My Account
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-pointer">
-                    <CreditCard className="w-4 h-4 mr-2" />
-                    My Cards
+                    <Link href={`/dashboard/${user?.role}/cards`}>
+                      <CreditCard className="w-4 h-4 mr-2" />
+                      My Cards
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem className="cursor-pointer">
                     <Settings className="w-4 h-4 mr-2" />
                     Settings
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem className="cursor-pointer text-red-600 focus:text-red-600">
-                    <LogOut className="w-4 h-4 mr-2" />
-                    Sign Out
+                  <DropdownMenuItem
+                    onClick={handleSignOut}
+                    className="cursor-pointer text-red-600 focus:text-red-600"
+                  >
+                    <button className="cursor-pointer flex items-center gap-2">
+                      <LogOut className="w-4 h-4 mr-2 text-red-600" />
+                      Sign Out
+                    </button>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -236,7 +250,7 @@ const Navbar = () => {
               <SheetContent side="right" className="w-80 p-0">
                 <div className="flex flex-col h-full">
                   {/* Mobile Header */}
-                  <div className="p-6 border-b bg-gradient-to-r from-blue-50 to-blue-100">
+                  <div className="p-6 border-b bg-gradient-to-r from-pink-50 to-pink-100">
                     <div className="flex items-center gap-3">
                       <Image
                         src="/placeholder.svg?height=40&width=40"
@@ -269,7 +283,7 @@ const Navbar = () => {
                           <Link
                             href={route.path}
                             onClick={() => setIsOpen(false)}
-                            className="flex items-center py-3 px-4 rounded-lg hover:bg-blue-50 text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200"
+                            className="flex items-center py-3 px-4 rounded-lg hover:bg-pink-50 text-gray-700 hover:text-pink-600 font-medium transition-colors duration-200"
                           >
                             {route.label}
                           </Link>
@@ -297,7 +311,7 @@ const Navbar = () => {
                           whileTap={{ scale: 0.98 }}
                         >
                           <Link href="/signup" onClick={() => setIsOpen(false)}>
-                            <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800">
+                            <Button className="w-full bg-gradient-to-r from-pink-600 to-pink-700 hover:from-pink-700 hover:to-pink-800">
                               Get Started
                             </Button>
                           </Link>
@@ -306,11 +320,11 @@ const Navbar = () => {
                     ) : (
                       <div className="space-y-4">
                         <div className="flex items-center gap-3 p-3 bg-white rounded-lg">
-                          <Avatar className="w-10 h-10 border-2 border-blue-200">
+                          <Avatar className="w-10 h-10 border-2 border-pink-200">
                             <AvatarImage
                               src={user?.profilePhotoUrl || "/placeholder.svg"}
                             />
-                            <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white">
+                            <AvatarFallback className="bg-gradient-to-br from-pink-500 to-pink-600 text-white">
                               {user?.name?.charAt(0) || "U"}
                             </AvatarFallback>
                           </Avatar>

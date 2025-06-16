@@ -46,10 +46,10 @@ const SignUp = () => {
   }, [isSuccess, isError, signupData, router]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700">
-      <div className="w-full max-w-[800px] p-8 bg-white/80 dark:bg-gray-900/80 rounded-l-2xl backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 shadow-lg">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-pink-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700">
+      <div className="w-full max-w-[800px] p-8 bg-white/80 dark:bg-gray-900/80 rounded-2xl backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 shadow-lg">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-sky-600 bg-clip-text text-transparent">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-pink-600 to-sky-600 bg-clip-text text-transparent">
             Sign Up to your account
           </h1>
         </div>
@@ -126,7 +126,7 @@ const SignUp = () => {
             <Button
               type="submit"
               disabled={isLoading}
-              className="cursor-pointer w-full py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-lg transition-all duration-300 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              className="cursor-pointer w-full py-2 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white font-medium rounded-lg transition-all duration-300 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? <AuthLoading /> : "Sign Up"}
             </Button>

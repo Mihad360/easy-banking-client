@@ -19,3 +19,12 @@ export interface JwtPayload {
   phoneNumber: string;
   name?: string;
 }
+
+// types/sidebar.type.ts
+export interface SidebarRoute {
+  href: string;
+  label: string;
+  icon?: React.ComponentType; // Optional icon component
+}
+
+export type SidebarRoutes = SidebarRoute[];
