@@ -7,4 +7,6 @@ export type EBInputType = {
   size?: number;
   icon?: ReactNode;
   placeholder?: string;
+  className?: string;
+  defaultValue?: string;
 };

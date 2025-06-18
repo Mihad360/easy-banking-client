@@ -28,6 +28,7 @@ const navItemVariants: Variants = {
 export const AnimatedNavItem = ({
   children,
   className,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   isActive = false,
   href,
   onHover,

@@ -3,11 +3,13 @@ import { ReactNode } from "react";
 
 const layout = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="flex">
-      <div>
+    <div className="flex h-full">
+      <div className="overflow-y-auto h-full ">
         <Sidebar />
       </div>
-      <div className="flex-1">{children}</div>
+      <div className="flex-1 overflow-y-auto h-full">
+        <div className="">{children}</div>
+      </div>
     </div>
   );
 };

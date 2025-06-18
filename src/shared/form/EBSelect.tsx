@@ -1,4 +1,5 @@
 "use client";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -6,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import React from "react";
+import React, { ReactNode } from "react";
 import { useFormContext, Controller } from "react-hook-form";
 
 type TSelectOption = {
@@ -20,6 +21,8 @@ type TEBSelect = {
   label: string;
   disabled?: boolean;
   placeholder?: string;
+  icon?: ReactNode;
+  className?: string;
 };
 
 const EBSelect = ({
@@ -28,12 +31,17 @@ const EBSelect = ({
   label,
   disabled,
   placeholder,
+  icon,
+  className,
 }: TEBSelect) => {
   const { control } = useFormContext();
 
   return (
     <div className="flex flex-col gap-1">
-      <label className="text-sm font-medium">{label}</label>
+      <Label className="flex gap-2 items-center pb-2">
+        {icon}
+        {label}
+      </Label>
       <Controller
         name={name}
         control={control}
@@ -43,7 +51,7 @@ const EBSelect = ({
             value={field.value}
             disabled={disabled}
           >
-            <SelectTrigger className="w-full">
+            <SelectTrigger className={className}>
               <SelectValue placeholder={placeholder || "Select"} />
             </SelectTrigger>
             <SelectContent>

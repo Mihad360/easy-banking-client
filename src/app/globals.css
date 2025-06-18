@@ -7,6 +7,19 @@
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
 }
+.custom-ant-select .ant-select-selector {
+  border: 2px solid #b7b9bc !important;  /* Tailwind gray-200 */
+  border-radius: 10px !important;        /* rounded-2xl */
+  transition: all 0.2s ease-in-out;
+}
+
+/* On focus */
+.custom-ant-select.ant-select-focused .ant-select-selector {
+  border-color: #5d636c !important;      /* Tailwind gray-500 */
+  box-shadow: 0 0 0 4px rgba(229, 231, 235, 1) !important; /* Tailwind gray-200 */
+}
+
+
 
 @custom-variant dark (&:is(.dark *));
 

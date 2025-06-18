@@ -1,7 +1,7 @@
 import "@ant-design/v5-patch-for-react-19";
 import type { Metadata } from "next";
 import "./globals.css";
-import Providers from "./Providers";
+import Providers from "@/lib/Providers/Providers";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`font antialiased`}>
+      <body className={`font antialiased bg-white`}>
         <Providers>{children}</Providers>
       </body>
     </html>

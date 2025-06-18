@@ -1,7 +1,8 @@
 "use client";
-import React from "react";
+import React, { ReactNode } from "react";
 import { Select } from "antd";
 import { Controller } from "react-hook-form";
+import { Label } from "@/components/ui/label";
 
 type OptionType = {
   label: string;
@@ -15,6 +16,8 @@ type EBSelectMultipleProps = {
   disabled?: boolean;
   placeholder?: string;
   mode?: "multiple" | "tags";
+  className?: string;
+  icon?: ReactNode;
 };
 
 const EBSelectMultiple = ({
@@ -24,14 +27,20 @@ const EBSelectMultiple = ({
   disabled,
   placeholder = "Please select",
   mode,
+  className,
+  icon,
 }: EBSelectMultipleProps) => {
   return (
     <div className="flex flex-col gap-1">
-      <label className="text-sm font-medium mb-1">{label}</label>
+      <Label className="flex gap-2 items-center pb-2">
+        {icon}
+        {label}
+      </Label>
       <Controller
         name={name}
         render={({ field }) => (
           <Select
+            className={` ${className ?? ""}`}
             mode={mode}
             allowClear
             {...field}

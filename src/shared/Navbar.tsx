@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,8 +13,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { getUser } from "@/services/authServices";
-import { navRoutes } from "@/utils/routes";
 import Link from "next/link";
 import {
   Menu,
@@ -24,47 +22,27 @@ import {
   User,
   Settings,
   LogOut,
+  MapPin,
+  Phone,
+  Facebook,
+  Twitter,
+  Linkedin,
+  Play,
 } from "lucide-react";
-import Image from "next/image";
+import { getUser } from "@/services/authServices";
 import { JwtPayload } from "@/types/common.type";
+import { navRoutes } from "@/utils/routes";
+import Image from "next/image";
 import { removeCookie } from "@/utils/deleteCookie";
 import { removeFromLocalStorage } from "@/utils/local-storage";
 
 const Navbar = () => {
-  const [user, setUser] = useState<JwtPayload | null>(null);
-  // console.log(user);
+  const [user, setUser] = useState<any>(null); // Replace with your user type
+  const [isOpen, setIsOpen] = useState(false);
+
   useEffect(() => {
     setUser(getUser() as JwtPayload);
   }, []);
-  const [isOpen, setIsOpen] = useState(false);
-
-  const containerVariants = {
-    hidden: { opacity: 0, y: -20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: -10 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.3 },
-    },
-  };
-
-  const logoVariants = {
-    hover: {
-      scale: 1.05,
-      transition: { duration: 0.2 },
-    },
-  };
 
   const handleSignOut = async () => {
     await removeCookie("accessToken", "refreshToken");
@@ -72,108 +50,115 @@ const Navbar = () => {
     window.location.href = "/";
   };
 
-  return (
-    <motion.nav
-      initial="hidden"
-      animate="visible"
-      variants={containerVariants}
-      className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm"
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo Section */}
-          <motion.div
-            variants={itemVariants}
-            whileHover="hover"
-            className="flex items-center gap-3"
-          >
-            <motion.div variants={logoVariants} className="relative">
+  // Animation-ready wrapper component
+  const AnimationWrapper = ({ children, className = "", ...props }: any) => (
+    <div className={`transition-all duration-300 ${className}`} {...props}>
+      {children}
+    </div>
+  );
+
+  // Logo component ready for animations
+  const LogoSection = () => (
+    <AnimationWrapper className="hover:scale-105">
+      <Link href="/" className="flex items-center gap-3">
+        <div className="relative">
+          <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center shadow-lg">
+            <div className="w-8 h-8 rounded-md flex items-center justify-center">
               <Image
-                src="https://i.ibb.co/S4tfrcxP/c4802a9c-12a1-4281-88bb-ee49e81e814c.jpg"
-                alt="Easy Bank Logo"
-                width={40}
-                height={40}
-                className="w-14 h-12 rounded-xl"
-                priority
+                src="https://i.ibb.co/wZ0721GL/be-eb-b-e-abstract-260nw-2385258941-removebg-preview.png"
+                width={100}
+                height={100}
+                alt="image"
               />
-            </motion.div>
-            <div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-pink-800 bg-clip-text text-transparent">
-                Easy <span className="text-pink-600">Bank</span>
-              </h1>
-              <p className="text-xs text-gray-500 -mt-1">Secure Banking</p>
             </div>
-          </motion.div>
+          </div>
+        </div>
+        <div>
+          <h1 className="text-2xl font-bold text-white">EasyBank</h1>
+        </div>
+      </Link>
+    </AnimationWrapper>
+  );
+
+  // Navigation item component ready for animations
+  const NavItem = ({ route, index }: { route: any; index: number }) => (
+    <AnimationWrapper
+      className="relative group"
+      style={{ animationDelay: `${index * 0.1}s` }}
+    >
+      <Link
+        href={route.path}
+        className="flex items-center gap-1 text-white hover:text-[#AEFF1C] transition-colors duration-300 font-medium py-2 px-3 rounded-lg hover:bg-white/10"
+      >
+        {route.label}
+      </Link>
+    </AnimationWrapper>
+  );
+
+ 
+
+  // Social icon component ready for animations
+  const SocialIcon = ({ icon: Icon }: { icon: any }) => (
+    <AnimationWrapper className="hover:scale-110 hover:-translate-y-1">
+      <div className="w-8 h-8 bg-white/10 hover:bg-[#AEFF1C] rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer group">
+        <Icon className="w-4 h-4 text-white group-hover:text-[#104042]" />
+      </div>
+    </AnimationWrapper>
+  );
+
+  return (
+    <nav className="sticky top-0 z-50 bg-[#104042] shadow-lg">
+      {/* Main navigation */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20">
+          {/* Logo Section */}
+          <LogoSection />
 
           {/* Desktop Navigation */}
-          <motion.div
-            variants={itemVariants}
-            className="hidden md:flex items-center space-x-8"
-          >
+          <div className="hidden lg:flex items-center space-x-2">
             {navRoutes?.map((route, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Link
-                  href={route.path}
-                  className="relative text-gray-700 hover:text-pink-600 transition-colors duration-200 group py-2 font-bold"
-                >
-                  {route.label}
-                  <span className="absolute -bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-pink-600 to-pink-800 rounded-full transition-all duration-300 group-hover:w-full" />
-                </Link>
-              </motion.div>
+              <NavItem key={index} route={route} index={index} />
             ))}
-          </motion.div>
+          </div>
 
           {/* Desktop Auth Section */}
-          <motion.div
-            variants={itemVariants}
-            className="hidden md:flex items-center gap-4"
-          >
+          <div className="hidden lg:flex items-center gap-4">
             {!user ? (
               <div className="flex items-center gap-4">
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Link href="/login" className="text-pink-600 font-bold group relative py-2">
+                <AnimationWrapper className="hover:scale-105">
+                  <Link
+                    href="/login"
+                    className="text-white hover:text-[#AEFF1C] font-medium transition-colors duration-300"
+                  >
                     Login
-                    <span className="absolute -bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-pink-600 to-pink-800 rounded-full transition-all duration-300 group-hover:w-full" />
                   </Link>
-                </motion.div>
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <Avatar>
-                    <AvatarImage src="https://i.ibb.co/YBF0wVrJ/profile-icon-design-free-vector-removebg-preview.png" />
-                  </Avatar>
-                </motion.div>
+                </AnimationWrapper>
+                <AnimationWrapper className="hover:scale-105">
+                  <Button className="bg-[#AEFF1C] hover:bg-[#AEFF1C]/90 text-[#104042] font-bold px-6 py-2 rounded-full transition-all duration-300 hover:shadow-lg">
+                    Get Started
+                  </Button>
+                </AnimationWrapper>
               </div>
             ) : (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className="flex items-center gap-2 p-1 rounded-full hover:bg-gray-100 transition-colors duration-200 cursor-pointer"
+                    className="flex items-center gap-2 p-1 rounded-full hover:bg-white/10 transition-colors duration-300 cursor-pointer"
                   >
-                    <motion.div
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="flex items-center gap-2"
-                    >
-                      <Avatar className="w-9 h-9 border-2 border-pink-200">
-                        <AvatarImage
-                          src={user?.profilePhotoUrl || "/placeholder.svg"}
-                        />
-                        <AvatarFallback className="bg-gradient-to-br from-pink-500 to-pink-600 text-white font-semibold">
-                          {user?.name?.charAt(0) || "U"}
-                        </AvatarFallback>
-                      </Avatar>
-                      <ChevronDown className="w-4 h-4 text-gray-500" />
-                    </motion.div>
+                    <AnimationWrapper className="hover:scale-105">
+                      <div className="flex items-center gap-2">
+                        <Avatar className="w-9 h-9 border-2 border-[#AEFF1C]">
+                          <AvatarImage
+                            src={user?.profilePhotoUrl || "/placeholder.svg"}
+                          />
+                          <AvatarFallback className="bg-[#AEFF1C] text-[#104042] font-semibold">
+                            {user?.name?.charAt(0) || "U"}
+                          </AvatarFallback>
+                        </Avatar>
+                        <ChevronDown className="w-4 h-4 text-white" />
+                      </div>
+                    </AnimationWrapper>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56 mt-2">
@@ -186,206 +171,183 @@ const Navbar = () => {
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem className="cursor-pointer">
-                    <Link href={`/dashboard/${user?.role}/my-account`}>
+                  <Link href={`/dashboard/${user?.role}/my-account`}>
+                    <DropdownMenuItem className="cursor-pointer hover:bg-[#104042] hover:text-white">
                       <User className="w-4 h-4 mr-2" />
                       My Account
-                    </Link>
+                    </DropdownMenuItem>
+                  </Link>
+                  <DropdownMenuItem className="cursor-pointer hover:bg-[#104042] hover:text-white">
+                    <CreditCard className="w-4 h-4 mr-2" />
+                    My Cards
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer">
-                    <Link href={`/dashboard/${user?.role}/cards`}>
-                      <CreditCard className="w-4 h-4 mr-2" />
-                      My Cards
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer">
+                  <DropdownMenuItem className="cursor-pointer hover:bg-[#104042] hover:text-white">
                     <Settings className="w-4 h-4 mr-2" />
                     Settings
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    onClick={handleSignOut}
-                    className="cursor-pointer text-red-600 focus:text-red-600"
-                  >
-                    <button className="cursor-pointer flex items-center gap-2">
-                      <LogOut className="w-4 h-4 mr-2 text-red-600" />
+                  <button className="w-full" onClick={handleSignOut}>
+                    <DropdownMenuItem className="cursor-pointer text-red-600 focus:text-red-600 hover:bg-red-50">
+                      <LogOut className="w-4 h-4 mr-2" />
                       Sign Out
-                    </button>
-                  </DropdownMenuItem>
+                    </DropdownMenuItem>
+                  </button>
                 </DropdownMenuContent>
               </DropdownMenu>
             )}
-          </motion.div>
+          </div>
 
           {/* Mobile Menu Button */}
-          <motion.div variants={itemVariants} className="md:hidden">
+          <div className="lg:hidden">
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="relative">
-                  <AnimatePresence mode="wait">
-                    {isOpen ? (
-                      <motion.div
-                        key="close"
-                        initial={{ rotate: -90, opacity: 0 }}
-                        animate={{ rotate: 0, opacity: 1 }}
-                        exit={{ rotate: 90, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <X className="w-6 h-6" />
-                      </motion.div>
-                    ) : (
-                      <motion.div
-                        key="menu"
-                        initial={{ rotate: 90, opacity: 0 }}
-                        animate={{ rotate: 0, opacity: 1 }}
-                        exit={{ rotate: -90, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <Menu className="w-6 h-6" />
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-white hover:bg-white/10"
+                >
+                  {isOpen ? (
+                    <X className="w-6 h-6" />
+                  ) : (
+                    <Menu className="w-6 h-6" />
+                  )}
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-80 p-0">
+              <SheetContent side="right" className="w-80 p-0 bg-[#104042]">
                 <div className="flex flex-col h-full">
                   {/* Mobile Header */}
-                  <div className="p-6 border-b bg-gradient-to-r from-pink-50 to-pink-100">
+                  <div className="p-6 border-b border-white/10">
                     <div className="flex items-center gap-3">
-                      <Image
-                        src="/placeholder.svg?height=40&width=40"
-                        alt="Easy Bank Logo"
-                        width={40}
-                        height={40}
-                        className="w-10 h-10 rounded-lg shadow-md"
-                      />
+                      <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+                        <span className="text-[#104042] font-bold">F</span>
+                      </div>
                       <div>
-                        <h2 className="font-bold text-lg text-gray-900">
-                          Easy Bank
+                        <h2 className="font-bold text-lg text-white">
+                          FinBest
                         </h2>
-                        <p className="text-xs text-gray-600">Secure Banking</p>
+                        <p className="text-xs text-white/70">
+                          Financial Services
+                        </p>
                       </div>
                     </div>
                   </div>
 
                   {/* Mobile Navigation */}
                   <div className="flex-1 p-6">
-                    <nav className="space-y-4">
+                    <nav className="space-y-2">
                       {navRoutes?.map((route, index) => (
-                        <motion.div
+                        <AnimationWrapper
                           key={index}
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: index * 0.1 }}
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
+                          className="hover:scale-102"
+                          style={{ animationDelay: `${index * 0.1}s` }}
                         >
                           <Link
                             href={route.path}
                             onClick={() => setIsOpen(false)}
-                            className="flex items-center py-3 px-4 rounded-lg hover:bg-pink-50 text-gray-700 hover:text-pink-600 font-medium transition-colors duration-200"
+                            className="flex items-center justify-between py-3 px-4 rounded-lg hover:bg-white/10 text-white hover:text-[#AEFF1C] font-medium transition-all duration-300"
                           >
                             {route.label}
                           </Link>
-                        </motion.div>
+                        </AnimationWrapper>
                       ))}
                     </nav>
                   </div>
 
+                  {/* Mobile Contact Info */}
+                  <div className="p-6 border-t border-white/10">
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-2 text-white">
+                        <MapPin className="w-4 h-4 text-[#AEFF1C]" />
+                        <span className="text-sm">
+                          6391 Elgin St. Celina, 10299
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2 text-white">
+                        <Phone className="w-4 h-4 text-[#AEFF1C]" />
+                        <span className="text-sm font-bold">
+                          (629) 555-0129
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-3 pt-2">
+                        <SocialIcon icon={Facebook} />
+                        <SocialIcon icon={Twitter} />
+                        <SocialIcon icon={Linkedin} />
+                        <SocialIcon icon={Play} />
+                      </div>
+                    </div>
+                  </div>
+
                   {/* Mobile Auth Section */}
-                  <div className="p-6 border-t bg-gray-50">
+                  <div className="p-6 border-t border-white/10">
                     {!user ? (
                       <div className="space-y-3">
-                        <motion.div
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                        >
+                        <AnimationWrapper className="hover:scale-102">
                           <Link href="/login" onClick={() => setIsOpen(false)}>
-                            <Button variant="outline" className="w-full">
+                            <Button
+                              variant="outline"
+                              className="w-full border-white text-white hover:bg-white hover:text-[#104042]"
+                            >
                               Login
                             </Button>
                           </Link>
-                        </motion.div>
-                        <motion.div
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                        >
+                        </AnimationWrapper>
+                        <AnimationWrapper className="hover:scale-102">
                           <Link href="/signup" onClick={() => setIsOpen(false)}>
-                            <Button className="w-full bg-gradient-to-r from-pink-600 to-pink-700 hover:from-pink-700 hover:to-pink-800">
+                            <Button className="w-full bg-[#AEFF1C] hover:bg-[#AEFF1C]/90 text-[#104042] font-bold">
                               Get Started
                             </Button>
                           </Link>
-                        </motion.div>
+                        </AnimationWrapper>
                       </div>
                     ) : (
                       <div className="space-y-4">
-                        <div className="flex items-center gap-3 p-3 bg-white rounded-lg">
-                          <Avatar className="w-10 h-10 border-2 border-pink-200">
+                        <div className="flex items-center gap-3 p-3 bg-white/10 rounded-lg">
+                          <Avatar className="w-10 h-10 border-2 border-[#AEFF1C]">
                             <AvatarImage
                               src={user?.profilePhotoUrl || "/placeholder.svg"}
                             />
-                            <AvatarFallback className="bg-gradient-to-br from-pink-500 to-pink-600 text-white">
+                            <AvatarFallback className="bg-[#AEFF1C] text-[#104042]">
                               {user?.name?.charAt(0) || "U"}
                             </AvatarFallback>
                           </Avatar>
                           <div>
-                            <p className="font-medium text-sm">
+                            <p className="font-medium text-sm text-white">
                               {user?.name || "User"}
                             </p>
-                            <p className="text-xs text-gray-500">
+                            <p className="text-xs text-white/70">
                               {user?.email}
                             </p>
                           </div>
                         </div>
                         <div className="space-y-2">
-                          <motion.div
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
+                          <Button
+                            variant="ghost"
+                            className="w-full justify-start text-white hover:bg-white/10"
                           >
-                            <Button
-                              variant="ghost"
-                              className="w-full justify-start"
-                            >
-                              <User className="w-4 h-4 mr-2" />
-                              Profile
-                            </Button>
-                          </motion.div>
-                          <motion.div
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
+                            <User className="w-4 h-4 mr-2" />
+                            Profile
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            className="w-full justify-start text-white hover:bg-white/10"
                           >
-                            <Button
-                              variant="ghost"
-                              className="w-full justify-start"
-                            >
-                              <CreditCard className="w-4 h-4 mr-2" />
-                              My Cards
-                            </Button>
-                          </motion.div>
-                          <motion.div
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
+                            <CreditCard className="w-4 h-4 mr-2" />
+                            My Cards
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            className="w-full justify-start text-white hover:bg-white/10"
                           >
-                            <Button
-                              variant="ghost"
-                              className="w-full justify-start"
-                            >
-                              <Settings className="w-4 h-4 mr-2" />
-                              Settings
-                            </Button>
-                          </motion.div>
-                          <motion.div
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
+                            <Settings className="w-4 h-4 mr-2" />
+                            Settings
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            className="w-full justify-start text-red-400 hover:bg-red-500/20"
                           >
-                            <Button
-                              variant="ghost"
-                              className="w-full justify-start text-red-600 hover:text-red-600 hover:bg-red-50"
-                            >
-                              <LogOut className="w-4 h-4 mr-2" />
-                              Sign Out
-                            </Button>
-                          </motion.div>
+                            <LogOut className="w-4 h-4 mr-2" />
+                            Sign Out
+                          </Button>
                         </div>
                       </div>
                     )}
@@ -393,10 +355,10 @@ const Navbar = () => {
                 </div>
               </SheetContent>
             </Sheet>
-          </motion.div>
+          </div>
         </div>
       </div>
-    </motion.nav>
+    </nav>
   );
 };
 

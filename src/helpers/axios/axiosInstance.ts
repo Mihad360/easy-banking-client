@@ -26,7 +26,7 @@ axiosInstance.interceptors.response.use(
   //@ts-ignore
   function (response) {
     const responseObject: TResponse = {
-      data: response?.data?.data,
+      data: response?.data,
       meta: response?.data?.meta,
     };
     // console.log(response);

@@ -1,14 +1,17 @@
 import { Label } from "@/components/ui/label";
 import { TimePicker } from "antd";
+import { ReactNode } from "react";
 import { Controller } from "react-hook-form";
 
 type TTimePickerProps = {
   type?: string;
   name: string;
   label?: string;
+  className?: string;
+  icon?: ReactNode;
 };
 
-const EBTimePicker = ({ name, label }: TTimePickerProps) => {
+const EBTimePicker = ({ name, label, className, icon }: TTimePickerProps) => {
   const format = "hh:mm";
 
   return (
@@ -17,8 +20,12 @@ const EBTimePicker = ({ name, label }: TTimePickerProps) => {
         name={name}
         render={({ field, fieldState: { error } }) => (
           <div>
-            <Label>{label}</Label>
+            <Label className="flex gap-2 items-center pb-2">
+              {icon}
+              {label}
+            </Label>
             <TimePicker
+              className={`custom-ant-select ${className ?? ""}`}
               format={format}
               size="large"
               style={{ width: "100%" }}

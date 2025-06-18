@@ -10,7 +10,7 @@ interface AnimatedItemProps {
   index?: number;
 }
 
-const itemVariants: Variants = {
+export const itemVariants: Variants = {
   hidden: {
     x: -20,
     opacity: 0,

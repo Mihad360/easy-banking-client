@@ -1,4 +1,5 @@
 "use client";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
@@ -7,14 +8,18 @@ import { getUser } from "@/services/authServices";
 import type { JwtPayload, SidebarRoutes } from "@/types/common.type";
 import { adminRoutes, customerRoutes, managerRoutes } from "@/utils/sidebar";
 import { useEffect, useState } from "react";
-import { User, ChevronRight, Building2, CreditCard } from "lucide-react";
+import {
+  User,
+  ChevronRight,
+  Shield,
+  Crown,
+} from "lucide-react";
 import { AnimatedContainer } from "@/utils/sidebarMotions/animatedContainer";
 import { SlideInText } from "@/utils/sidebarMotions/slideInText";
 import { AnimatedItem } from "@/utils/sidebarMotions/animatedItem";
 import { AnimatedNavItem } from "@/utils/sidebarMotions/animatedNavItem";
-import { AnimatedBackground } from "@/utils/sidebarMotions/animatedBackground";
 import { AnimatedIcon } from "@/utils/sidebarMotions/animatedIcons";
-import { ShineEffect } from "@/utils/sidebarMotions/shineEffect";
+import Image from "next/image";
 
 const EasyBankSidebar = () => {
   const pathname = usePathname();
@@ -39,19 +44,6 @@ const EasyBankSidebar = () => {
     }
   })();
 
-  const getRoleColor = (role: string) => {
-    switch (role) {
-      case "admin":
-        return "from-pink-500 to-rose-500";
-      case "manager":
-        return "from-pink-400 to-purple-500";
-      case "customer":
-        return "from-pink-300 to-pink-500";
-      default:
-        return "from-pink-400 to-rose-400";
-    }
-  };
-
   const getRoleBadgeText = (role: string) => {
     switch (role) {
       case "admin":
@@ -65,52 +57,61 @@ const EasyBankSidebar = () => {
     }
   };
 
-  return (
-    <AnimatedContainer className="w-72 h-full bg-gradient-to-b from-pink-50 via-white to-pink-50 border-r border-pink-100 shadow-xl relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 bg-gradient-to-br from-pink-100/20 via-transparent to-rose-100/20" />
-      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-pink-200/30 to-transparent rounded-full blur-2xl" />
-      <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-rose-200/30 to-transparent rounded-full blur-xl" />
+  const getRoleIcon = (role: string) => {
+    switch (role) {
+      case "admin":
+        return Crown;
+      case "manager":
+        return Shield;
+      case "customer":
+        return User;
+      default:
+        return User;
+    }
+  };
 
+  return (
+    <AnimatedContainer className="w-72 h-full bg-gray-200 border-r border-gray-200 shadow-lg relative overflow-hidden">
       <div className="relative z-10 p-6 h-full flex flex-col">
         {/* Header Section */}
-        <SlideInText delay={0.2} className="mb-8">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="relative">
-              <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-rose-500 rounded-xl flex items-center justify-center shadow-lg">
-                <Building2 className="w-6 h-6 text-white" />
-              </div>
-              <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-br from-yellow-400 to-orange-400 rounded-full animate-pulse" />
+        <SlideInText delay={0.2} className="mb-5">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="w-14 h-14 bg-gray-100 rounded-2xl flex items-center justify-center shadow-md hover:shadow-lg transition-shadow duration-300">
+              <Image
+                src="https://i.ibb.co/wZ0721GL/be-eb-b-e-abstract-260nw-2385258941-removebg-preview.png"
+                width={80}
+                height={80}
+                alt="image"
+              />
             </div>
             <div>
-              <h2 className="text-xl font-bold bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text text-transparent">
-                Easy Bank
-              </h2>
-              <p className="text-sm text-pink-500/70">Banking Made Simple</p>
+              <h2 className="text-2xl font-bold text-[#104042]">EasyBank</h2>
+              <p className="text-sm text-gray-500 font-medium">
+                Premium Banking
+              </p>
             </div>
           </div>
 
           {/* User Badge */}
           {user && (
             <AnimatedItem delay={0.4}>
-              <div
-                className={cn(
-                  "p-4 rounded-2xl bg-gradient-to-r shadow-lg border border-white/50",
-                  getRoleColor(user.role)
-                )}
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                    <User className="w-5 h-5 text-white" />
+              <div className="p-2 bg-[#104042] border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-white border-2 border-gray-200 rounded-xl flex items-center justify-center shadow-sm">
+                    {(() => {
+                      const RoleIcon = getRoleIcon(user.role);
+                      return <RoleIcon className="w-6 h-6 text-[#104042]" />;
+                    })()}
                   </div>
                   <div className="flex-1">
-                    <p className="text-white font-semibold text-sm">
+                    <p className="text-white font-bold text-base">
                       {user.name || "User"}
                     </p>
-                    <p className="text-white/80 text-xs">
+                    <p className="text-gray-100 text-sm font-medium">
                       {getRoleBadgeText(user.role)}
                     </p>
                   </div>
+                  <div className="w-3 h-3 bg-green-400 rounded-full shadow-sm"></div>
                 </div>
               </div>
             </AnimatedItem>
@@ -118,11 +119,50 @@ const EasyBankSidebar = () => {
         </SlideInText>
 
         {/* Navigation */}
-        <nav className="flex-1 space-y-2">
+        <nav className="flex-1 space-y-3">
           <SlideInText delay={0.6}>
-            <p className="text-xs font-semibold text-pink-400 uppercase tracking-wider mb-4 px-3">
-              Manage Your Account
-            </p>
+            <div className="flex items-center justify-between gap-2 mb-4 px-3">
+              <div className="w-1 h-5 bg-[#104042] rounded-full"></div>
+              <p className="text-xs font-bold text-gray-600 uppercase tracking-wider">
+                Dashboard Menu
+              </p>
+              <Link
+                href="/"
+                className={cn(
+                  "group relative flex items-center gap-2 px-3 py-2 text-sm font-bold rounded-2xl transition-all duration-500 overflow-hidden border-2",
+                  "bg-white text-gray-700 hover:text-white border-gray-200 hover:border-[#104042] hover:shadow-md"
+                )}
+              >
+                {/* Left-to-right fill effect */}
+                <div className="absolute inset-0 bg-[#104042] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out" />
+
+                <div className="relative z-10 flex items-center gap-2 w-full">
+                  {/* Optional icon */}
+                  <div className="w-6 h-6 text-[#104042] group-hover:text-white group-hover:scale-110 transition-all duration-500">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M3 9.75L12 3l9 6.75M4.5 10.5v9.75h15V10.5"
+                      />
+                    </svg>
+                  </div>
+
+                  <span className="flex-1 font-bold tracking-wide">Home</span>
+
+                  <div className="relative z-10 text-gray-400 group-hover:text-white group-hover:translate-x-2 group-hover:scale-110 transition-all duration-500">
+                    <ChevronRight className="w-5 h-5" />
+                  </div>
+                </div>
+              </Link>
+            </div>
           </SlideInText>
 
           <AnimatePresence>
@@ -139,21 +179,21 @@ const EasyBankSidebar = () => {
                   isActive={isActive}
                   onHover={setHoveredItem}
                   className="relative"
+                  // delay={0.1 * index}
                 >
                   <Link
                     href={route.href}
                     className={cn(
-                      "group relative flex items-center gap-4 px-4 py-3 text-sm font-medium rounded-2xl transition-all duration-300 overflow-hidden",
+                      "group relative flex items-center gap-4 px-3 py-2 text-sm font-bold rounded-2xl transition-all duration-500 overflow-hidden border-2",
                       isActive
-                        ? "bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-lg shadow-pink-500/25"
-                        : "text-pink-600 hover:bg-pink-50 hover:text-pink-700"
+                        ? "bg-[#104042] text-white shadow-lg border-[#104042]"
+                        : "bg-white text-gray-700 hover:text-white border-gray-200 hover:border-[#104042] hover:shadow-md"
                     )}
                   >
-                    {/* Active/Hover Background */}
-                    <AnimatedBackground
-                      isActive={isActive}
-                      isHovered={isHovered && !isActive}
-                    />
+                    {/* Left-to-right fill effect */}
+                    {!isActive && (
+                      <div className="absolute inset-0 bg-[#104042] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out" />
+                    )}
 
                     <div className="relative z-10 flex items-center gap-4 w-full">
                       {route.icon && (
@@ -161,50 +201,39 @@ const EasyBankSidebar = () => {
                           isActive={isActive}
                           isHovered={isHovered}
                           className={cn(
-                            "w-5 h-5 transition-colors duration-300",
-                            isActive ? "text-white" : "text-pink-500"
+                            "w-6 h-6 transition-all duration-500",
+                            isActive
+                              ? "text-white"
+                              : "text-[#104042] group-hover:text-white group-hover:scale-110"
                           )}
                         >
                           <route.icon />
                         </AnimatedIcon>
                       )}
 
-                      <span className="flex-1 relative z-10 font-bold">
+                      <span className="flex-1 relative z-10 font-bold tracking-wide">
                         {route.label}
                       </span>
 
                       <AnimatedIcon
                         isActive={isActive}
                         isHovered={isHovered}
-                        className="relative z-10"
+                        className={cn(
+                          "relative z-10 transition-all duration-500",
+                          isActive
+                            ? "text-white translate-x-1"
+                            : "text-gray-400 group-hover:text-white group-hover:translate-x-2 group-hover:scale-110"
+                        )}
                       >
-                        <ChevronRight className="w-4 h-4" />
+                        <ChevronRight className="w-5 h-5" />
                       </AnimatedIcon>
                     </div>
-
-                    {/* Shine effect on hover */}
-                    <ShineEffect isVisible={isHovered} />
                   </Link>
                 </AnimatedNavItem>
               );
             })}
           </AnimatePresence>
         </nav>
-
-        {/* Footer */}
-        <SlideInText delay={0.8} className="mt-8">
-          <div className="p-4 bg-gradient-to-r from-pink-100 to-rose-100 rounded-2xl border border-pink-200/50">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-gradient-to-br from-pink-400 to-rose-500 rounded-lg flex items-center justify-center">
-                <CreditCard className="w-4 h-4 text-white" />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-pink-700">Need Help?</p>
-                <p className="text-xs text-pink-500">24/7 Support</p>
-              </div>
-            </div>
-          </div>
-        </SlideInText>
       </div>
     </AnimatedContainer>
   );
