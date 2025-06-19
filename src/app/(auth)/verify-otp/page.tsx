@@ -6,9 +6,16 @@ import { toast } from "sonner";
 import { useVerifyOtpMutation } from "@/redux/api/authApi";
 import EBForm from "@/shared/form/EBForm";
 import EBInput from "@/shared/form/EBInput";
+import {
+  getFromLocalStorage,
+  removeFromLocalStorage,
+  setToLocalStorage,
+} from "@/utils/local-storage";
+import { useRouter } from "next/navigation";
 
 const VerifyOtp = () => {
-  const [email, setEmail] = useState<string | null>(null);
+  const router = useRouter();
+  const [emailAddress, setEmail] = useState<string | null>(null);
   const [verifyOtp] = useVerifyOtpMutation();
 
   useEffect(() => {
@@ -20,22 +27,28 @@ const VerifyOtp = () => {
   }, []);
 
   const onSubmit = async (data: FieldValues) => {
+    const email = getFromLocalStorage("email");
     if (email) {
       const verifyData = {
         email,
         otp: data.otp,
       };
-
       try {
         const res = await verifyOtp(verifyData);
         console.log("OTP Verified:", res);
-        if (res) {
+        if (res?.data?.data?.accessToken) {
+          removeFromLocalStorage("email");
+          setToLocalStorage("accessToken", res?.data?.data?.accessToken);
           toast.success("Sign up successfully", { duration: 3000 });
-          localStorage.removeItem("email");
+          router.push("/");
+        } else {
+          removeFromLocalStorage("email");
+          router.push("/signup");
+          toast.error("Sign up Failed ... Try again", { duration: 3000 });
         }
         // Optionally redirect
       } catch (err) {
-        console.error("OTP verification failed:", err);
+        console.log("OTP verification failed:", err);
         toast.error("Sign up failed. Invalid OTP.", { duration: 3000 });
         // Don’t remove email yet — maybe allow retry
       }
@@ -51,7 +64,7 @@ const VerifyOtp = () => {
           </h2>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
             Enter the code sent to{" "}
-            <span className="font-medium">{email || "your email"}</span>
+            <span className="font-medium">{emailAddress || "your email"}</span>
           </p>
         </div>
         <EBForm onSubmit={onSubmit}>

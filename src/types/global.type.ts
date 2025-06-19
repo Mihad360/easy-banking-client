@@ -35,3 +35,23 @@ export type TGlobalResponse = {
     status?: boolean;
   };
 };
+
+export interface User {
+  _id: string;
+  name: {
+    firstName: string;
+    lastName: string;
+  };
+  email: string;
+  password: string;
+  role: "admin" | "customer" | "manager";
+  isDeleted: boolean;
+  profilePhotoUrl: string;
+  phoneNumber: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface UsersResponse {
+  data: User[];
+}

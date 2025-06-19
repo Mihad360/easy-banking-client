@@ -8,12 +8,7 @@ import { getUser } from "@/services/authServices";
 import type { JwtPayload, SidebarRoutes } from "@/types/common.type";
 import { adminRoutes, customerRoutes, managerRoutes } from "@/utils/sidebar";
 import { useEffect, useState } from "react";
-import {
-  User,
-  ChevronRight,
-  Shield,
-  Crown,
-} from "lucide-react";
+import { User, ChevronRight, Shield, Crown } from "lucide-react";
 import { AnimatedContainer } from "@/utils/sidebarMotions/animatedContainer";
 import { SlideInText } from "@/utils/sidebarMotions/slideInText";
 import { AnimatedItem } from "@/utils/sidebarMotions/animatedItem";
@@ -82,6 +77,7 @@ const EasyBankSidebar = () => {
                 width={80}
                 height={80}
                 alt="image"
+                priority
               />
             </div>
             <div>

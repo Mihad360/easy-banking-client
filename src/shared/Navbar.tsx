@@ -95,8 +95,6 @@ const Navbar = () => {
     </AnimationWrapper>
   );
 
- 
-
   // Social icon component ready for animations
   const SocialIcon = ({ icon: Icon }: { icon: any }) => (
     <AnimationWrapper className="hover:scale-110 hover:-translate-y-1">
@@ -140,60 +138,74 @@ const Navbar = () => {
                 </AnimationWrapper>
               </div>
             ) : (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="flex items-center gap-2 p-1 rounded-full hover:bg-white/10 transition-colors duration-300 cursor-pointer"
+              <div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className="flex items-center gap-2 p-1 rounded-full hover:bg-white/10 transition-colors duration-300 cursor-pointer"
+                    >
+                      <AnimationWrapper className="hover:scale-105">
+                        <div className="flex items-center gap-2">
+                          <Avatar className="w-9 h-9 border-2 border-[#AEFF1C]">
+                            <AvatarImage
+                              src={user?.profilePhotoUrl || "/placeholder.svg"}
+                            />
+                            <AvatarFallback className="bg-[#AEFF1C] text-[#104042] font-semibold">
+                              {user?.name?.charAt(0) || "U"}
+                            </AvatarFallback>
+                          </Avatar>
+                          <ChevronDown className="w-4 h-4 text-white" />
+                        </div>
+                      </AnimationWrapper>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    align="end"
+                    className="w-56 mt-2 bg-[#104042] text-white shadow-xl rounded-xl border border-[#0d3636]"
                   >
-                    <AnimationWrapper className="hover:scale-105">
-                      <div className="flex items-center gap-2">
-                        <Avatar className="w-9 h-9 border-2 border-[#AEFF1C]">
-                          <AvatarImage
-                            src={user?.profilePhotoUrl || "/placeholder.svg"}
-                          />
-                          <AvatarFallback className="bg-[#AEFF1C] text-[#104042] font-semibold">
-                            {user?.name?.charAt(0) || "U"}
-                          </AvatarFallback>
-                        </Avatar>
-                        <ChevronDown className="w-4 h-4 text-white" />
+                    <DropdownMenuLabel className="font-semibold px-4 py-3 border-b border-[#0d3636]">
+                      <div className="flex flex-col space-y-0.5">
+                        <p className="text-sm font-semibold">
+                          {user?.name || "User"}
+                        </p>
+                        <p className="text-xs text-gray-300">{user?.email}</p>
                       </div>
-                    </AnimationWrapper>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56 mt-2">
-                  <DropdownMenuLabel className="font-semibold">
-                    <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium">
-                        {user?.name || "User"}
-                      </p>
-                      <p className="text-xs text-gray-500">{user?.email}</p>
-                    </div>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <Link href={`/dashboard/${user?.role}/my-account`}>
-                    <DropdownMenuItem className="cursor-pointer hover:bg-[#104042] hover:text-white">
-                      <User className="w-4 h-4 mr-2" />
-                      My Account
+                    </DropdownMenuLabel>
+
+                    <DropdownMenuSeparator className="bg-[#0d3636]" />
+
+                    <Link
+                      href={`/dashboard/${user?.role}/my-account`}
+                      className="cursor-pointer"
+                    >
+                      <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-[#155f5f] transition-colors cursor-pointer">
+                        <User className="w-4 h-4  hover:text-black" />
+                        My Account
+                      </DropdownMenuItem>
+                    </Link>
+
+                    <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-[#155f5f] transition-colors">
+                      <CreditCard className="w-4 h-4  hover:text-black" />
+                      My Cards
                     </DropdownMenuItem>
-                  </Link>
-                  <DropdownMenuItem className="cursor-pointer hover:bg-[#104042] hover:text-white">
-                    <CreditCard className="w-4 h-4 mr-2" />
-                    My Cards
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="cursor-pointer hover:bg-[#104042] hover:text-white">
-                    <Settings className="w-4 h-4 mr-2" />
-                    Settings
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <button className="w-full" onClick={handleSignOut}>
-                    <DropdownMenuItem className="cursor-pointer text-red-600 focus:text-red-600 hover:bg-red-50">
-                      <LogOut className="w-4 h-4 mr-2" />
-                      Sign Out
+
+                    <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-[#155f5f] transition-colors">
+                      <Settings className="w-4 h-4  hover:text-black" />
+                      Settings
                     </DropdownMenuItem>
-                  </button>
-                </DropdownMenuContent>
-              </DropdownMenu>
+
+                    <DropdownMenuSeparator className="bg-[#0d3636]" />
+
+                    <button onClick={handleSignOut} className="w-full">
+                      <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm text-red-500 hover:bg-red-100 hover:text-red-700 transition-colors">
+                        <LogOut className="w-4 h-4 text-red-500" />
+                        Sign Out
+                      </DropdownMenuItem>
+                    </button>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
             )}
           </div>
 

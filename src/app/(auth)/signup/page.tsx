@@ -6,16 +6,16 @@ import { useSignupUserMutation } from "@/redux/api/authApi";
 import EBForm from "@/shared/form/EBForm";
 import EBInput from "@/shared/form/EBInput";
 import AuthLoading from "@/shared/loader/AuthLoading";
+import { setToLocalStorage } from "@/utils/local-storage";
 import { FolderPen, Key, Mail, Phone, PictureInPicture } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React from "react";
 import { Controller, FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 
 const SignUp = () => {
-  const [signupUser, { data: signupData, isLoading, isSuccess, isError }] =
-    useSignupUserMutation();
+  const [signupUser, { isLoading }] = useSignupUserMutation();
   const router = useRouter();
 
   const onSubmit = async (data: FieldValues) => {
@@ -29,21 +29,16 @@ const SignUp = () => {
     // for (const [key, value] of formData.entries()) {
     //   console.log(`${key}:`, value);
     // }
-    await signupUser(formData);
-  };
-
-  useEffect(() => {
-    console.log(signupData);
-    if (isSuccess && signupData) {
-      localStorage.setItem("email", signupData.email);
+    const res = await signupUser(formData);
+    if (res?.data?.success) {
+      setToLocalStorage("email", res?.data?.data?.email);
       router.push("/verify-otp");
+      toast.success("OTP sent to your Email", { duration: 3000 });
+    } else {
+      toast.error("Something went wrong");
     }
-
-    if (isError || (isSuccess && !signupData)) {
-      toast.error("Sign up failed. Please try again.");
-      console.log("Error details:");
-    }
-  }, [isSuccess, isError, signupData, router]);
+    console.log(res);
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-pink-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700">

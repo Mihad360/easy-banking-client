@@ -12,10 +12,11 @@ import { Button } from "@/components/ui/button";
 import AuthLoading from "@/shared/loader/AuthLoading";
 import Link from "next/link";
 import { Key, Mail } from "lucide-react";
+import { setToLocalStorage } from "@/utils/local-storage";
 
 const Login = () => {
-  const [loginUser, { isLoading }] = useLoginUserMutation();
   const router = useRouter();
+  const [loginUser, { isLoading }] = useLoginUserMutation();
 
   const onSubmit = async (data: FieldValues) => {
     try {
@@ -25,8 +26,8 @@ const Login = () => {
       };
       const res = (await loginUser(userData)) as TGlobalResponse;
       console.log(res);
-      if (res?.data?.accessToken) {
-        localStorage.setItem("accessToken", res?.data?.accessToken);
+      if (res?.data?.data?.accessToken) {
+        setToLocalStorage("accessToken", res?.data?.data?.accessToken);
         toast.success("Login Successfull", { duration: 3000 });
         router.push("/");
       } else {

@@ -60,14 +60,19 @@ export const adminRoutes = [
     icon: Home,
   },
   {
-    label: "Bank Branches",
-    href: "/dashboard/admin/branches",
-    icon: Building,
-  },
-  {
     label: "Manage Accounts",
     href: "/dashboard/admin/manage-accounts",
     icon: Users,
+  },
+  {
+    label: "Manage Users",
+    href: "/dashboard/admin/manage-users",
+    icon: Users,
+  },
+  {
+    label: "Create Branch",
+    href: "/dashboard/admin/create-branch",
+    icon: Building,
   },
 ];
 
