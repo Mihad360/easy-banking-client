@@ -12,11 +12,29 @@ import { Button } from "@/components/ui/button";
 import AuthLoading from "@/shared/loader/AuthLoading";
 import Link from "next/link";
 import { Key, Mail } from "lucide-react";
-import { setToLocalStorage } from "@/utils/local-storage";
+import {
+  removeFromLocalStorage,
+  setToLocalStorage,
+} from "@/utils/local-storage";
+import { useEffect } from "react";
 
 const Login = () => {
   const router = useRouter();
   const [loginUser, { isLoading }] = useLoginUserMutation();
+
+  useEffect(() => {
+    // Check for cleanup flag in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    console.log(urlParams);
+    if (urlParams.has("cleanup")) {
+      console.log(urlParams.has("cleanup"));
+      // Clear client-side tokens
+      removeFromLocalStorage("accessToken");
+
+      // Optional: Clear URL params without reload
+      window.history.replaceState({}, "", "/login");
+    }
+  }, []);
 
   const onSubmit = async (data: FieldValues) => {
     try {

@@ -55,8 +55,8 @@ const EBSelect = ({
               <SelectValue placeholder={placeholder || "Select"} />
             </SelectTrigger>
             <SelectContent>
-              {options.map((option) => (
-                <SelectItem key={option.label} value={option.label}>
+              {options?.map((option) => (
+                <SelectItem key={option.label} value={option.value}>
                   {option.label}
                 </SelectItem>
               ))}

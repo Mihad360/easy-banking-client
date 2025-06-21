@@ -66,8 +66,8 @@ const EasyBankSidebar = () => {
   };
 
   return (
-    <AnimatedContainer className="w-72 h-full bg-gray-200 border-r border-gray-200 shadow-lg relative overflow-hidden">
-      <div className="relative z-10 p-6 h-full flex flex-col">
+    <AnimatedContainer className=" shadow-r-lg relative">
+      <div className="relative z-10 p-6 flex flex-col">
         {/* Header Section */}
         <SlideInText delay={0.2} className="mb-5">
           <div className="flex items-center gap-4 mb-6">
@@ -225,6 +225,7 @@ const EasyBankSidebar = () => {
                       </AnimatedIcon>
                     </div>
                   </Link>
+                  
                 </AnimatedNavItem>
               );
             })}

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { getUserById } from "./utils/getMiddlewareUser";
 import { getCookieToken } from "./utils/cookieGet";
-import { JwtPayload } from "./types/common.type";
 
 type TRole = keyof typeof roleBasedRoutes;
 
@@ -24,14 +24,32 @@ const roleBasedRoutes = {
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const user = (await getCookieToken("accessToken")) as JwtPayload;
-  console.log(user);
-  // 1. Block access to login/signup if user is already authenticated
+
+  // Get the accessToken cookie
+  const token = request.cookies?.get("accessToken")?.value || null;
+  const user = token ? getCookieToken(token) : null;
+
+  // Check if user exists and is soft deleted
+  if (user && token) {
+    const userData = await getUserById(user?.user, token);
+    console.log(userData?.data);
+    if (!userData?.data || userData.isDeleted) {
+      const url = new URL("/login", request.url);
+      url.searchParams.set("cleanup", "1");
+
+      const response = NextResponse.redirect(url);
+      response.cookies.delete("accessToken");
+      response.cookies.delete("refreshToken");
+      return response;
+    }
+  }
+
+  // 1. Block access to login/signup if user is authenticated
   if (user && privateAuthRoutes.includes(pathname)) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
-  // 2. Allow access to login/signup for unauthenticated users
+  // 2. Allow login/signup for unauthenticated users
   if (!user && privateAuthRoutes.includes(pathname)) {
     return NextResponse.next();
   }
@@ -41,26 +59,21 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  // 4. Check role-based access
+  // 4. Role-based route access
   const userRole = user?.role as TRole;
   const allowedRoutes = [
     ...(roleBasedRoutes[userRole] || []),
-    ...(userRole === "admin" ? roleBasedRoutes.manager : []), // Admin gets manager routes
+    ...(userRole === "admin" ? roleBasedRoutes.manager : []), // Admin can access manager routes too
   ];
 
   if (allowedRoutes.some((route) => pathname.match(route))) {
     return NextResponse.next();
   }
 
-  // 5. Redirect unauthorized access
+  // 5. Redirect unauthorized access to homepage
   return NextResponse.redirect(new URL("/", request.url));
 }
 
 export const config = {
-  matcher: [
-    "/login",
-    "/signup",
-    "/dashboard/:path*", // Protect all dashboard routes
-    // Add other protected paths here as needed
-  ],
+  matcher: ["/login", "/signup", "/about", "/dashboard/:path*"],
 };

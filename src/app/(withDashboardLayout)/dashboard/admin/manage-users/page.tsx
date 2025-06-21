@@ -10,19 +10,33 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
+  useDeleteUserMutation,
   useGetUsersQuery,
   useUpdateUserRoleMutation,
 } from "@/redux/api/adminApi";
-import type { User } from "@/types/global.type";
+import type { TGlobalResponse, User } from "@/types/global.type";
 import { Users } from "lucide-react";
 import { AnimatedButton } from "@/utils/manageUserMotions/animatedButton";
 import { RoleSelector } from "@/utils/manageUserMotions/roleSkeleton";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "sonner";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import Loading from "@/shared/loading/Loading";
 
 const ManageUsers = () => {
-  const { data: users } = useGetUsersQuery(undefined);
+  const { data: users, isLoading } = useGetUsersQuery(undefined);
   const [updateUserRole] = useUpdateUserRoleMutation();
+  const [deleteUser] = useDeleteUserMutation();
   const userData = users?.data;
 
   const handleRoleChange = async (userId: string, newRole: string) => {
@@ -41,14 +55,28 @@ const ManageUsers = () => {
     } catch (error) {
       console.log(error);
     }
-    // Implement role change logic here
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleRemoveUser = (userId: string) => {
-    console.log(`Removing user ${userId}`);
-    // Implement user removal logic here
+  const handleRemoveUser = async (userId: string) => {
+    try {
+      const res = (await deleteUser(userId)) as TGlobalResponse;
+      if (res?.data?.success) {
+        toast.success(res?.data?.message || "User delete successfully", {
+          duration: 3000,
+        });
+      } else {
+        toast.error(res?.error?.data?.message || "User Delete Failed", {
+          duration: 4000,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="space-y-5 p-5">
@@ -102,9 +130,7 @@ const ManageUsers = () => {
                     </TableCell>
                     <TableCell className="text-base font-bold">{`${user.name.firstName} ${user.name.lastName}`}</TableCell>
                     <TableCell className="flex flex-col gap-2">
-                      <span className="bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] px-2 py-1 text-white font-medium rounded-2xl w-fit">
-                        {user.email}
-                      </span>
+                      <span>{user.email}</span>
                       <span>{user.phoneNumber}</span>
                     </TableCell>
                     <TableCell>
@@ -112,10 +138,10 @@ const ManageUsers = () => {
                         className={`${
                           user.isDeleted
                             ? "bg-rose-500 px-2 py-1 text-white font-medium rounded-2xl"
-                            : "bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] hover:from-[#5855eb] px-2 py-1 text-white font-medium rounded-2xl"
+                            : "bg-[#104042] px-2 py-1 text-white font-medium rounded-2xl"
                         }`}
                       >
-                        {user.isDeleted ? "Inactive" : "Active"}
+                        {user.isDeleted ? "Blocked" : "Active"}
                       </span>
                     </TableCell>
                     <TableCell>
@@ -125,9 +151,38 @@ const ManageUsers = () => {
                       />
                     </TableCell>
                     <TableCell>
-                      <AnimatedButton className="cursor-pointer">
-                        Remove
-                      </AnimatedButton>
+                      <AlertDialog key={user._id}>
+                        <AlertDialogTrigger asChild>
+                          <AnimatedButton
+                            variant="outline"
+                            className="bg-rose-500 text-white cursor-pointer"
+                          >
+                            Remove
+                          </AnimatedButton>
+                        </AlertDialogTrigger>
+
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>
+                              Are you absolutely sure?
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                              This will Block this user.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel className="cursor-pointer">
+                              Cancel
+                            </AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={() => handleRemoveUser(user._id)}
+                              className="cursor-pointer bg-[#104042]"
+                            >
+                              Confirm
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
                     </TableCell>
                   </TableRow>
                 ))}

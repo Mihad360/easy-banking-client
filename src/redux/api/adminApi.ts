@@ -9,7 +9,7 @@ const adminApi = baseApi.injectEndpoints({
         contentType: "application/json",
         data,
       }),
-      invalidatesTags: ["admin"],
+      invalidatesTags: ["branch"],
     }),
     getUsers: build.query({
       query: () => ({
@@ -27,6 +27,14 @@ const adminApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["user"],
     }),
+    deleteUser: build.mutation({
+      query: (id) => ({
+        url: `/users/${id}`,
+        method: "DELETE",
+        contentType: "application/json",
+      }),
+      invalidatesTags: ["user"],
+    }),
   }),
 });
 
@@ -34,4 +42,5 @@ export const {
   useCreateBranchMutation,
   useGetUsersQuery,
   useUpdateUserRoleMutation,
+  useDeleteUserMutation,
 } = adminApi;

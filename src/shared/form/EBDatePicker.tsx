@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -17,9 +18,7 @@ type EBDatePickerProps = {
   required?: boolean;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const EBDatePicker = ({ name, label, required }: EBDatePickerProps) => {
-
   return (
     <div className="flex flex-col gap-1">
       <label className="text-sm font-medium mb-1">{label}</label>
@@ -47,6 +46,9 @@ const EBDatePicker = ({ name, label, required }: EBDatePickerProps) => {
                 mode="single"
                 selected={field.value}
                 onSelect={field.onChange}
+                captionLayout="dropdown"
+                fromYear={1950}
+                toYear={new Date().getFullYear()}
               />
             </PopoverContent>
           </Popover>
