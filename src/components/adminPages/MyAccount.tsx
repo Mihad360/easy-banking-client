@@ -1,12 +1,22 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { CreditCard, Wifi } from "lucide-react";
 import React from "react";
 import { motion } from "framer-motion";
 import { JwtPayload } from "@/types/common.type";
 
-const MyAccount = ({ user }: { user: JwtPayload }) => {
+const MyAccount = ({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  user,
+  myAccount,
+}: {
+  user: JwtPayload;
+  myAccount: any;
+}) => {
+  const { accountHolderName, accountNumber } = myAccount?.data;
+
   return (
     <div>
-      <div className="min-h-screen flex items-center justify-center p-8">
+      <div className="p-5">
         <motion.div
           initial={{ opacity: 0, y: 100, rotateX: -15 }}
           animate={{
@@ -111,7 +121,7 @@ const MyAccount = ({ user }: { user: JwtPayload }) => {
                     WebkitFontSmoothing: "antialiased",
                   }}
                 >
-                  1234 5678 9000 0000
+                  {accountNumber}
                 </motion.p>
               </div>
 
@@ -131,7 +141,7 @@ const MyAccount = ({ user }: { user: JwtPayload }) => {
                       WebkitFontSmoothing: "antialiased",
                     }}
                   >
-                    {user?.name}
+                    {accountHolderName}
                   </motion.p>
                 </div>
                 <div className="text-right">

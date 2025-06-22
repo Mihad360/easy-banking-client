@@ -18,7 +18,18 @@ const accountApi = baseApi.injectEndpoints({
       }),
       providesTags: ["account"],
     }),
+    getAccounts: build.query({
+      query: () => ({
+        url: "/account/",
+        method: "GET",
+      }),
+      providesTags: ["account"],
+    }),
   }),
 });
 
-export const { useCreateAccountMutation, useGetMyAccountQuery } = accountApi;
+export const {
+  useCreateAccountMutation,
+  useGetMyAccountQuery,
+  useGetAccountsQuery,
+} = accountApi;

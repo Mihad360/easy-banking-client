@@ -1,17 +1,8 @@
-// import { DNA } from "react-loader-spinner";
-
+import { ScaleLoader } from "react-spinners";
 const Loading = () => {
   return (
     <div className="flex justify-center items-center h-screen">
-      {/* <DNA
-        visible={true}
-        height="80"
-        width="80"
-        ariaLabel="dna-loading"
-        wrapperStyle={{}}
-        wrapperClass="dna-wrapper"
-      /> */}
-      Loading.......
+      <ScaleLoader color="#104042" />
     </div>
   );
 };

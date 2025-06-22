@@ -18,7 +18,7 @@ type TSelectOption = {
 type TEBSelect = {
   options: TSelectOption[];
   name: string;
-  label: string;
+  label?: string;
   disabled?: boolean;
   placeholder?: string;
   icon?: ReactNode;

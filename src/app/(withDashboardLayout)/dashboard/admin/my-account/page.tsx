@@ -24,7 +24,11 @@ const AdminAccountPage = () => {
 
   return (
     <div>
-      {myAccount ? <MyAccount user={user} /> : <CreateAccount></CreateAccount>}
+      {myAccount ? (
+        <MyAccount user={user} myAccount={myAccount} />
+      ) : (
+        <CreateAccount></CreateAccount>
+      )}
     </div>
   );
 };
