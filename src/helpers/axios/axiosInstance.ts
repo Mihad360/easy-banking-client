@@ -10,7 +10,6 @@ axiosInstance.defaults.withCredentials = true;
 
 axiosInstance.interceptors.request.use(
   function (config) {
-    
     const accessToken = getFromLocalStorage("accessToken");
     if (accessToken) {
       config.headers.Authorization = accessToken;

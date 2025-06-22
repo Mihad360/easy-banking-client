@@ -17,6 +17,7 @@ import {
   setToLocalStorage,
 } from "@/utils/local-storage";
 import { useEffect } from "react";
+import { saveCookie } from "@/utils/saveCookie/saveCookie";
 
 const Login = () => {
   const router = useRouter();
@@ -46,6 +47,10 @@ const Login = () => {
       console.log(res);
       if (res?.data?.data?.accessToken) {
         setToLocalStorage("accessToken", res?.data?.data?.accessToken);
+        await saveCookie(
+          res?.data?.data?.accessToken,
+          res?.data?.data?.refreshToken
+        );
         toast.success("Login Successfull", { duration: 3000 });
         router.push("/");
       } else {

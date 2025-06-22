@@ -12,6 +12,7 @@ import {
   setToLocalStorage,
 } from "@/utils/local-storage";
 import { useRouter } from "next/navigation";
+import { saveCookie } from "@/utils/saveCookie/saveCookie";
 
 const VerifyOtp = () => {
   const router = useRouter();
@@ -39,6 +40,10 @@ const VerifyOtp = () => {
         if (res?.data?.data?.accessToken) {
           removeFromLocalStorage("email");
           setToLocalStorage("accessToken", res?.data?.data?.accessToken);
+          await saveCookie(
+            res?.data?.data?.accessToken,
+            res?.data?.data?.refreshToken
+          );
           toast.success("Sign up successfully", { duration: 3000 });
           router.push("/");
         } else {
