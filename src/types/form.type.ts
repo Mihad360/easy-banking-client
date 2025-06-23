@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReactNode } from "react";
 
 export type EBInputType = {
@@ -9,4 +10,5 @@ export type EBInputType = {
   placeholder?: string;
   className?: string;
   defaultValue?: string;
+  readOnly?: any
 };
