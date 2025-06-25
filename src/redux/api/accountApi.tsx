@@ -1,6 +1,7 @@
 import { baseApi } from "./baseApi";
 
 const accountApi = baseApi.injectEndpoints({
+  overrideExisting: true,
   endpoints: (build) => ({
     createAccount: build.mutation({
       query: (data) => ({
@@ -19,10 +20,25 @@ const accountApi = baseApi.injectEndpoints({
       providesTags: ["account"],
     }),
     getAccounts: build.query({
-      query: () => ({
-        url: "/account/",
-        method: "GET",
-      }),
+      query: (args) => {
+        const params = new URLSearchParams();
+        if (args) {
+          args.forEach((item: { name: string; value: string }) => {
+            params.append(item.name, item.value);
+          });
+        }
+        return {
+          url: "/account/",
+          method: "GET",
+          params: params,
+        };
+      },
+      transformResponse: (response) => {
+        return {
+          data: response.data,
+          meta: response.meta,
+        };
+      },
       providesTags: ["account"],
     }),
   }),
