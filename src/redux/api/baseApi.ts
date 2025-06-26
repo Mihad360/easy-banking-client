@@ -4,7 +4,7 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 
 export const baseApi = createApi({
   reducerPath: "api",
-  tagTypes: ["auth", "admin", "user", "branch", "account", "transaction"],
+  tagTypes: ["auth", "admin", "user", "branch", "account", "transaction", 'stripe'],
   baseQuery: axiosBaseQuery({
     baseUrl: envConfig.baseApi as string,
   }),
