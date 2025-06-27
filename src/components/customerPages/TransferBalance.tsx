@@ -12,25 +12,43 @@ import {
   ArrowLeftRight,
   Wallet,
 } from "lucide-react"; // Added Wallet import
+import { useTransferBalanceMutation } from "@/redux/api/transactionApi";
+import { TGlobalResponse } from "@/types/global.type";
+import { toast } from "sonner";
+import AuthLoading from "@/shared/loader/AuthLoading";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const TransferBalance = ({ myAccount }: { myAccount: any }) => {
+  const [transferBalance, { isLoading }] = useTransferBalanceMutation();
   const { accountNumber, balance } = myAccount?.data;
 
   const onSubmit = async (data: FieldValues) => {
-    const transferData = {
-      ...data,
-      amount: Number(data?.amount),
-    };
-    console.log(transferData);
+    try {
+      const transferData = {
+        ...data,
+        amount: Number(data?.amount),
+      };
+      const res = (await transferBalance(transferData)) as TGlobalResponse;
+      if (res?.data?.success) {
+        toast.success(res?.data?.message || "Balance Transfer successfull", {
+          duration: 3000,
+        });
+      } else {
+        toast.error(res?.error?.data?.message || "Balance Transfer failed", {
+          duration: 3000,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
-    <div className="p-4">
+    <div className="px-4">
       <div className="max-w-4xl mx-auto space-y-4">
         {/* Balance Overview */}
         <div className="rounded-xl bg-gradient-to-r from-[#104042] to-[#1a5a5d] text-white">
-          <div className="p-5">
+          <div className="p-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-blue-100 text-sm">Available Balance</p>
@@ -158,7 +176,7 @@ const TransferBalance = ({ myAccount }: { myAccount: any }) => {
                   className="bg-gradient-to-r from-[#104042] to-[#1a5a5d] text-white px-8 py-2 rounded-lg font-semibold text-lg hover:from-[#0d3537] hover:to-[#164d50] transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl cursor-pointer flex items-center gap-3"
                 >
                   <ArrowLeftRight className="h-6 w-6" />
-                  <span>Process Transfer</span>
+                  {isLoading ? <AuthLoading /> : <span>Process Transfer</span>}
                 </button>
               </div>
             </EBForm>

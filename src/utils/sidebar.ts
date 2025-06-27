@@ -41,6 +41,11 @@ export const customerRoutes = [
     href: "/dashboard/customer/loan",
     icon: Banknote,
   },
+  {
+    label: "Transactions",
+    href: "/dashboard/customer/transactions",
+    icon: Banknote,
+  },
 ];
 
 export const adminRoutes = [

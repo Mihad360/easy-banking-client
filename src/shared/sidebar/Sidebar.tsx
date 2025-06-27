@@ -66,7 +66,7 @@ const EasyBankSidebar = () => {
   };
 
   return (
-    <AnimatedContainer className=" shadow-r-lg relative">
+    <AnimatedContainer className="shadow-r-lg relative">
       <div className="relative z-10 p-6 flex flex-col">
         {/* Header Section */}
         <SlideInText delay={0.2} className="mb-5">
@@ -117,7 +117,7 @@ const EasyBankSidebar = () => {
         {/* Navigation */}
         <nav className="flex-1 space-y-3">
           <SlideInText delay={0.6}>
-            <div className="flex items-center justify-between gap-2 mb-4 px-3">
+            <div className="flex items-center justify-between gap-2 mb-4">
               <div className="w-1 h-5 bg-[#104042] rounded-full"></div>
               <p className="text-xs font-bold text-gray-600 uppercase tracking-wider">
                 Dashboard Menu
@@ -152,10 +152,6 @@ const EasyBankSidebar = () => {
                   </div>
 
                   <span className="flex-1 font-bold tracking-wide">Home</span>
-
-                  <div className="relative z-10 text-gray-400 group-hover:text-white group-hover:translate-x-2 group-hover:scale-110 transition-all duration-500">
-                    <ChevronRight className="w-5 h-5" />
-                  </div>
                 </div>
               </Link>
             </div>
@@ -180,10 +176,10 @@ const EasyBankSidebar = () => {
                   <Link
                     href={route.href}
                     className={cn(
-                      "group relative flex items-center gap-4 px-3 py-2 text-sm font-bold rounded-2xl transition-all duration-500 overflow-hidden border-2",
+                      "group relative flex items-center gap-4 px-3 py-[6px] text-[13px] font-bold rounded-2xl transition-all duration-500 overflow-hidden border-2 ",
                       isActive
                         ? "bg-[#104042] text-white shadow-lg border-[#104042]"
-                        : "bg-white text-gray-700 hover:text-white border-gray-200 hover:border-[#104042] hover:shadow-md"
+                        : "bg-white hover:text-white border-gray-200 hover:border-[#104042] hover:shadow-md text-black font-bold"
                     )}
                   >
                     {/* Left-to-right fill effect */}
@@ -207,7 +203,7 @@ const EasyBankSidebar = () => {
                         </AnimatedIcon>
                       )}
 
-                      <span className="flex-1 relative z-10 font-bold tracking-wide">
+                      <span className="flex-1 relative z-10 font-bold tracking-wide ">
                         {route.label}
                       </span>
 
@@ -225,7 +221,6 @@ const EasyBankSidebar = () => {
                       </AnimatedIcon>
                     </div>
                   </Link>
-                  
                 </AnimatedNavItem>
               );
             })}

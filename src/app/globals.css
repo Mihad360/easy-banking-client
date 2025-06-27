@@ -19,6 +19,14 @@
   box-shadow: 0 0 0 4px rgba(229, 231, 235, 1) !important; /* Tailwind gray-200 */
 }
 
+/* in globals.css */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
 
 
 @custom-variant dark (&:is(.dark *));

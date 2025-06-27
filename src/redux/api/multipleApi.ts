@@ -16,8 +16,18 @@ const multipleApi = baseApi.injectEndpoints({
       }),
       providesTags: ["stripe"],
     }),
+    getMyTransactions: build.query({
+      query: () => ({
+        url: "/transaction/personal-transactions",
+        method: "GET",
+      }),
+      providesTags: ["transaction"],
+    }),
   }),
 });
 
-export const { useGetBranchesQuery, useGetStripeTransactionQuery } =
-  multipleApi;
+export const {
+  useGetBranchesQuery,
+  useGetStripeTransactionQuery,
+  useGetMyTransactionsQuery,
+} = multipleApi;

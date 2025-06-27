@@ -11,7 +11,29 @@ const transactionApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["transaction"],
     }),
+    withdrawBalance: build.mutation({
+      query: (data) => ({
+        url: "/transaction/create-withdraw",
+        method: "POST",
+        contentType: "application/json",
+        data,
+      }),
+      invalidatesTags: ["transaction"],
+    }),
+    transferBalance: build.mutation({
+      query: (data) => ({
+        url: "/transaction/create-transfer",
+        method: "POST",
+        contentType: "application/json",
+        data,
+      }),
+      invalidatesTags: ["transaction"],
+    }),
   }),
 });
 
-export const { useDepositBalanceMutation } = transactionApi;
+export const {
+  useDepositBalanceMutation,
+  useWithdrawBalanceMutation,
+  useTransferBalanceMutation,
+} = transactionApi;

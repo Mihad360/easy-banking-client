@@ -16,7 +16,7 @@ const MyAccount = ({
 
   return (
     <div>
-      <div className="p-5">
+      <div className="px-5">
         <motion.div
           initial={{ opacity: 0, y: 100, rotateX: -15 }}
           animate={{

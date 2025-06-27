@@ -1,13 +1,15 @@
 "use client";
-import StripeSuccessPage from "@/components/stripePages/StripeSuccessPage";
+
 import { useGetStripeTransactionQuery } from "@/redux/api/multipleApi";
 import Loading from "@/shared/loading/Loading";
 import { useSearchParams } from "next/navigation";
+import StripeSuccessPage from "./StripeSuccessPage";
 
-const CustomerStripeSuccessPage = () => {
+
+const StripeSessionFetcher = () => {
   const params = useSearchParams();
   const id = params?.get("session_id");
-  console.log(id);
+
   const { data: stripeTransaction, isLoading } = useGetStripeTransactionQuery(
     id,
     {
@@ -15,15 +17,11 @@ const CustomerStripeSuccessPage = () => {
     }
   );
 
-  if (isLoading) {
+  if (isLoading || !id) {
     return <Loading />;
   }
 
-  return (
-    <div>
-      <StripeSuccessPage data={stripeTransaction} />
-    </div>
-  );
+  return <StripeSuccessPage data={stripeTransaction} />;
 };
 
-export default CustomerStripeSuccessPage;
+export default StripeSessionFetcher;

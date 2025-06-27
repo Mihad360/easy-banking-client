@@ -10,17 +10,36 @@ import {
   CreditCard,
   Wallet,
 } from "lucide-react";
+import { useWithdrawBalanceMutation } from "@/redux/api/transactionApi";
+import { TGlobalResponse } from "@/types/global.type";
+import { toast } from "sonner";
+import AuthLoading from "@/shared/loader/AuthLoading";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const WithdrawBalance = ({ myAccount }: { myAccount: any }) => {
   const { accountNumber, balance } = myAccount?.data;
+  const [withdrawBalance, { isLoading }] = useWithdrawBalanceMutation();
 
   const onSubmit = async (data: FieldValues) => {
-    const withdrawData = {
-      ...data,
-      amount: Number(data?.amount),
-    };
-    console.log(withdrawData);
+    try {
+      const withdrawData = {
+        ...data,
+        amount: Number(data?.amount),
+      };
+      console.log(withdrawData);
+      const res = (await withdrawBalance(withdrawData)) as TGlobalResponse;
+      if (res?.data?.success) {
+        toast.success(res?.data?.message || "Balance Withdrawn successfull", {
+          duration: 3000,
+        });
+      } else {
+        toast.error(res?.error?.data?.message || "Balance Withdraw failed", {
+          duration: 3000,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -43,7 +62,7 @@ const WithdrawBalance = ({ myAccount }: { myAccount: any }) => {
               <AlertTriangle className="h-5 w-5 text-[#104042]" />
               <div>
                 <p className="text-sm font-semibold text-orange-800">
-                  Current Balance: 	৳{balance}
+                  Current Balance: ৳{balance}
                 </p>
                 <p className="text-xs text-rose-600">
                   Please ensure you have sufficient funds before proceeding
@@ -138,7 +157,7 @@ const WithdrawBalance = ({ myAccount }: { myAccount: any }) => {
                   type="submit"
                   className="bg-gradient-to-r from-[#104042] to-[#1a5a5d] text-white px-8 py-2 rounded-lg font-semibold text-lg hover:from-[#0d3537] hover:to-[#164d50] transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl cursor-pointer"
                 >
-                  Process Withdrawal
+                  {isLoading ? <AuthLoading /> : "Process Withdrawal"}
                 </button>
               </div>
             </EBForm>

@@ -1,3 +1,4 @@
+"use client";
 import { ScaleLoader } from "react-spinners";
 const Loading = () => {
   return (

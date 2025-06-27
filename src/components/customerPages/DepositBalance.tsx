@@ -22,7 +22,7 @@ const DepositBalance = ({ myAccount }: { myAccount: any }) => {
       const res = (await depositBalance(depositData)) as TGlobalResponse;
       console.log(res.data.data);
       if (res?.data?.success) {
-        toast.success("Balance Deposit successfull", { duration: 3000 });
+        // toast.success("Balance Deposit successfull", { duration: 3000 });
         if (res.data?.data?.startsWith("http")) {
           window.location.href = res?.data?.data;
         }

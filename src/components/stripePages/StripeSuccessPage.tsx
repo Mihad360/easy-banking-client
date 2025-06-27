@@ -1,12 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { CheckCircle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { JwtPayload } from "@/types/common.type";
+import { getUser } from "@/services/authServices";
+import Link from "next/link";
+import { Button } from "../ui/button";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const StripeSuccessPage = ({ data }: { data: any }) => {
   const [showAnimation, setShowAnimation] = useState(false);
+  const user = useMemo(() => getUser() as JwtPayload, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -39,7 +44,7 @@ const StripeSuccessPage = ({ data }: { data: any }) => {
           {/* Success Message */}
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-[#104042] mb-2">
-              {`${data.transactionType || "Payment"} Successful`}
+              {`${data.data.transactionType || "Payment"} Successful`}
             </h1>
             <p className="text-gray-600 text-lg">
               Your deposit has been processed successfully
@@ -54,6 +59,12 @@ const StripeSuccessPage = ({ data }: { data: any }) => {
               from your transaction list. Stay with EasyBank ! Thank you
             </p>
           </div>
+
+          <Button className="text-center mt-5">
+            <Link href={`/dashboard/${user?.role}/my-account`}>
+              Go to Your account
+            </Link>
+          </Button>
 
           {/* Decorative Elements */}
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#104042] to-[#1a6b6e]"></div>
