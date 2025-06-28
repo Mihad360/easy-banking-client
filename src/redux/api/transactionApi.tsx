@@ -29,6 +29,13 @@ const transactionApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["transaction"],
     }),
+    downloadTransaction: build.mutation({
+      query: (id) => ({
+        url: `/transaction/${id}/download`,
+        method: "POST",
+      }),
+      invalidatesTags: ["transaction"],
+    }),
   }),
 });
 
@@ -36,4 +43,5 @@ export const {
   useDepositBalanceMutation,
   useWithdrawBalanceMutation,
   useTransferBalanceMutation,
+  useDownloadTransactionMutation,
 } = transactionApi;

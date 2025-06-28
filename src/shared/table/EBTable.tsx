@@ -71,11 +71,11 @@ export function EBTable<T>({
 
   return (
     <div
-      className={`border rounded-lg overflow-hidden bg-white shadow-sm ${className}`}
+      className={`mb-12 border rounded-lg overflow-hidden bg-gray-100 ${className}`}
     >
       <Table>
         <TableHeader>
-          <TableRow className="bg-gray-50 hover:bg-gray-50">
+          <TableRow className="">
             {columns.map((column) => (
               <TableHead
                 key={column.key}

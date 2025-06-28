@@ -2,12 +2,15 @@
 import { useGetMyTransactionsQuery } from "@/redux/api/multipleApi";
 import { EBTable } from "@/shared/table/EBTable";
 import { Badge } from "@/components/ui/badge";
-import { Eye, Download, RefreshCw } from "lucide-react";
+import { Download, RefreshCw } from "lucide-react";
 import type { ColumnDef, ActionConfig } from "@/shared/table/EBTable";
 import Loading from "@/shared/loading/Loading";
+import { toast } from "sonner";
+import { useDownloadTransactionMutation } from "@/redux/api/transactionApi";
 
 // Your transaction type
 export type TTransaction = {
+  _id: string;
   account?: string;
   user?: string;
   transaction_Id?: string;
@@ -31,10 +34,36 @@ const CustomerTransactionPage = () => {
   const { data: myTransactions, isLoading } =
     useGetMyTransactionsQuery(undefined);
   const transactions = myTransactions?.data;
+  const [downloadTransaction] = useDownloadTransactionMutation();
 
   if (isLoading) {
     return <Loading />;
   }
+
+  const handleDownloadTransaction = async (transaction: TTransaction) => {
+    try {
+      const res = await downloadTransaction(transaction?._id);
+      if (res?.data?.data?.data) {
+        const pdfArray = new Uint8Array(res.data.data.data);
+        const blob = new Blob([pdfArray], { type: "application/pdf" });
+        // Create a download URL
+        const url = window.URL.createObjectURL(blob);
+        // Create a temporary anchor element
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `transaction-${transaction?.transaction_Id}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        // Clean up
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      } else {
+        toast.error("Something went wrong", { duration: 4000 });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // Define columns for transaction table
   const columns: ColumnDef<TTransaction>[] = [
@@ -154,23 +183,20 @@ const CustomerTransactionPage = () => {
 
   // Define actions for transaction table
   const actions: ActionConfig<TTransaction>[] = [
-    {
-      type: "button",
-      icon: <Eye className="h-4 w-4" />,
-      className: "hover:bg-blue-500 hover:text-white",
-      onClick: (transaction) => {
-        console.log("View transaction details:", transaction.transaction_Id);
-        // Handle view transaction details
-      },
-    },
+    // {
+    //   type: "button",
+    //   icon: <Eye className="h-4 w-4" />,
+    //   className: "hover:bg-blue-500 hover:text-white",
+    //   onClick: (transaction) => {
+    //     console.log("View transaction details:", transaction.transaction_Id);
+    //     // Handle view transaction details
+    //   },
+    // },
     {
       type: "button",
       icon: <Download className="h-4 w-4" />,
-      className: "hover:bg-green-500 hover:text-white",
-      onClick: (transaction) => {
-        console.log("Download receipt:", transaction.transaction_Id);
-        // Handle download receipt
-      },
+      className: "cursor-pointer text-white bg-[#104042] hover:bg-gray-300",
+      onClick: (transaction) => handleDownloadTransaction(transaction),
     },
     // Only show retry for failed transactions
     ...(transactions?.some((t: TTransaction) => t.status === "failed")
@@ -194,7 +220,7 @@ const CustomerTransactionPage = () => {
     <div className="px-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">My Transactions</h1>
+          <h1 className="text-2xl font-bold text-[#104042]">My Transactions</h1>
           <p className="text-gray-600 mt-1">
             View and manage your transaction history
           </p>

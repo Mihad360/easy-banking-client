@@ -62,7 +62,7 @@ const DashboardNavbar = () => {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="h-16 sticky top-0 w-full z-50 backdrop-blur-md bg-white/80 border-b border-gray-200/50 shadow-sm"
+      className="h-14 sticky top-0 w-full z-50 backdrop-blur-lg bg-gray-200/40 border-b border-gray-200/50 shadow-sm"
     >
       <div className="flex items-center justify-between h-full px-6">
         {/* Left side - Welcome message */}
