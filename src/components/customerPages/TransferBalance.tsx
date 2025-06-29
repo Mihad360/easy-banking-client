@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import EBForm from "@/shared/form/EBForm";
 import EBInput from "@/shared/form/EBInput";
@@ -16,11 +17,33 @@ import { useTransferBalanceMutation } from "@/redux/api/transactionApi";
 import { TGlobalResponse } from "@/types/global.type";
 import { toast } from "sonner";
 import AuthLoading from "@/shared/loader/AuthLoading";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import Loading from "@/shared/loading/Loading";
+import { JwtPayload } from "@/types/common.type";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const TransferBalance = ({ myAccount }: { myAccount: any }) => {
+const TransferBalance = ({
+  myAccount,
+  user,
+}: {
+  myAccount: any;
+  user: JwtPayload;
+}) => {
+  const router = useRouter();
   const [transferBalance, { isLoading }] = useTransferBalanceMutation();
-  const { accountNumber, balance } = myAccount?.data;
+  const { accountNumber, balance } = myAccount?.data ?? {};
+
+  const shouldRedirect = !myAccount?.data || !accountNumber;
+
+  useEffect(() => {
+    if (shouldRedirect) {
+      router.push(`/dashboard/${user?.role}/my-account`);
+    }
+  }, [shouldRedirect, router, user?.role]);
+
+  if (shouldRedirect) {
+    return <Loading />; // or a loading spinner if needed
+  }
 
   const onSubmit = async (data: FieldValues) => {
     try {

@@ -22,7 +22,7 @@ const WithdrawBalancePage = () => {
   }
   return (
     <div>
-      <WithdrawBalance myAccount={myAccount} />
+      <WithdrawBalance user={user} myAccount={myAccount} />
     </div>
   );
 };

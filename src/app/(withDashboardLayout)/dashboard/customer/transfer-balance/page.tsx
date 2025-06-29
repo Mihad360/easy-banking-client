@@ -22,7 +22,7 @@ const TransferBalancePage = () => {
   }
   return (
     <div>
-      <TransferBalance myAccount={myAccount} />
+      <TransferBalance user={user} myAccount={myAccount} />
     </div>
   );
 };

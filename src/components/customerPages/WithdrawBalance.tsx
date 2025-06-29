@@ -14,11 +14,34 @@ import { useWithdrawBalanceMutation } from "@/redux/api/transactionApi";
 import { TGlobalResponse } from "@/types/global.type";
 import { toast } from "sonner";
 import AuthLoading from "@/shared/loader/AuthLoading";
+import { JwtPayload } from "@/types/common.type";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import Loading from "@/shared/loading/Loading";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const WithdrawBalance = ({ myAccount }: { myAccount: any }) => {
-  const { accountNumber, balance } = myAccount?.data;
+const WithdrawBalance = ({
+  myAccount,
+  user,
+}: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  myAccount: any;
+  user: JwtPayload;
+}) => {
+  const router = useRouter();
+  const { accountNumber, balance } = myAccount?.data ?? {};
   const [withdrawBalance, { isLoading }] = useWithdrawBalanceMutation();
+
+  const shouldRedirect = !myAccount?.data || !accountNumber;
+
+  useEffect(() => {
+    if (shouldRedirect) {
+      router.push(`/dashboard/${user?.role}/my-account`);
+    }
+  }, [shouldRedirect, router, user?.role]);
+
+  if (shouldRedirect) {
+    return <Loading />; // or a loading spinner if needed
+  }
 
   const onSubmit = async (data: FieldValues) => {
     try {

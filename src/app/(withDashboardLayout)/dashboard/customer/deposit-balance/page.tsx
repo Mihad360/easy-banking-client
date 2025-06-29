@@ -15,7 +15,7 @@ const DepositBalancePage = () => {
   const { data: myAccount, isLoading } = useGetMyAccountQuery(undefined, {
     skip: !user,
   });
-//   console.log(myAccount);
+  //   console.log(myAccount);
 
   if (!user || isLoading) {
     return <Loading />;
@@ -23,7 +23,7 @@ const DepositBalancePage = () => {
 
   return (
     <div>
-      <DepositBalance myAccount={myAccount} />
+      <DepositBalance user={user} myAccount={myAccount} />
     </div>
   );
 };
