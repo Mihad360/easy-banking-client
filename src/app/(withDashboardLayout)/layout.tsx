@@ -10,7 +10,7 @@ const layout = ({ children }: { children: ReactNode }) => {
       </div>
       <div className="flex-1 overflow-y-auto h-full">
         <DashboardNavbar />
-        <div className="mt-10">{children}</div>
+        <div className="mt-5">{children}</div>
       </div>
     </div>
   );

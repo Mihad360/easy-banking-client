@@ -37,8 +37,8 @@ export const customerRoutes = [
     icon: Repeat2,
   },
   {
-    label: "Loan",
-    href: "/dashboard/customer/loan",
+    label: "My Loan",
+    href: "/dashboard/customer/my-loan",
     icon: Banknote,
   },
   {
