@@ -95,7 +95,7 @@ const RequestLoan = ({ myAccount }: { myAccount: any }) => {
                 <EBInput
                   label=""
                   name="loanAmount"
-                  type="number"
+                  type="text"
                   placeholder="Enter the amount you need (e.g., BDT-50,000)"
                   className="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-lg focus:border-[#104042] focus:ring-2 focus:ring-[#104042]/20 transition-all duration-200"
                 />
@@ -112,7 +112,7 @@ const RequestLoan = ({ myAccount }: { myAccount: any }) => {
                 <EBInput
                   label=""
                   name="term"
-                  type="number"
+                  type="text"
                   placeholder="How long do you need? (e.g., 12 months)"
                   className="w-full px-4 py-3 bg-white border-2 border-gray-200 rounded-lg focus:border-[#104042] focus:ring-2 focus:ring-[#104042]/20 transition-all duration-200"
                 />

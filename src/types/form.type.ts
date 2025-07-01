@@ -11,4 +11,5 @@ export type EBInputType = {
   className?: string;
   defaultValue?: string;
   readOnly?: any
+  tabIndex?: any
 };

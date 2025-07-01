@@ -9,28 +9,38 @@ import { JwtPayload } from "@/types/common.type";
 import React, { useEffect, useState } from "react";
 
 const MyLoanPage = () => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<JwtPayload | null>(null);
+
   useEffect(() => {
     setUser(getUser() as JwtPayload);
   }, []);
+
   const { data: myAccount, isLoading: accountLoading } = useGetMyAccountQuery(
     undefined,
     {
       skip: !user,
     }
   );
-  const { data: myLoan, isLoading } = useGetMyLoanQuery(undefined, {
-    skip: !accountLoading,
-  });
-  console.log(myLoan);
 
-  if (!user || isLoading) {
+  const { data: myLoan, isLoading: loanLoading } = useGetMyLoanQuery(
+    undefined,
+    {
+      skip: accountLoading || !myAccount,
+    }
+  );
+
+  if (loanLoading || accountLoading) {
     return <Loading />;
   }
 
   return (
-    <div>{myLoan ? <MyLoan /> : <RequestLoan myAccount={myAccount} />}</div>
+    <div>
+      {myLoan ? (
+        <MyLoan myLoan={myLoan} />
+      ) : (
+        <RequestLoan myAccount={myAccount} />
+      )}
+    </div>
   );
 };
 

@@ -18,7 +18,17 @@ const loanApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["loan"],
     }),
+    payLaon: build.mutation({
+      query: (data) => ({
+        url: `/loan/pay-loan/${data?.id}`,
+        method: "PATCH",
+        contentType: "application/json",
+        data: data?.loanData,
+      }),
+      invalidatesTags: ["loan"],
+    }),
   }),
 });
 
-export const { useGetMyLoanQuery, useRequestLoanMutation } = loanApi;
+export const { useGetMyLoanQuery, useRequestLoanMutation, usePayLaonMutation } =
+  loanApi;

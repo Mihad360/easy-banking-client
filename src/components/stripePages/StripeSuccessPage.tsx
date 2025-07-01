@@ -44,7 +44,7 @@ const StripeSuccessPage = ({ data }: { data: any }) => {
           {/* Success Message */}
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-[#104042] mb-2">
-              {`${data.data.transactionType || "Payment"} Successful`}
+              {`${data?.data?.transactionType || "Payment"} Successful`}
             </h1>
             <p className="text-gray-600 text-lg">
               Your deposit has been processed successfully

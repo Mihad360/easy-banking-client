@@ -14,6 +14,7 @@ const EBInput = ({
   className,
   defaultValue,
   readOnly,
+  tabIndex,
 }: EBInputType) => {
   const { register } = useFormContext();
   return (
@@ -30,6 +31,7 @@ const EBInput = ({
         placeholder={placeholder}
         defaultValue={defaultValue}
         readOnly={readOnly}
+        tabIndex={tabIndex}
       />
     </div>
   );
