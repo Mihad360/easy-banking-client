@@ -75,7 +75,7 @@ const TransferBalance = ({
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-blue-100 text-sm">Available Balance</p>
-                <p className="text-2xl font-bold">
+                <p className="text-2xl ">
                   ${balance?.toLocaleString() || "0.00"}
                 </p>
               </div>
@@ -83,7 +83,7 @@ const TransferBalance = ({
                 <div className="w-8 h-8 bg-white/60 rounded-full flex items-center justify-center">
                   <ArrowLeftRight className="h-6 w-6 text-black" />
                 </div>
-                <h1 className="text-2xl font-bold text-white">
+                <h1 className="text-2xl  text-white">
                   Transfer Funds
                 </h1>
               </div>
@@ -96,7 +96,7 @@ const TransferBalance = ({
         {/* Transfer Form */}
         <Card className="bg-gray-200">
           <CardHeader className="bg-gradient-to-r from-[#104042] to-[#1a5a5d] text-white rounded-t-lg">
-            <CardTitle className="text-xl font-bold text-center flex items-center justify-center space-x-2 pt-1">
+            <CardTitle className="text-xl  text-center flex items-center justify-center space-x-2 pt-1">
               <ArrowLeftRight className="h-6 w-6" />
               <span>Transfer Transaction Form</span>
             </CardTitle>
@@ -108,7 +108,7 @@ const TransferBalance = ({
                 <div className="md:col-span-2">
                   <div className="flex items-center space-x-2 mb-3">
                     <ArrowLeftRight className="h-5 w-5 text-[#104042]" />
-                    <span className="text-lg font-bold text-[#104042]">
+                    <span className="text-lg  text-[#104042]">
                       Transaction Details
                     </span>
                   </div>
@@ -118,7 +118,7 @@ const TransferBalance = ({
                     readOnly={true}
                     type="text"
                     defaultValue="transfer"
-                    className="border-2 border-[#104042] bg-slate-50 text-center font-semibold"
+                    className="border-none bg-slate-50 text-center font-semibold"
                   />
                 </div>
 
@@ -126,7 +126,7 @@ const TransferBalance = ({
                 <div className="space-y-2">
                   <div className="flex items-center space-x-2 mb-2">
                     <CreditCard className="h-5 w-5 text-[#104042]" />
-                    <span className="text-sm font-bold text-[#104042]">
+                    <span className="text-sm  text-[#104042]">
                       Source Account
                     </span>
                   </div>
@@ -134,7 +134,7 @@ const TransferBalance = ({
                     label="From Account"
                     name="fromAccount"
                     type="text"
-                    className="border-2 border-[#104042] focus:border-[#104042] transition-colors bg-white"
+                    className="border-none focus:border-[#104042] transition-colors bg-white"
                     defaultValue={accountNumber}
                     readOnly={true}
                   />
@@ -144,7 +144,7 @@ const TransferBalance = ({
                 <div className="space-y-3">
                   <div className="flex items-center space-x-2 mb-2">
                     <Users className="h-5 w-5 text-[#104042]" />
-                    <span className="text-sm font-bold text-[#104042]">
+                    <span className="text-sm  text-[#104042]">
                       Destination Account
                     </span>
                   </div>
@@ -153,7 +153,7 @@ const TransferBalance = ({
                     name="toAccount"
                     type="text"
                     placeholder="EB01BUS-0000002"
-                    className="border-2 border-[#104042] focus:border-[#104042] transition-colors bg-white"
+                    className="border-none focus:border-[#104042] transition-colors bg-white"
                   />
                 </div>
 
@@ -161,7 +161,7 @@ const TransferBalance = ({
                 <div className="space-y-3">
                   <div className="flex items-center space-x-2 mb-2">
                     <DollarSign className="h-5 w-5 text-[#104042]" />
-                    <span className="text-sm font-bold text-[#104042]">
+                    <span className="text-sm  text-[#104042]">
                       Transfer Amount
                     </span>
                   </div>
@@ -170,7 +170,7 @@ const TransferBalance = ({
                     name="amount"
                     type="number"
                     placeholder="1000"
-                    className="border-2 border-[#104042] focus:border-[#104042] transition-colors bg-white"
+                    className="border-none focus:border-[#104042] transition-colors bg-white"
                   />
                 </div>
 
@@ -178,7 +178,7 @@ const TransferBalance = ({
                 <div className="space-y-3">
                   <div className="flex items-center space-x-2 mb-2">
                     <FileText className="h-5 w-5 text-[#104042]" />
-                    <span className="text-sm font-bold text-[#104042]">
+                    <span className="text-sm  text-[#104042]">
                       Transfer Purpose
                     </span>
                   </div>
@@ -187,7 +187,7 @@ const TransferBalance = ({
                     name="description"
                     type="text"
                     placeholder="Rent payment"
-                    className="border-2 border-[#104042] focus:border-[#104042] transition-colors bg-white"
+                    className="border-none focus:border-[#104042] transition-colors bg-white"
                   />
                 </div>
               </div>

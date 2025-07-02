@@ -7,12 +7,13 @@ import type { ColumnDef, ActionConfig } from "@/shared/table/EBTable";
 import Loading from "@/shared/loading/Loading";
 import { toast } from "sonner";
 import { useDownloadTransactionMutation } from "@/redux/api/transactionApi";
+import { TUser } from "@/types/global.type";
 
 // Your transaction type
 export type TTransaction = {
   _id: string;
   account?: string;
-  user?: string;
+  user?: TUser;
   transaction_Id?: string;
   transactionType:
     | "deposit"
@@ -72,7 +73,7 @@ const CustomerTransactionPage = () => {
       header: "Transaction Details",
       render: (transaction) => (
         <div>
-          <div className="font-medium text-gray-900">
+          <div className=" text-gray-900">
             {transaction.transaction_Id || "N/A"}
           </div>
         </div>
@@ -124,7 +125,7 @@ const CustomerTransactionPage = () => {
       key: "accounts",
       header: "Account Info",
       render: (transaction) => (
-        <div className="text-sm">
+        <div className="text-xs">
           {transaction.transactionType === "transfer" ? (
             <>
               <div className="text-gray-900">

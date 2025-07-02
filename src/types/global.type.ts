@@ -55,3 +55,18 @@ export interface User {
 export interface UsersResponse {
   data: User[];
 }
+
+export interface TUser {
+  otp: string;
+  expiresAt: Date;
+  name: {
+    firstName: string;
+    lastName: string;
+  };
+  email: string;
+  password: string;
+  role: string;
+  isDeleted: boolean;
+  profilePhotoUrl?: string;
+  phoneNumber: string;
+}

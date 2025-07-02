@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -35,10 +34,28 @@ import { navRoutes } from "@/utils/routes";
 import Image from "next/image";
 import { removeCookie } from "@/utils/deleteCookie";
 import { removeFromLocalStorage } from "@/utils/local-storage";
+import {
+  easeInOut,
+  motion,
+  useMotionValueEvent,
+  useScroll,
+} from "framer-motion";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
+  const pathname = usePathname();
   const [user, setUser] = useState<any>(null); // Replace with your user type
   const [isOpen, setIsOpen] = useState(false);
+  const [hovered, setHovered] = useState<number | null>(null);
+  const { scrollY } = useScroll();
+  const [scrolled, setScrolled] = useState<boolean>(false);
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    if (latest > 20) {
+      setScrolled(true);
+    } else {
+      setScrolled(false);
+    }
+  });
 
   useEffect(() => {
     setUser(getUser() as JwtPayload);
@@ -74,7 +91,7 @@ const Navbar = () => {
           </div>
         </div>
         <div>
-          <h1 className="text-2xl font-bold text-white">EasyBank</h1>
+          <h1 className="text-2xl font-bold text-black">EasyBank</h1>
         </div>
       </Link>
     </AnimationWrapper>
@@ -88,9 +105,25 @@ const Navbar = () => {
     >
       <Link
         href={route.path}
-        className="flex items-center gap-1 text-white hover:text-[#AEFF1C] transition-colors duration-300 font-medium py-2 px-3 rounded-lg hover:bg-white/10"
+        key={index}
+        onMouseEnter={() => setHovered(index)}
+        onMouseLeave={() => setHovered(null)}
+        className={`flex items-center gap-1 text-black relative py-1 px-2 ${
+          pathname === route.path
+            ? "bg-[#104042] rounded-lg text-white font-bold"
+            : ""
+        }`}
       >
-        {route.label}
+        {hovered === index && (
+          <motion.span
+            layoutId="hovered-span"
+            className="absolute inset-0 w-full h-full rounded-md bg-[#104042]"
+            transition={{ duration: 0.2, ease: "easeInOut" }}
+          />
+        )}
+        <span className={`relative z-10 ${hovered === index && "text-white"}`}>
+          {route.label}
+        </span>
       </Link>
     </AnimationWrapper>
   );
@@ -105,14 +138,26 @@ const Navbar = () => {
   );
 
   return (
-    <nav className="sticky top-0 z-50 bg-[#104042] shadow-lg">
+    <motion.nav
+      animate={{
+        boxShadow: scrolled ? "var(--shadow-aceternity)" : "none",
+        width: scrolled ? "90%" : "100%",
+        y: scrolled ? 10 : 0,
+        backgroundColor: scrolled ? "white" : "transparent",
+      }}
+      transition={{
+        duration: 0.3,
+        ease: easeInOut,
+      }}
+      className="fixed w-full z-50 rounded-2xl mx-auto inset-x-0 top-0 "
+    >
       {/* Main navigation */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-16">
           {/* Logo Section */}
           <LogoSection />
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigati on */}
           <div className="hidden lg:flex items-center space-x-2">
             {navRoutes?.map((route, index) => (
               <NavItem key={index} route={route} index={index} />
@@ -126,7 +171,7 @@ const Navbar = () => {
                 <AnimationWrapper className="hover:scale-105">
                   <Link
                     href="/login"
-                    className="text-white hover:text-[#AEFF1C] font-medium transition-colors duration-300"
+                    className="text-black hover:text-[#AEFF1C] font-medium transition-colors duration-300"
                   >
                     Login
                   </Link>
@@ -138,18 +183,21 @@ const Navbar = () => {
                 </AnimationWrapper>
               </div>
             ) : (
-              <div>
+              <div className="relative z-50">
+                {" "}
+                {/* Ensure dropdown is on top */}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button
                       variant="ghost"
                       className="flex items-center gap-2 p-1 rounded-full hover:bg-white/10 transition-colors duration-300 cursor-pointer"
                     >
-                      <AnimationWrapper className="hover:scale-105">
+                      <AnimationWrapper>
                         <div className="flex items-center gap-2">
                           <Avatar className="w-9 h-9 border-2 border-[#AEFF1C]">
                             <AvatarImage
                               src={user?.profilePhotoUrl || "/placeholder.svg"}
+                              alt={user?.name || "User"}
                             />
                             <AvatarFallback className="bg-[#AEFF1C] text-[#104042] font-semibold">
                               {user?.name?.charAt(0) || "U"}
@@ -162,44 +210,38 @@ const Navbar = () => {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent
                     align="end"
-                    className="w-56 mt-2 bg-[#104042] text-white shadow-xl rounded-xl border border-[#0d3636]"
+                    className="w-56 mt-2 bg-slate-900/80 text-white shadow-xl rounded-xl border border-[#0d3636] backdrop-blur-xl"
                   >
                     <DropdownMenuLabel className="font-semibold px-4 py-3 border-b border-[#0d3636]">
                       <div className="flex flex-col space-y-0.5">
                         <p className="text-sm font-semibold">
                           {user?.name || "User"}
                         </p>
-                        <p className="text-xs text-gray-300">{user?.email}</p>
+                        <p className="text-xs text-gray-400">{user?.email}</p>
                       </div>
                     </DropdownMenuLabel>
-
                     <DropdownMenuSeparator className="bg-[#0d3636]" />
-
                     <Link
                       href={`/dashboard/${user?.role}/my-account`}
                       className="cursor-pointer"
                     >
-                      <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-[#155f5f] transition-colors cursor-pointer">
-                        <User className="w-4 h-4  hover:text-black" />
+                      <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-white/10 transition-colors cursor-pointer rounded-md">
+                        <CreditCard className="w-4 h-4 text-white group-hover:text-black" />
                         My Account
                       </DropdownMenuItem>
                     </Link>
-
-                    <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-[#155f5f] transition-colors">
-                      <CreditCard className="w-4 h-4  hover:text-black" />
+                    <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-white/10 transition-colors rounded-md">
+                      <CreditCard className="w-4 h-4 text-white group-hover:text-black" />
                       My Cards
                     </DropdownMenuItem>
-
-                    <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-[#155f5f] transition-colors">
-                      <Settings className="w-4 h-4  hover:text-black" />
+                    <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-white/10 transition-colors rounded-md">
+                      <Settings className="w-4 h-4 text-white group-hover:text-black" />
                       Settings
                     </DropdownMenuItem>
-
                     <DropdownMenuSeparator className="bg-[#0d3636]" />
-
                     <button onClick={handleSignOut} className="w-full">
-                      <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm text-red-500 hover:bg-red-100 hover:text-red-700 transition-colors">
-                        <LogOut className="w-4 h-4 text-red-500" />
+                      <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm text-red-400 hover:bg-red-600 hover:text-white transition-colors rounded-md">
+                        <LogOut className="w-4 h-4 text-red-400 group-hover:text-white" />
                         Sign Out
                       </DropdownMenuItem>
                     </button>
@@ -370,7 +412,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-    </nav>
+    </motion.nav>
   );
 };
 

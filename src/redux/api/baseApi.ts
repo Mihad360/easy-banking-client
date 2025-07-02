@@ -13,6 +13,7 @@ export const baseApi = createApi({
     "transaction",
     "stripe",
     "loan",
+    "types",
   ],
   baseQuery: axiosBaseQuery({
     baseUrl: envConfig.baseApi as string,

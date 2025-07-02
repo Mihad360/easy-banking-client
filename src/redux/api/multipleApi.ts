@@ -23,6 +23,13 @@ const multipleApi = baseApi.injectEndpoints({
       }),
       providesTags: ["transaction"],
     }),
+    getAccountTypes: build.query({
+      query: () => ({
+        url: "/type/",
+        method: "GET",
+      }),
+      providesTags: ["types"],
+    }),
   }),
 });
 
@@ -30,4 +37,5 @@ export const {
   useGetBranchesQuery,
   useGetStripeTransactionQuery,
   useGetMyTransactionsQuery,
+  useGetAccountTypesQuery,
 } = multipleApi;

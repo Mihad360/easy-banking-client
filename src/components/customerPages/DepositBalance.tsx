@@ -87,7 +87,7 @@ const DepositBalance = ({
       <div className="max-w-4xl mx-auto space-y-5">
         {/* Header */}
         <div className="text-center space-y-2">
-          <h1 className="text-2xl font-bold text-[#104042]">
+          <h1 className="text-2xl  text-[#104042]">
             Deposit Your Money for Savings
           </h1>
           <p className="text-slate-600 text-sm mt-2">
@@ -108,7 +108,7 @@ const DepositBalance = ({
                     {suggestion.icon}
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-semibold text-[#104042] text-sm">
+                    <h3 className=" text-[#104042] text-sm">
                       {suggestion.title}
                     </h3>
                     <p className="text-xs text-slate-600 mt-1">
@@ -124,7 +124,7 @@ const DepositBalance = ({
         {/* Main Form Card */}
         <Card className="bg-gray-200">
           <CardHeader className="bg-gradient-to-r from-[#104042] to-[#1a5a5d] text-white rounded-t-lg">
-            <CardTitle className="text-lg font-bold text-center pt-1">
+            <CardTitle className="text-lg  text-center pt-1">
               Deposit Transaction Form
             </CardTitle>
           </CardHeader>
@@ -135,7 +135,7 @@ const DepositBalance = ({
                 <div className="space-y-2">
                   <div className="flex items-center space-x-2 mb-2">
                     <CreditCard className="h-4 w-4 text-[#104042]" />
-                    <span className="text-sm font-bold text-[#104042]">
+                    <span className="text-sm  text-[#104042]">
                       Account Information
                     </span>
                   </div>
@@ -143,7 +143,7 @@ const DepositBalance = ({
                     label="Account Number"
                     name="account"
                     type="text"
-                    className="border-2 border-[#104042] focus:border-[#104042] transition-colors bg-white"
+                    className="border-none focus transition-colors bg-white"
                     defaultValue={accountNumber}
                     readOnly={true}
                   />
@@ -152,7 +152,7 @@ const DepositBalance = ({
                 <div className="space-y-2">
                   <div className="flex items-center space-x-2 mb-2">
                     <CheckCircle className="h-4 w-4 text-[#104042]" />
-                    <span className="text-sm font-bold text-[#104042]">
+                    <span className="text-sm  text-[#104042]">
                       Transaction Type
                     </span>
                   </div>
@@ -162,7 +162,7 @@ const DepositBalance = ({
                     readOnly={true}
                     type="text"
                     defaultValue="deposit"
-                    className="border-2  border-[#104042] bg-slate-50"
+                    className="border-none  bg-slate-50"
                   />
                 </div>
 
@@ -170,7 +170,7 @@ const DepositBalance = ({
                 <div className="space-y-2">
                   <div className="flex items-center space-x-2 mb-2">
                     <DollarSign className="h-4 w-4 text-[#104042]" />
-                    <span className="text-sm font-bold text-[#104042]">
+                    <span className="text-sm  text-[#104042]">
                       Deposit Amount
                     </span>
                   </div>
@@ -179,14 +179,14 @@ const DepositBalance = ({
                     name="amount"
                     type="number"
                     placeholder="2000"
-                    className="border-2 bg-white  border-[#104042] focus:border-[#104042] transition-colors"
+                    className="border-none bg-white  focus transition-colors"
                   />
                 </div>
 
                 <div className="space-y-2">
                   <div className="flex items-center space-x-2 mb-2">
                     <FileText className="h-4 w-4 text-[#104042]" />
-                    <span className="text-sm font-bold text-[#104042]">
+                    <span className="text-sm  text-[#104042]">
                       Transaction Details
                     </span>
                   </div>
@@ -195,7 +195,7 @@ const DepositBalance = ({
                     name="description"
                     type="text"
                     placeholder="Deposit summery"
-                    className="border-2 bg-white  border-[#104042] focus:border-[#104042] transition-colors"
+                    className="border-none bg-white  focus transition-colors"
                   />
                 </div>
               </div>
@@ -204,7 +204,7 @@ const DepositBalance = ({
               <div className="mt-7 flex justify-center">
                 <button
                   type="submit"
-                  className="bg-gradient-to-r from-[#104042] to-[#1a5a5d] text-white px-8 py-2 rounded-lg font-semibold text-lg hover:from-[#0d3537] hover:to-[#164d50] transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl cursor-pointer"
+                  className="bg-gradient-to-r from-[#104042] to-[#1a5a5d] text-white px-8 py-2 rounded-lg  text-lg hover:from-[#0d3537] hover:to-[#164d50] transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl cursor-pointer"
                 >
                   {isLoading ? <AuthLoading /> : "Complete Deposit"}
                 </button>

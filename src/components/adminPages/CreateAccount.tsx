@@ -106,7 +106,7 @@ const CreateAccount = () => {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-2xl font-bold text-white"
+              className="text-2xl  text-white"
             >
               Create Account
             </motion.h1>
@@ -202,7 +202,7 @@ const CreateAccount = () => {
               >
                 <Button
                   type="submit"
-                  className="bg-[#104042] hover:bg-[#0d3335] text-white px-12 py-3 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer"
+                  className="bg-[#104042] hover:bg-[#0d3335] text-white px-12 py-3 rounded-xl text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer"
                 >
                   Create Account
                 </Button>

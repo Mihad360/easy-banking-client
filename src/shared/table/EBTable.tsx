@@ -79,17 +79,13 @@ export function EBTable<T>({
             {columns.map((column) => (
               <TableHead
                 key={column.key}
-                className={`font-semibold text-gray-900 ${
-                  column.className || ""
-                }`}
+                className={` text-gray-900 ${column.className || ""}`}
               >
                 {column.header}
               </TableHead>
             ))}
             {actions.length > 0 && (
-              <TableHead className="font-semibold text-gray-900">
-                Actions
-              </TableHead>
+              <TableHead className=" text-gray-900">Actions</TableHead>
             )}
           </TableRow>
         </TableHeader>

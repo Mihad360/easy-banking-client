@@ -81,7 +81,7 @@ const EasyBankSidebar = () => {
               />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-[#104042]">EasyBank</h2>
+              <h2 className="text-xl font-semibold text-[#104042]">EasyBank</h2>
               <p className="text-sm text-gray-500 font-medium">
                 Premium Banking
               </p>
@@ -100,10 +100,10 @@ const EasyBankSidebar = () => {
                     })()}
                   </div>
                   <div className="flex-1">
-                    <p className="text-white font-bold text-base">
+                    <p className="text-white text-xs">
                       {user.name || "User"}
                     </p>
-                    <p className="text-gray-100 text-sm font-medium">
+                    <p className="text-gray-100 text-[11px] font-medium">
                       {getRoleBadgeText(user.role)}
                     </p>
                   </div>
@@ -119,13 +119,13 @@ const EasyBankSidebar = () => {
           <SlideInText delay={0.6}>
             <div className="flex items-center justify-between gap-2 mb-4">
               <div className="w-1 h-5 bg-[#104042] rounded-full"></div>
-              <p className="text-xs font-bold text-gray-600 uppercase tracking-wider">
+              <p className="text-xs font-semibold text-gray-600 uppercase tracking-wider">
                 Dashboard Menu
               </p>
               <Link
                 href="/"
                 className={cn(
-                  "group relative flex items-center gap-2 px-3 py-2 text-sm font-bold rounded-2xl transition-all duration-500 overflow-hidden border-2",
+                  "group relative flex items-center gap-2 px-3 py-2 text-xs font-semibold rounded-2xl transition-all duration-500 overflow-hidden border-2",
                   "bg-white text-gray-700 hover:text-white border-gray-200 hover:border-[#104042] hover:shadow-md"
                 )}
               >
@@ -134,24 +134,11 @@ const EasyBankSidebar = () => {
 
                 <div className="relative z-10 flex items-center gap-2 w-full">
                   {/* Optional icon */}
-                  <div className="w-6 h-6 text-[#104042] group-hover:text-white group-hover:scale-110 transition-all duration-500">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="w-6 h-6"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M3 9.75L12 3l9 6.75M4.5 10.5v9.75h15V10.5"
-                      />
-                    </svg>
-                  </div>
+                  {/* <div className="w-4 h-4 text-[#104042] group-hover:text-white group-hover:scale-110 transition-all duration-500">
+                    <Home/>
+                  </div> */}
 
-                  <span className="flex-1 font-bold tracking-wide">Home</span>
+                  <span className="flex-1 font-semibold">Home</span>
                 </div>
               </Link>
             </div>
@@ -176,10 +163,10 @@ const EasyBankSidebar = () => {
                   <Link
                     href={route.href}
                     className={cn(
-                      "group relative flex items-center gap-4 px-3 py-[6px] text-[13px] font-bold rounded-2xl transition-all duration-500 overflow-hidden border-2 ",
+                      "group relative flex items-center gap-4 px-3 py-[6px] text-xs font-semibold rounded-2xl transition-all duration-500 overflow-hidden border-2 ",
                       isActive
                         ? "bg-[#104042] text-white shadow-lg border-[#104042]"
-                        : "bg-white hover:text-white border-gray-200 hover:border-[#104042] hover:shadow-md text-black font-bold"
+                        : "bg-white hover:text-white border-gray-200 hover:border-[#104042] hover:shadow-md text-black font-semibold"
                     )}
                   >
                     {/* Left-to-right fill effect */}
@@ -203,7 +190,7 @@ const EasyBankSidebar = () => {
                         </AnimatedIcon>
                       )}
 
-                      <span className="flex-1 relative z-10 font-bold tracking-wide ">
+                      <span className="flex-1 relative z-10 font-semibold">
                         {route.label}
                       </span>
 

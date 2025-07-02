@@ -70,7 +70,7 @@ const WithdrawBalance = ({
       <div className="max-w-4xl mx-auto space-y-5">
         {/* Header */}
         <div className="text-center space-y-2">
-          <h1 className="text-2xl font-bold text-[#104042]">
+          <h1 className="text-2xl  text-[#104042]">
             Withdraw Your Savings
           </h1>
           <p className="text-slate-600 text-sm mt-2">
@@ -98,7 +98,7 @@ const WithdrawBalance = ({
         {/* Main Form Card */}
         <Card className="bg-gray-200">
           <CardHeader className="bg-gradient-to-r from-[#104042] to-[#104042] text-white rounded-t-lg">
-            <CardTitle className="text-lg font-bold text-center pt-1">
+            <CardTitle className="text-lg  text-center pt-1">
               Withdrawal Transaction Form
             </CardTitle>
           </CardHeader>
@@ -109,7 +109,7 @@ const WithdrawBalance = ({
                 <div className="space-y-2">
                   <div className="flex items-center space-x-2 mb-2">
                     <CreditCard className="h-4 w-4 text-[#104042]" />
-                    <span className="text-sm font-bold text-[#104042]">
+                    <span className="text-sm  text-[#104042]">
                       Account Information
                     </span>
                   </div>
@@ -117,7 +117,7 @@ const WithdrawBalance = ({
                     label="Account Number"
                     name="account"
                     type="text"
-                    className="border-2 border-[#104042] focus:border-[#104042] transition-colors bg-white"
+                    className="border-none transition-colors bg-white"
                     defaultValue={accountNumber}
                     readOnly={true}
                   />
@@ -126,7 +126,7 @@ const WithdrawBalance = ({
                 <div className="space-y-2">
                   <div className="flex items-center space-x-2 mb-2">
                     <Wallet className="h-4 w-4 text-[#104042]" />
-                    <span className="text-sm font-bold text-[#104042]">
+                    <span className="text-sm  text-[#104042]">
                       Transaction Type
                     </span>
                   </div>
@@ -136,7 +136,7 @@ const WithdrawBalance = ({
                     readOnly={true}
                     type="text"
                     defaultValue="withdraw"
-                    className="border-2 border-[#104042] bg-slate-50"
+                    className="border-none bg-slate-50"
                   />
                 </div>
 
@@ -144,7 +144,7 @@ const WithdrawBalance = ({
                 <div className="space-y-2">
                   <div className="flex items-center space-x-2 mb-2">
                     <DollarSign className="h-4 w-4 text-[#104042]" />
-                    <span className="text-sm font-bold text-[#104042]">
+                    <span className="text-sm  text-[#104042]">
                       Withdrawal Amount
                     </span>
                   </div>
@@ -153,14 +153,14 @@ const WithdrawBalance = ({
                     name="amount"
                     type="number"
                     placeholder="1000"
-                    className="border-2 bg-white border-[#104042] focus:border-[#104042] transition-colors"
+                    className="bg-white border-none transition-colors"
                   />
                 </div>
 
                 <div className="space-y-2">
                   <div className="flex items-center space-x-2 mb-2">
                     <FileText className="h-4 w-4 text-[#104042]" />
-                    <span className="text-sm font-bold text-[#104042]">
+                    <span className="text-sm  text-[#104042]">
                       Withdrawal Purpose
                     </span>
                   </div>
@@ -169,7 +169,7 @@ const WithdrawBalance = ({
                     name="description"
                     type="text"
                     placeholder="Rent payment"
-                    className="border-2 bg-white border-[#104042] focus:border-[#104042] transition-colors"
+                    className="bg-white border-none focus:border-[#104042] transition-colors"
                   />
                 </div>
               </div>

@@ -64,7 +64,7 @@ const ManagerManageAccountsPage = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <h1
-          className="text-3xl font-bold tracking-tight"
+          className="text-3xl tracking-tight"
           style={{ color: "#104042" }}
         >
           Manage Accounts
@@ -141,25 +141,25 @@ const ManagerManageAccountsPage = () => {
         <Table>
           <TableHeader>
             <TableRow className="bg-gray-50 hover:bg-gray-50">
-              <TableHead className="font-semibold text-gray-900">
+              <TableHead className=" text-gray-900">
                 Account Details
               </TableHead>
-              <TableHead className="font-semibold text-gray-900">
+              <TableHead className=" text-gray-900">
                 Type
               </TableHead>
-              <TableHead className="font-semibold text-gray-900">
+              <TableHead className=" text-gray-900">
                 Balance
               </TableHead>
-              <TableHead className="font-semibold text-gray-900">
+              <TableHead className=" text-gray-900">
                 Status
               </TableHead>
-              <TableHead className="font-semibold text-gray-900">
+              <TableHead className=" text-gray-900">
                 Location
               </TableHead>
-              <TableHead className="font-semibold text-gray-900">
+              <TableHead className=" text-gray-900">
                 Created
               </TableHead>
-              <TableHead className="font-semibold text-gray-900">
+              <TableHead className=" text-gray-900">
                 Actions
               </TableHead>
             </TableRow>
@@ -190,7 +190,7 @@ const ManagerManageAccountsPage = () => {
                 <TableRow key={acc.accountNumber}>
                   <TableCell>
                     <div className="space-y-1">
-                      <div className="font-medium text-gray-900">
+                      <div className=" text-gray-900">
                         {acc.accountHolderName}
                       </div>
                       <div className="text-sm text-gray-500 font-mono">
@@ -204,8 +204,8 @@ const ManagerManageAccountsPage = () => {
                     </Badge>
                   </TableCell>
                   <TableCell>
-                    <div className="font-medium text-gray-900">
-                      ৳-{acc.balance}
+                    <div className=" text-gray-900">
+                      ৳ {acc.balance}
                     </div>
                   </TableCell>
                   <TableCell>

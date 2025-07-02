@@ -79,21 +79,21 @@ const ManageUsers = () => {
   }
 
   return (
-    <div className="space-y-5 p-5">
+    <div className="space-y-3 px-5">
       {/* Main Table */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <Card className="shadow-xl bg-gray-200">
+        <Card className="bg-gray-200">
           <CardHeader className="">
             <CardTitle className="text-2xl font-bold gap-2 text-center">
               <p className="flex items-center justify-center gap-2 text-[#104042]">
                 <Users className="h-5 w-5" />
                 Manage Users
-              </p>
-              <div className="w-20 h-1 bg-[#104042] mx-auto mt-3 rounded-full"></div>
+              </p> 
+              {/* <div className="w-20 h-1 bg-[#104042] mx-auto mt-3 rounded-full"></div> */}
             </CardTitle>
           </CardHeader>
           <CardContent className="p-0">

@@ -88,7 +88,7 @@ const RequestLoan = ({ myAccount }: { myAccount: any }) => {
               <motion.div variants={itemVariants} className="relative">
                 <div className="flex items-center mb-2">
                   <DollarSign className="w-5 h-5 text-[#104042] mr-2" />
-                  <label className="text-sm font-semibold text-gray-700">
+                  <label className="text-sm  text-gray-700">
                     Loan Amount
                   </label>
                 </div>
@@ -105,7 +105,7 @@ const RequestLoan = ({ myAccount }: { myAccount: any }) => {
               <motion.div variants={itemVariants} className="relative">
                 <div className="flex items-center mb-2">
                   <Calendar className="w-5 h-5 text-[#104042] mr-2" />
-                  <label className="text-sm font-semibold text-gray-700">
+                  <label className="text-sm  text-gray-700">
                     Loan Term
                   </label>
                 </div>
@@ -122,7 +122,7 @@ const RequestLoan = ({ myAccount }: { myAccount: any }) => {
               <motion.div variants={itemVariants} className="relative">
                 <div className="flex items-center mb-2">
                   <MapPin className="w-5 h-5 text-[#104042] mr-2" />
-                  <label className="text-sm font-semibold text-gray-700">
+                  <label className="text-sm  text-gray-700">
                     Preferred Start Date
                   </label>
                 </div>
@@ -135,7 +135,7 @@ const RequestLoan = ({ myAccount }: { myAccount: any }) => {
                   type="submit"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="bg-[#104042] hover:bg-[#0d3335] text-white font-semibold w-60 py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl cursor-pointer"
+                  className="bg-[#104042] hover:bg-[#0d3335] text-white  w-60 py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl cursor-pointer"
                 >
                   {isLoading ? <AuthLoading /> : "Submit Loan Request"}
                 </motion.button>
@@ -149,7 +149,7 @@ const RequestLoan = ({ myAccount }: { myAccount: any }) => {
             className="mt-6 p-4 bg-[#104042]/5 rounded-lg border border-[#104042]/10"
           >
             <p className="text-sm text-gray-600 text-center">
-              <span className="font-semibold text-[#104042]">
+              <span className=" text-[#104042]">
                 Quick Processing:
               </span>{" "}
               Your loan request will be reviewed within 24-48 hours. We'll
@@ -162,7 +162,7 @@ const RequestLoan = ({ myAccount }: { myAccount: any }) => {
         <motion.div variants={itemVariants} className="text-center mt-8">
           <p className="text-sm text-gray-500">
             Need help? Contact our support team at{" "}
-            <span className="text-[#104042] font-semibold">
+            <span className="text-[#104042] ">
               support@bank.com
             </span>
           </p>

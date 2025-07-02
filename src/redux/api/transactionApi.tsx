@@ -36,6 +36,28 @@ const transactionApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["transaction"],
     }),
+    getTransactions: build.query({
+      query: (args) => {
+        const params = new URLSearchParams();
+        if (args) {
+          args.forEach((item: { name: string; value: string }) => {
+            params.append(item.name, item.value);
+          });
+        }
+        return {
+          url: "/transaction/",
+          method: "GET",
+          params: params,
+        };
+      },
+      transformResponse: (response) => {
+        return {
+          data: response.data,
+          meta: response.meta,
+        };
+      },
+      providesTags: ["transaction"],
+    }),
   }),
 });
 
@@ -44,4 +66,5 @@ export const {
   useWithdrawBalanceMutation,
   useTransferBalanceMutation,
   useDownloadTransactionMutation,
+  useGetTransactionsQuery,
 } = transactionApi;

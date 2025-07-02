@@ -132,7 +132,7 @@ const MyLoan = ({ myLoan }: { myLoan: any }) => {
                 <Badge
                   className={`${getStatusColor(
                     loan.status
-                  )} text-sm font-semibold`}
+                  )} text-sm `}
                 >
                   {loan.status.toUpperCase()}
                 </Badge>
@@ -140,7 +140,7 @@ const MyLoan = ({ myLoan }: { myLoan: any }) => {
                   trigger={
                     <Button
                       size="sm"
-                      className="bg-[#104042] text-white hover:bg-[#355354] font-semibold shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
+                      className="bg-[#104042] text-white hover:bg-[#355354]  shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
                     >
                       {isLoading ? <AuthLoading /> : "Make Payment"}
                     </Button>
@@ -168,10 +168,10 @@ const MyLoan = ({ myLoan }: { myLoan: any }) => {
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-base font-semibold text-red-700 mb-1">
+                    <h3 className="text-base  text-red-700 mb-1">
                       Next Payment Due
                     </h3>
-                    <p className="text-xl font-bold text-red-600">
+                    <p className="text-xl  text-red-600">
                       BDT {nextPay.amountDue}
                     </p>
                     <p className="text-sm text-red-600 mt-1">
@@ -187,9 +187,9 @@ const MyLoan = ({ myLoan }: { myLoan: any }) => {
               </motion.div>
             )}
 
-            <div className="grid lg:grid-cols-4 gap-6">
+            <div className="grid lg:grid-cols-4 gap-4">
               {/* Left side - Loan Details */}
-              <div className="lg:col-span-3 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-3 grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {/* Loan Amount */}
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
@@ -201,7 +201,7 @@ const MyLoan = ({ myLoan }: { myLoan: any }) => {
                     <TbCoinTaka className="h-5 w-5 text-[#104042]" />
                     <span className="text-sm font-medium">Loan Amount</span>
                   </div>
-                  <p className="text-xl font-bold text-[#104042]">
+                  <p className="text-xl  text-[#104042]">
                     {formatCurrency(loan.loanAmount)}
                   </p>
                 </motion.div>
@@ -219,7 +219,7 @@ const MyLoan = ({ myLoan }: { myLoan: any }) => {
                       Remaining Loan Balance
                     </span>
                   </div>
-                  <p className="text-xl font-bold text-green-600">
+                  <p className="text-xl  text-green-600">
                     {formatCurrency(loan.remainingBalance)}
                   </p>
                 </motion.div>
@@ -235,7 +235,7 @@ const MyLoan = ({ myLoan }: { myLoan: any }) => {
                     <Percent className="h-5 w-5 text-[#104042]" />
                     <span className="text-sm font-medium">Interest Rate</span>
                   </div>
-                  <p className="text-xl font-bold text-[#104042]">
+                  <p className="text-xl  text-[#104042]">
                     {(loan.interestRate * 100).toFixed(1)}%
                   </p>
                 </motion.div>
@@ -251,7 +251,7 @@ const MyLoan = ({ myLoan }: { myLoan: any }) => {
                     <Clock className="h-5 w-5 text-[#104042]" />
                     <span className="text-sm font-medium">Term</span>
                   </div>
-                  <p className="text-xl font-bold text-[#104042]">
+                  <p className="text-xl  text-[#104042]">
                     {loan.term} months
                   </p>
                 </motion.div>
@@ -267,7 +267,7 @@ const MyLoan = ({ myLoan }: { myLoan: any }) => {
                     <Calendar className="h-5 w-5 text-[#104042]" />
                     <span className="text-sm font-medium">Start Date</span>
                   </div>
-                  <p className="text-lg font-semibold text-gray-800">
+                  <p className="text-lg  text-gray-800">
                     {formatDate(loan.startDate)}
                   </p>
                 </motion.div>
@@ -283,7 +283,7 @@ const MyLoan = ({ myLoan }: { myLoan: any }) => {
                     <Calendar className="h-5 w-5 text-[#104042]" />
                     <span className="text-sm font-medium">End Date</span>
                   </div>
-                  <p className="text-lg font-semibold text-gray-800">
+                  <p className="text-lg  text-gray-800">
                     {formatDate(loan.endDate)}
                   </p>
                 </motion.div>
@@ -298,7 +298,7 @@ const MyLoan = ({ myLoan }: { myLoan: any }) => {
                   className="lg:col-span-1"
                 >
                   <div className="bg-white p-3 rounded-xl shadow-md border border-gray-100 h-fit">
-                    <h4 className="text-sm font-semibold text-[#104042] mb-3 flex items-center gap-2">
+                    <h4 className="text-sm  text-[#104042] mb-3 flex items-center gap-2">
                       <Calendar className="h-4 w-4" />
                       Upcoming Payments
                     </h4>
@@ -306,7 +306,7 @@ const MyLoan = ({ myLoan }: { myLoan: any }) => {
                       {upcomingPayments?.map((payment, index) => (
                         <div
                           key={index}
-                          className={`flex justify-between items-center py-1 px-3 rounded-lg text-sm ${
+                          className={`flex justify-between items-center py-1 px-3 rounded-lg text-xs ${
                             index === 0
                               ? "bg-red-50 border border-red-200"
                               : "bg-gray-50 border border-gray-200"
@@ -320,7 +320,7 @@ const MyLoan = ({ myLoan }: { myLoan: any }) => {
                             {payment.month}
                           </span>
                           <span
-                            className={`font-semibold ${
+                            className={` ${
                               index === 0 ? "text-red-600" : "text-gray-600"
                             }`}
                           >
@@ -349,7 +349,7 @@ const MyLoan = ({ myLoan }: { myLoan: any }) => {
       >
         <Card className="border-0 bg-gray-200 rounded-none">
           <CardHeader>
-            <CardTitle className="text-white bg-[#104042] w-60 pl-2 py-1 rounded-xl flex items-center gap-2">
+            <CardTitle className="text-white bg-[#104042] w-72 pl-2 py-1 rounded-xl flex items-center gap-2">
               <User className="h-5 w-5" />
               Account Information
             </CardTitle>
@@ -359,19 +359,19 @@ const MyLoan = ({ myLoan }: { myLoan: any }) => {
               <div className="space-y-4">
                 <div>
                   <p className="text-sm text-gray-600">Account Holder</p>
-                  <p className="font-semibold">
+                  <p className="">
                     {loan.account.accountHolderName}
                   </p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-600">Account Balance</p>
-                  <p className="font-semibold text-green-600">
+                  <p className=" text-green-600">
                     {formatCurrency(loan.account.balance)}
                   </p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-600">Account Type</p>
-                  <p className="font-semibold capitalize">
+                  <p className=" capitalize">
                     {loan.account.accountType}
                   </p>
                 </div>
@@ -379,17 +379,17 @@ const MyLoan = ({ myLoan }: { myLoan: any }) => {
               <div className="space-y-4">
                 <div>
                   <p className="text-sm text-gray-600">Date of Birth</p>
-                  <p className="font-semibold">
+                  <p className="">
                     {formatDate(loan.account.dateOfBirth)}
                   </p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-600">Gender</p>
-                  <p className="font-semibold">{loan.account.gender}</p>
+                  <p className="">{loan.account.gender}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-600">Currency</p>
-                  <p className="font-semibold">{loan.account.currency}</p>
+                  <p className="">{loan.account.currency}</p>
                 </div>
               </div>
             </div>
@@ -405,7 +405,7 @@ const MyLoan = ({ myLoan }: { myLoan: any }) => {
       >
         <Card className="border-0 bg-gray-200 rounded-t-none">
           <CardHeader className="">
-            <CardTitle className="text-white bg-[#104042] w-60 pl-2 py-1 rounded-xl flex items-center gap-2">
+            <CardTitle className="text-white bg-[#104042] w-72 pl-2 py-1 rounded-xl flex items-center gap-2">
               <Building className="h-5 w-5" />
               Branch Information
             </CardTitle>
@@ -415,17 +415,17 @@ const MyLoan = ({ myLoan }: { myLoan: any }) => {
               <div className="space-y-4">
                 <div>
                   <p className="text-sm text-gray-600">Branch Name</p>
-                  <p className="font-semibold">{loan.branch.name}</p>
+                  <p className="">{loan.branch.name}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-600">Branch Code</p>
-                  <p className="font-semibold">{loan.branch.code}</p>
+                  <p className="">{loan.branch.code}</p>
                 </div>
                 <div className="flex items-start gap-2">
                   <MapPin className="h-4 w-4 mt-1 text-gray-600" />
                   <div>
                     <p className="text-sm text-gray-600">Address</p>
-                    <p className="font-semibold">{loan.branch.address}</p>
+                    <p className="">{loan.branch.address}</p>
                     <p className="text-sm text-gray-600">
                       {loan.branch.city}, {loan.branch.state}{" "}
                       {loan.branch.zipCode}
@@ -438,19 +438,19 @@ const MyLoan = ({ myLoan }: { myLoan: any }) => {
                   <Phone className="h-4 w-4 text-gray-600" />
                   <div>
                     <p className="text-sm text-gray-600">Contact</p>
-                    <p className="font-semibold">{loan.branch.contactNumber}</p>
+                    <p className="">{loan.branch.contactNumber}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <Mail className="h-4 w-4 text-gray-600" />
                   <div>
                     <p className="text-sm text-gray-600">Email</p>
-                    <p className="font-semibold">{loan.branch.email}</p>
+                    <p className="">{loan.branch.email}</p>
                   </div>
                 </div>
                 <div>
                   <p className="text-sm text-gray-600">Operating Hours</p>
-                  <p className="font-semibold">
+                  <p className="">
                     {loan.branch.openingSchedule.openTime} -{" "}
                     {loan.branch.openingSchedule.closeTime}
                   </p>
