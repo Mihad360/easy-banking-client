@@ -73,7 +73,7 @@ const DashboardNavbar = () => {
           className="flex items-center space-x-3"
         >
           <div className="text-lg font-semibold text-gray-800">
-            Welcome,{" "}
+            Welcome{" "}
             <span className="text-blue-600">{user?.accountHolderName}</span>
           </div>
         </motion.div>

@@ -124,7 +124,7 @@ export const managerRoutes = [
   },
   {
     label: "Branches",
-    href: "/dashboard/manager/branches",
+    href: "/dashboard/manager/my-branch",
     icon: Building,
   },
   {
@@ -144,7 +144,7 @@ export const managerRoutes = [
   },
   {
     label: "My Loan",
-    href: "/dashboard/manager/loan",
+    href: "/dashboard/manager/my-loan",
     icon: Banknote,
   },
   {
