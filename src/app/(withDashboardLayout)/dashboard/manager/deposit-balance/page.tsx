@@ -15,7 +15,7 @@ const ManagerDepositBalancePage = () => {
   const { data: myAccount, isLoading } = useGetMyAccountQuery(undefined, {
     skip: !user,
   });
-  console.log(myAccount);
+  // console.log(myAccount);
 
   if (!user || isLoading) {
     return <Loading />;

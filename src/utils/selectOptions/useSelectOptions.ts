@@ -1,3 +1,6 @@
+import { days } from "@/types/global.type";
+import { allDistict } from "@bangladeshi/bangladesh-address";
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const selectBranchOptions = (data: any) => {
   return data?.map((item: any) => ({
@@ -5,3 +8,15 @@ export const selectBranchOptions = (data: any) => {
     value: item._id,
   }));
 };
+
+export const daysOptions = days.map((day) => ({
+  label: day,
+  value: day,
+}));
+
+export const cityOptions = allDistict()
+  .sort()
+  .map((dis: string) => ({
+    label: dis,
+    value: dis,
+  }));

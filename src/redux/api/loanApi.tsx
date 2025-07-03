@@ -9,6 +9,28 @@ const loanApi = baseApi.injectEndpoints({
       }),
       providesTags: ["loan"],
     }),
+    getCustomerLoans: build.query({
+      query: (args) => {
+        const params = new URLSearchParams();
+        if (args) {
+          args.forEach((item: { name: string; value: string }) => {
+            params.append(item.name, item.value);
+          });
+        }
+        return {
+          url: "/loan/",
+          method: "GET",
+          params: params,
+        };
+      },
+      transformResponse: (response) => {
+        return {
+          data: response.data,
+          meta: response.meta,
+        };
+      },
+      providesTags: ["loan"],
+    }),
     requestLoan: build.mutation({
       query: (data) => ({
         url: "/loan/request-loan",
@@ -30,5 +52,9 @@ const loanApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetMyLoanQuery, useRequestLoanMutation, usePayLaonMutation } =
-  loanApi;
+export const {
+  useGetMyLoanQuery,
+  useRequestLoanMutation,
+  usePayLaonMutation,
+  useGetCustomerLoansQuery,
+} = loanApi;

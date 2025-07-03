@@ -70,3 +70,62 @@ export interface TUser {
   profilePhotoUrl?: string;
   phoneNumber: string;
 }
+
+export interface TLoan {
+  _id: string;
+  account?: {
+    _id: string;
+    accountHolderName: string;
+    accountNumber: string;
+    accountType: string;
+    balance: number;
+    branch: string;
+    status: string;
+    currency: string;
+    address: string;
+    city: string;
+    country: string;
+    dateOfBirth: string;
+    gender: string;
+    createdAt: string;
+  };
+  accountNumber?: string;
+  user?: {
+    _id: string;
+    name: {
+      firstName: string;
+      lastName: string;
+    };
+    email: string;
+    phoneNumber: string;
+    profilePhotoUrl?: string;
+    role: string;
+    createdAt: string;
+  };
+  branch: {
+    _id: string;
+    name: string;
+    code: string;
+    address: string;
+    city: string;
+    country: string;
+    contactNumber: string;
+    email: string;
+  };
+  loanAmount: number;
+  interestRate?: number;
+  term?: number;
+  startDate?: string;
+  endDate?: string;
+  remainingBalance?: number;
+  status?: "pending" | "approved" | "rejected" | "active" | "paid";
+  repaymentSchedule?: Array<{
+    dueDate: string;
+    amountDue: number;
+    paid: boolean;
+    paidDate?: string;
+  }>;
+  isDeleted: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
