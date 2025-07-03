@@ -27,6 +27,7 @@ import {
   Twitter,
   Linkedin,
   Play,
+  UserPen,
 } from "lucide-react";
 import { getUser } from "@/services/authServices";
 import { JwtPayload } from "@/types/common.type";
@@ -143,7 +144,7 @@ const Navbar = () => {
         boxShadow: scrolled ? "var(--shadow-aceternity)" : "none",
         width: scrolled ? "90%" : "100%",
         y: scrolled ? 10 : 0,
-        backgroundColor: scrolled ? "white" : "transparent",
+        backgroundColor: scrolled ? "rgba(255, 255, 255, 0.7)" : "transparent",
       }}
       transition={{
         duration: 0.3,
@@ -169,17 +170,17 @@ const Navbar = () => {
             {!user ? (
               <div className="flex items-center gap-4">
                 <AnimationWrapper className="hover:scale-105">
+                  <UserPen />
+                </AnimationWrapper>
+                <AnimationWrapper>
                   <Link
                     href="/login"
-                    className="text-black hover:text-[#AEFF1C] font-medium transition-colors duration-300"
+                    className="text-white bg-[#104042] font-medium transition-colors duration-300 px-5 tracking-wide  py-2 rounded-md relative group"
                   >
                     Login
+                    <span className="absolute inset-x-0 bottom-px bg-gradient-to-r from-transparent via-[#AEFF1C] to-transparent h-[1px]"></span>
+                    <span className="absolute opacity-0 group-hover:opacity-100 transition-opacity duration-300 inset-x-0 bottom-px bg-gradient-to-r from-transparent via-[#AEFF1C] to-transparent h-[4px] blur-sm"></span>
                   </Link>
-                </AnimationWrapper>
-                <AnimationWrapper className="hover:scale-105">
-                  <Button className="bg-[#AEFF1C] hover:bg-[#AEFF1C]/90 text-[#104042] font-bold px-6 py-2 rounded-full transition-all duration-300 hover:shadow-lg">
-                    Get Started
-                  </Button>
                 </AnimationWrapper>
               </div>
             ) : (
@@ -212,7 +213,7 @@ const Navbar = () => {
                     align="end"
                     className="w-56 mt-2 bg-slate-900/80 text-white shadow-xl rounded-xl border border-[#0d3636] backdrop-blur-xl"
                   >
-                    <DropdownMenuLabel className="font-semibold px-4 py-3 border-b border-[#0d3636]">
+                    <DropdownMenuLabel className="font-semibold px-4 py-3">
                       <div className="flex flex-col space-y-0.5">
                         <p className="text-sm font-semibold">
                           {user?.name || "User"}
