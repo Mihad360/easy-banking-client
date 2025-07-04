@@ -1,14 +1,12 @@
-import Banner from "@/components/homePages/Banner";
-import Delivery from "@/components/homePages/Delivery";
+import Home from "@/components/Home";
 import React from "react";
 
-const page = () => {
+const HomePages = () => {
   return (
-    <div className="bg-gradient-to-br from-slate-50/50 via-white/30 to-slate-100/50">
-      <Banner />
-      <Delivery />
+    <div>
+      <Home />
     </div>
   );
 };
 
-export default page;
+export default HomePages;

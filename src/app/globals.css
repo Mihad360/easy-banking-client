@@ -29,6 +29,7 @@
   scrollbar-width: none; /* Firefox */
 }
 
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

@@ -9,7 +9,14 @@ const branchApi = baseApi.injectEndpoints({
       }),
       providesTags: ["branch"],
     }),
+    getBranches: build.query({
+      query: () => ({
+        url: "/branch/",
+        method: "GET",
+      }),
+      providesTags: ["branch"],
+    }),
   }),
 });
 
-export const { useGetMyBranchQuery } = branchApi;
+export const { useGetMyBranchQuery, useGetBranchesQuery } = branchApi;

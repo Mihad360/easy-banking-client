@@ -123,7 +123,7 @@ export const managerRoutes = [
     icon: Banknote,
   },
   {
-    label: "Branches",
+    label: "My Branch",
     href: "/dashboard/manager/my-branch",
     icon: Building,
   },

@@ -42,14 +42,25 @@ import {
   useScroll,
 } from "framer-motion";
 import { usePathname } from "next/navigation";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Navbar = () => {
   const pathname = usePathname();
   const [user, setUser] = useState<any>(null); // Replace with your user type
   const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [hovered, setHovered] = useState<number | null>(null);
-  const { scrollY } = useScroll();
   const [scrolled, setScrolled] = useState<boolean>(false);
+  const { scrollY } = useScroll();
+
+  useEffect(() => {
+    const userData = getUser() as JwtPayload;
+    if (userData) {
+      setUser(userData);
+    }
+    setLoading(false); // Always after setUser
+  }, []);
+
   useMotionValueEvent(scrollY, "change", (latest) => {
     if (latest > 20) {
       setScrolled(true);
@@ -57,10 +68,6 @@ const Navbar = () => {
       setScrolled(false);
     }
   });
-
-  useEffect(() => {
-    setUser(getUser() as JwtPayload);
-  }, []);
 
   const handleSignOut = async () => {
     await removeCookie("accessToken", "refreshToken");
@@ -144,7 +151,7 @@ const Navbar = () => {
         boxShadow: scrolled ? "var(--shadow-aceternity)" : "none",
         width: scrolled ? "90%" : "100%",
         y: scrolled ? 10 : 0,
-        backgroundColor: scrolled ? "rgba(255, 255, 255, 0.7)" : "transparent",
+        backgroundColor: scrolled ? "white" : "transparent",
       }}
       transition={{
         duration: 0.3,
@@ -166,91 +173,91 @@ const Navbar = () => {
           </div>
 
           {/* Desktop Auth Section */}
-          <div className="hidden lg:flex items-center gap-4">
-            {!user ? (
-              <div className="flex items-center gap-4">
-                <AnimationWrapper className="hover:scale-105">
-                  <UserPen />
-                </AnimationWrapper>
-                <AnimationWrapper>
-                  <Link
-                    href="/login"
-                    className="text-white bg-[#104042] font-medium transition-colors duration-300 px-5 tracking-wide  py-2 rounded-md relative group"
+          {loading ? (
+            <Skeleton className="h-12 w-12 rounded-full bg-gray-400" />
+          ) : user ? (
+            <div className="relative z-50 hidden lg:flex items-center gap-4">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="flex items-center gap-2 p-1 rounded-full hover:bg-white/10 transition-colors duration-300 cursor-pointer"
                   >
-                    Login
-                    <span className="absolute inset-x-0 bottom-px bg-gradient-to-r from-transparent via-[#AEFF1C] to-transparent h-[1px]"></span>
-                    <span className="absolute opacity-0 group-hover:opacity-100 transition-opacity duration-300 inset-x-0 bottom-px bg-gradient-to-r from-transparent via-[#AEFF1C] to-transparent h-[4px] blur-sm"></span>
-                  </Link>
-                </AnimationWrapper>
-              </div>
-            ) : (
-              <div className="relative z-50">
-                {" "}
-                {/* Ensure dropdown is on top */}
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      className="flex items-center gap-2 p-1 rounded-full hover:bg-white/10 transition-colors duration-300 cursor-pointer"
-                    >
-                      <AnimationWrapper>
-                        <div className="flex items-center gap-2">
-                          <Avatar className="w-9 h-9 border-2 border-[#AEFF1C]">
-                            <AvatarImage
-                              src={user?.profilePhotoUrl || "/placeholder.svg"}
-                              alt={user?.name || "User"}
-                            />
-                            <AvatarFallback className="bg-[#AEFF1C] text-[#104042] font-semibold">
-                              {user?.name?.charAt(0) || "U"}
-                            </AvatarFallback>
-                          </Avatar>
-                          <ChevronDown className="w-4 h-4 text-white" />
-                        </div>
-                      </AnimationWrapper>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent
-                    align="end"
-                    className="w-56 mt-2 bg-slate-900/80 text-white shadow-xl rounded-xl border border-[#0d3636] backdrop-blur-xl"
-                  >
-                    <DropdownMenuLabel className="font-semibold px-4 py-3">
-                      <div className="flex flex-col space-y-0.5">
-                        <p className="text-sm font-semibold">
-                          {user?.name || "User"}
-                        </p>
-                        <p className="text-xs text-gray-400">{user?.email}</p>
+                    <AnimationWrapper>
+                      <div className="flex items-center gap-2">
+                        <Avatar className="w-9 h-9 border-2 border-[#AEFF1C]">
+                          <AvatarImage
+                            src={user.profilePhotoUrl || "/placeholder.svg"}
+                            alt={user.name || "User"}
+                          />
+                          <AvatarFallback className="bg-[#AEFF1C] text-[#104042] font-semibold">
+                            {user.name?.charAt(0) || "U"}
+                          </AvatarFallback>
+                        </Avatar>
+                        <ChevronDown className="w-4 h-4 text-white" />
                       </div>
-                    </DropdownMenuLabel>
-                    <DropdownMenuSeparator className="bg-[#0d3636]" />
-                    <Link
-                      href={`/dashboard/${user?.role}/my-account`}
-                      className="cursor-pointer"
-                    >
-                      <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-white/10 transition-colors cursor-pointer rounded-md">
-                        <CreditCard className="w-4 h-4 text-white group-hover:text-black" />
-                        My Account
-                      </DropdownMenuItem>
-                    </Link>
-                    <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-white/10 transition-colors rounded-md">
-                      <CreditCard className="w-4 h-4 text-white group-hover:text-black" />
+                    </AnimationWrapper>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  align="end"
+                  className="w-56 mt-2 bg-white text-black shadow-2xl rounded-xl"
+                >
+                  <DropdownMenuLabel className="font-semibold px-4 py-3">
+                    <div className="flex flex-col space-y-0.5">
+                      <p className="text-sm font-semibold">{user.name}</p>
+                      <p className="text-xs text-gray-400">{user.email}</p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator className="bg-[#0d3636]" />
+                  <Link href={`/dashboard/${user.role}/my-account`}>
+                    <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-black/60 rounded-md cursor-pointer">
+                      <CreditCard className="w-4 h-4 hover:text-black " />
+                      My Account
+                    </DropdownMenuItem>
+                  </Link>
+                  <Link href={`/dashboard/${user.role}/my-account`}>
+                    <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-black/60 rounded-md cursor-pointer">
+                      <CreditCard className="w-4 h-4 hover:text-black " />
                       My Cards
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-white/10 transition-colors rounded-md">
-                      <Settings className="w-4 h-4 text-white group-hover:text-black" />
+                  </Link>
+                  <Link href={`/dashboard/${user.role}/my-account`}>
+                    <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-black/60 rounded-md cursor-pointer">
+                      <Settings className="w-4 h-4 hover:text-black" />
                       Settings
                     </DropdownMenuItem>
-                    <DropdownMenuSeparator className="bg-[#0d3636]" />
-                    <button onClick={handleSignOut} className="w-full">
-                      <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm text-red-400 hover:bg-red-600 hover:text-white transition-colors rounded-md">
-                        <LogOut className="w-4 h-4 text-red-400 group-hover:text-white" />
-                        Sign Out
-                      </DropdownMenuItem>
-                    </button>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-            )}
-          </div>
+                  </Link>
+                  <DropdownMenuSeparator className="bg-[#0d3636]" />
+                  <button
+                    onClick={handleSignOut}
+                    className="w-full hover:text-red-500 cursor-pointer"
+                  >
+                    <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-black/60 rounded-md hover:text-red-500 cursor-pointer">
+                      <LogOut className="w-4 h-4 text-red-500" />
+                      <span className="text-red-500">Sign Out</span>
+                    </DropdownMenuItem>
+                  </button>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          ) : (
+            <div className="hidden lg:flex items-center gap-4">
+              <AnimationWrapper className="hover:scale-105">
+                <UserPen />
+              </AnimationWrapper>
+              <AnimationWrapper>
+                <Link
+                  href="/login"
+                  className="text-white bg-[#104042] font-medium transition-colors duration-300 px-5 tracking-wide  py-2 rounded-md relative group"
+                >
+                  Login
+                  <span className="absolute inset-x-0 bottom-px bg-gradient-to-r from-transparent via-[#AEFF1C] to-transparent h-[1px]"></span>
+                  <span className="absolute opacity-0 group-hover:opacity-100 transition-opacity duration-300 inset-x-0 bottom-px bg-gradient-to-r from-transparent via-[#AEFF1C] to-transparent h-[4px] blur-sm"></span>
+                </Link>
+              </AnimationWrapper>
+            </div>
+          )}
 
           {/* Mobile Menu Button */}
           <div className="lg:hidden">

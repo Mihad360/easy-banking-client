@@ -9,7 +9,6 @@ import {
   Building2,
   DollarSign,
   LogOut,
-  Settings,
 } from "lucide-react";
 import Image from "next/image";
 
@@ -26,6 +25,8 @@ import { useGetMyAccountQuery } from "@/redux/api/accountApi";
 import { getUser } from "@/services/authServices";
 import { JwtPayload } from "@/types/common.type";
 import Loading from "../loading/Loading";
+import { removeCookie } from "@/utils/deleteCookie";
+import { removeFromLocalStorage } from "@/utils/local-storage";
 
 const DashboardNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -53,6 +54,12 @@ const DashboardNavbar = () => {
     }
   };
 
+  const handleSignOut = async () => {
+    await removeCookie("accessToken", "refreshToken");
+    removeFromLocalStorage("accessToken");
+    window.location.href = "/";
+  };
+
   if (isLoading) {
     return <Loading />;
   }
@@ -62,7 +69,7 @@ const DashboardNavbar = () => {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="h-14 sticky top-0 w-full z-50 backdrop-blur-lg bg-gray-200/40 border-b border-gray-200/50 shadow-sm"
+      className="h-14 sticky top-0 w-full z-50 bg-gray-200/80 border-b border-gray-200/50 shadow-sm"
     >
       <div className="flex items-center justify-between h-full px-6">
         {/* Left side - Welcome message */}
@@ -73,8 +80,7 @@ const DashboardNavbar = () => {
           className="flex items-center space-x-3"
         >
           <div className="text-lg font-semibold text-gray-800">
-            Welcome{" "}
-            <span className="text-blue-600">{user?.accountHolderName}</span>
+            Welcome <span className="text-blue-600">{userData?.name}</span>
           </div>
         </motion.div>
 
@@ -83,9 +89,10 @@ const DashboardNavbar = () => {
           initial={{ x: 50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.5 }}
+          
         >
           <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
-            <DropdownMenuTrigger asChild>
+            <DropdownMenuTrigger asChild className="cursor-pointer">
               <Button
                 variant="ghost"
                 className="flex items-center space-x-3 hover:bg-white/50 transition-colors duration-200"
@@ -158,7 +165,7 @@ const DashboardNavbar = () => {
                           </div>
                           <div className="flex-1">
                             <div className="font-semibold text-gray-900">
-                              {user?.accountHolderName}
+                              {userData?.name}
                             </div>
                             <div className="text-sm text-gray-600">
                               {userData?.email}
@@ -240,14 +247,15 @@ const DashboardNavbar = () => {
 
                       {/* Action Items */}
                       <div className="p-2">
-                        <DropdownMenuItem className="flex items-center space-x-2 cursor-pointer">
-                          <Settings className="h-4 w-4" />
-                          <span>Account Settings</span>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem className="flex items-center space-x-2 cursor-pointer text-red-600 focus:text-red-600">
-                          <LogOut className="h-4 w-4" />
-                          <span>Sign Out</span>
-                        </DropdownMenuItem>
+                        <button
+                          onClick={handleSignOut}
+                          className="cursor-pointer w-full"
+                        >
+                          <DropdownMenuItem className="flex items-center space-x-2 text-red-600 focus:text-red-600 cursor-pointer">
+                            <LogOut className="h-4 w-4" />
+                            Sign Out
+                          </DropdownMenuItem>
+                        </button>
                       </div>
                     </div>
                   </motion.div>
