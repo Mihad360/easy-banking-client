@@ -1,3 +1,4 @@
+import Footer from "@/shared/Footer";
 import Navbar from "@/shared/Navbar";
 import React, { ReactNode } from "react";
 
@@ -6,6 +7,7 @@ const layout = ({ children }: { children: ReactNode }) => {
     <div>
       <Navbar></Navbar>
       {children}
+      <Footer />
     </div>
   );
 };
