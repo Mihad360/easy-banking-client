@@ -18,6 +18,20 @@ const adminApi = baseApi.injectEndpoints({
       }),
       providesTags: ["user"],
     }),
+    getAdminStats: build.query({
+      query: () => ({
+        url: "/stats/admin-stats",
+        method: "GET",
+      }),
+      providesTags: ["admin"],
+    }),
+    getAdminLastMonthStats: build.query({
+      query: () => ({
+        url: "/stats/last-month-stats",
+        method: "GET",
+      }),
+      providesTags: ["admin"],
+    }),
     updateUserRole: build.mutation({
       query: (data) => ({
         url: `/users/update-role/${data.id}`,
@@ -43,4 +57,6 @@ export const {
   useGetUsersQuery,
   useUpdateUserRoleMutation,
   useDeleteUserMutation,
+  useGetAdminStatsQuery,
+  useGetAdminLastMonthStatsQuery,
 } = adminApi;
