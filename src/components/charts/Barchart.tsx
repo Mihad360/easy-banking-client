@@ -1,105 +1,81 @@
-"use client";
-import { Bar } from "react-chartjs-2";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import type React from "react";
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
+  BarChart as RechartsBarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
   Tooltip,
-  Legend,
-  type ChartOptions,
-} from "chart.js";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+  ResponsiveContainer,
+} from "recharts";
 
 interface BarChartProps {
-  data: Array<{ _id: string; count: number; totalBalance?: number }>;
+  data: any[];
   title: string;
-  showBalance?: boolean;
+  showBalance: boolean;
   horizontal?: boolean;
+  colors?: string[];
+  compact?: boolean;
 }
 
-const BarChart = ({
+const BarChart: React.FC<BarChartProps> = ({
   data,
   title,
-  showBalance = false,
+  showBalance,
   horizontal = false,
-}: BarChartProps) => {
-  const chartData = {
-    labels: data.map((item) => item._id || "Unknown"),
-    datasets: [
-      {
-        label: showBalance ? "Total Amount ($)" : "Count",
-        data: showBalance
-          ? data.map((item) => item.totalBalance || 0)
-          : data.map((item) => item.count),
-        backgroundColor: "#104042",
-        borderColor: "#104042",
-        borderWidth: 1,
-        borderRadius: 4,
-        borderSkipped: false,
-      },
-    ],
-  };
-
-  const options: ChartOptions<"bar"> = {
-    responsive: true,
-    maintainAspectRatio: false,
-    indexAxis: horizontal ? ("y" as const) : ("x" as const),
-    plugins: {
-      legend: {
-        display: false,
-      },
-      tooltip: {
-        callbacks: {
-          label: (context) => {
-            const value = context.parsed.y || context.parsed.x;
-            return showBalance ? `$${value.toLocaleString()}` : `${value}`;
-          },
-        },
-      },
-    },
-    scales: {
-      x: {
-        beginAtZero: true,
-        grid: {
-          display: false,
-        },
-        ticks: {
-          font: {
-            size: 12,
-          },
-        },
-      },
-      y: {
-        beginAtZero: true,
-        grid: {
-          color: "#f3f4f6",
-        },
-        ticks: {
-          font: {
-            size: 12,
-          },
-          callback: (value) =>
-            showBalance ? `$${Number(value).toLocaleString()}` : value,
-        },
-      },
-    },
-  };
+  colors = ["#059669", "#10b981", "#34d399", "#6ee7b7"],
+  compact = false,
+}) => {
+  const chartData = data.map((item, index) => ({
+    name: item._id || item.name || `Item ${index + 1}`,
+    value: showBalance
+      ? item.totalBalance || item.totalLoanAmount || 0
+      : item.count,
+    fill: colors[index % colors.length],
+  }));
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <h3 className="text-lg font-semibold text-gray-800 mb-4">{title}</h3>
-      <div className="h-80">
-        <Bar data={chartData} options={options} />
+    <div className={`bg-white rounded-lg shadow-sm ${compact ? "p-4" : "p-6"}`}>
+      <h3
+        className={`${
+          compact ? "text-sm" : "text-lg"
+        } font-semibold text-gray-800 mb-4`}
+      >
+        {title}
+      </h3>
+      <div className={compact ? "h-48" : "h-64"}>
+        <ResponsiveContainer width="100%" height="100%">
+          <RechartsBarChart
+            data={chartData}
+            layout={horizontal ? "horizontal" : "vertical"}
+            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            {horizontal ? (
+              <>
+                <XAxis type="number" fontSize={compact ? 10 : 12} />
+                <YAxis
+                  type="category"
+                  dataKey="name"
+                  fontSize={compact ? 10 : 12}
+                />
+              </>
+            ) : (
+              <>
+                <XAxis dataKey="name" fontSize={compact ? 10 : 12} />
+                <YAxis fontSize={compact ? 10 : 12} />
+              </>
+            )}
+            <Tooltip
+              formatter={(value: any) => [
+                showBalance ? `$${value.toLocaleString()}` : value,
+                showBalance ? "Amount" : "Count",
+              ]}
+            />
+            <Bar dataKey="value" radius={4} />
+          </RechartsBarChart>
+        </ResponsiveContainer>
       </div>
     </div>
   );

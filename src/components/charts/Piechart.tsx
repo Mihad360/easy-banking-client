@@ -1,89 +1,110 @@
-"use client";
-
-import { Pie } from "react-chartjs-2";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import type React from "react";
 import {
-  Chart as ChartJS,
-  ArcElement,
-  Tooltip,
+  PieChart as RechartsPieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
   Legend,
-  type ChartOptions,
-} from "chart.js";
-
-ChartJS.register(ArcElement, Tooltip, Legend);
+  Tooltip,
+} from "recharts";
 
 interface PieChartProps {
-  data: Array<{ _id: string; count: number; totalBalance?: number }>;
+  data: any[];
   title: string;
-  showBalance?: boolean;
+  showBalance: boolean;
+  colors?: string[];
+  compact?: boolean;
 }
 
-const PieChart = ({ data, title, showBalance = false }: PieChartProps) => {
-  const colors = [
-    "#104042",
-    "#2D6A4F",
-    "#40916C",
-    "#52B788",
-    "#74C69D",
-    "#95D5B2",
-    "#B7E4C7",
-    "#D8F3DC",
-  ];
+const PieChart: React.FC<PieChartProps> = ({
+  data,
+  title,
+  showBalance,
+  colors = ["#1e40af", "#3b82f6", "#60a5fa", "#93c5fd"],
+  compact = false,
+}) => {
+  const chartData = data.map((item, index) => ({
+    name: item._id || item.name || `Item ${index + 1}`,
+    value: showBalance
+      ? item.totalBalance || item.totalLoanAmount || 0
+      : item.count,
+    count: item.count,
+    color: colors[index % colors.length],
+  }));
 
-  const chartData = {
-    labels: data.map((item) => item._id || "Unknown"),
-    datasets: [
-      {
-        data: showBalance
-          ? data.map((item) => item.totalBalance || 0)
-          : data.map((item) => item.count),
-        backgroundColor: colors.slice(0, data.length),
-        borderColor: colors.slice(0, data.length),
-        borderWidth: 2,
-        hoverBorderWidth: 3,
-      },
-    ],
-  };
+  const renderCustomLabel = ({
+    cx,
+    cy,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    percent,
+  }: any) => {
+    if (percent < 0.05) return null; // Don't show labels for slices smaller than 5%
 
-  const options: ChartOptions<"pie"> = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: "bottom" as const,
-        labels: {
-          padding: 20,
-          usePointStyle: true,
-          font: {
-            size: 12,
-          },
-        },
-      },
-      tooltip: {
-        callbacks: {
-          label: (context) => {
-            const label = context.label || "";
-            const value = context.parsed;
-            const total = context.dataset.data.reduce(
-              (a: number, b: number) => a + b,
-              0
-            );
-            const percentage = ((value / total) * 100).toFixed(1);
-            return `${label}: ${
-              showBalance ? "$" + value.toLocaleString() : value
-            } (${percentage}%)`;
-          },
-        },
-      },
-    },
+    const RADIAN = Math.PI / 180;
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+    return (
+      <text
+        x={x}
+        y={y}
+        fill="white"
+        textAnchor={x > cx ? "start" : "end"}
+        dominantBaseline="central"
+        fontSize={compact ? "10" : "12"}
+        fontWeight="bold"
+      >
+        {`${(percent * 100).toFixed(0)}%`}
+      </text>
+    );
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <h3 className="text-lg font-semibold text-gray-800 mb-4 text-center">
+    <div className={`bg-white rounded-lg shadow-sm ${compact ? "p-4" : "p-6"}`}>
+      <h3
+        className={`${
+          compact ? "text-sm" : "text-lg"
+        } font-semibold text-gray-800 mb-4`}
+      >
         {title}
       </h3>
-      <div className="h-80">
-        <Pie data={chartData} options={options} />
+      <div className={compact ? "h-48" : "h-64"}>
+        <ResponsiveContainer width="100%" height="100%">
+          <RechartsPieChart>
+            <Pie
+              data={chartData}
+              cx="50%"
+              cy="50%"
+              labelLine={false}
+              label={renderCustomLabel}
+              outerRadius={compact ? 60 : 80}
+              fill="#8884d8"
+              dataKey="value"
+            >
+              {chartData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.color} />
+              ))}
+            </Pie>
+            <Tooltip
+              formatter={(value: any, name: string) => [
+                showBalance ? `$${value.toLocaleString()}` : value,
+                name,
+              ]}
+            />
+            <Legend
+              wrapperStyle={{ fontSize: compact ? "10px" : "12px" }}
+              formatter={(value: string, entry: any) => (
+                <span style={{ color: entry.color }}>
+                  {value} ({entry.payload.count})
+                </span>
+              )}
+            />
+          </RechartsPieChart>
+        </ResponsiveContainer>
       </div>
     </div>
   );

@@ -1,76 +1,59 @@
-"use client";
-
 import type React from "react";
-
-import { TrendingUp, TrendingDown, Minus } from "lucide-react";
+import { TrendingUp, TrendingDown } from "lucide-react";
 
 interface MetricCardProps {
   title: string;
-  value: string | number;
-  subtitle?: string;
-  trend?: "up" | "down" | "neutral";
-  trendValue?: string;
-  icon?: React.ReactNode;
-  color?: string;
+  value: string;
+  subtitle: string;
+  icon: React.ReactNode;
+  gradient: string;
+  growth?: number;
+  trend?: "up" | "down";
 }
 
-const MetricCard = ({
+const MetricCard: React.FC<MetricCardProps> = ({
   title,
   value,
   subtitle,
-  trend,
-  trendValue,
   icon,
-  color = "#104042",
-}: MetricCardProps) => {
-  const getTrendIcon = () => {
-    switch (trend) {
-      case "up":
-        return <TrendingUp className="w-4 h-4 text-green-500" />;
-      case "down":
-        return <TrendingDown className="w-4 h-4 text-red-500" />;
-      default:
-        return <Minus className="w-4 h-4 text-gray-500" />;
-    }
-  };
-
-  const getTrendColor = () => {
-    switch (trend) {
-      case "up":
-        return "text-green-500";
-      case "down":
-        return "text-red-500";
-      default:
-        return "text-gray-500";
-    }
-  };
-
+  gradient,
+  growth,
+  trend,
+}) => {
   return (
-    <div
-      className="bg-white rounded-lg shadow-md p-6 border-l-4"
-      style={{ borderLeftColor: color }}
-    >
-      <div className="flex items-center justify-between">
-        <div className="flex-1">
-          <p className="text-sm font-medium text-gray-600 uppercase tracking-wide">
-            {title}
-          </p>
-          <p className="text-2xl font-bold text-gray-900 mt-2">{value}</p>
-          {subtitle && <p className="text-sm text-gray-500 mt-1">{subtitle}</p>}
-          {trend && trendValue && (
-            <div className="flex items-center mt-2">
-              {getTrendIcon()}
-              <span className={`text-sm font-medium ml-1 ${getTrendColor()}`}>
-                {trendValue}
-              </span>
+    <div className="relative overflow-hidden bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 group">
+      <div
+        className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-5 group-hover:opacity-10 transition-opacity`}
+      />
+      <div className="relative p-6">
+        <div className="flex items-start justify-between mb-4">
+          <div
+            className={`p-3 rounded-xl bg-gradient-to-br ${gradient} text-white shadow-lg`}
+          >
+            {icon}
+          </div>
+          {growth !== undefined && (
+            <div
+              className={`flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium ${
+                trend === "up"
+                  ? "bg-emerald-100 text-emerald-700"
+                  : "bg-red-100 text-red-700"
+              }`}
+            >
+              {trend === "up" ? (
+                <TrendingUp className="w-3 h-3" />
+              ) : (
+                <TrendingDown className="w-3 h-3" />
+              )}
+              <span>{Math.abs(growth)}%</span>
             </div>
           )}
         </div>
-        {icon && (
-          <div className="flex-shrink-0 ml-4" style={{ color }}>
-            {icon}
-          </div>
-        )}
+        <div>
+          <p className="text-sm font-medium text-slate-600 mb-1">{title}</p>
+          <p className="text-3xl font-bold text-slate-800 mb-1">{value}</p>
+          <p className="text-sm text-slate-500">{subtitle}</p>
+        </div>
       </div>
     </div>
   );

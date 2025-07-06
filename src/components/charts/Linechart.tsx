@@ -1,128 +1,64 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client";
-
-import { Line } from "react-chartjs-2";
+import type React from "react";
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
+  LineChart as RechartsLineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
   Tooltip,
-  Legend,
-  Filler,
-  type ChartOptions,
-} from "chart.js";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler
-);
+  ResponsiveContainer,
+} from "recharts";
 
 interface LineChartProps {
-  data: Array<{ _id: { day: number; type: string }; dailyAmount: number }>;
+  data: any[];
   title: string;
+  color?: string;
+  compact?: boolean;
 }
 
-const LineChart = ({ data, title }: LineChartProps) => {
-  // Process data to group by transaction type
-  const processedData = data.reduce((acc: any, item) => {
-    const type = item._id.type;
-    const day = item._id.day;
-
-    if (!acc[type]) {
-      acc[type] = {};
-    }
-    acc[type][day] = item.dailyAmount;
-    return acc;
-  }, {});
-
-  // Get all unique days and sort them
-  const allDays = [...new Set(data.map((item) => item._id.day))].sort(
-    (a, b) => a - b
-  );
-
-  const colors = [
-    "#104042",
-    "#2D6A4F",
-    "#40916C",
-    "#52B788",
-    "#74C69D",
-    "#95D5B2",
-  ];
-
-  const datasets = Object.keys(processedData).map((type, index) => ({
-    label: type.charAt(0).toUpperCase() + type.slice(1),
-    data: allDays.map((day) => processedData[type][day] || 0),
-    borderColor: colors[index % colors.length],
-    backgroundColor: colors[index % colors.length] + "20",
-    fill: false,
-    tension: 0.4,
-    pointRadius: 4,
-    pointHoverRadius: 6,
+const LineChart: React.FC<LineChartProps> = ({
+  data,
+  title,
+  color = "#dc2626",
+  compact = false,
+}) => {
+  const chartData = data.map((item) => ({
+    date: new Date(item._id || item.date).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+    }),
+    value: item.count || item.amount || 0,
   }));
 
-  const chartData = {
-    labels: allDays.map((day) => `Day ${day}`),
-    datasets,
-  };
-
-  const options: ChartOptions<"line"> = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: "top" as const,
-        labels: {
-          usePointStyle: true,
-          padding: 20,
-        },
-      },
-      tooltip: {
-        mode: "index" as const,
-        intersect: false,
-        callbacks: {
-          label: (context) =>
-            `${context.dataset.label}: $${context.parsed.y.toLocaleString()}`,
-        },
-      },
-    },
-    interaction: {
-      mode: "nearest" as const,
-      axis: "x" as const,
-      intersect: false,
-    },
-    scales: {
-      x: {
-        display: true,
-        grid: {
-          display: false,
-        },
-      },
-      y: {
-        display: true,
-        grid: {
-          color: "#f3f4f6",
-        },
-        ticks: {
-          callback: (value) => "$" + Number(value).toLocaleString(),
-        },
-      },
-    },
-  };
-
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <h3 className="text-lg font-semibold text-gray-800 mb-4">{title}</h3>
-      <div className="h-80">
-        <Line data={chartData} options={options} />
+    <div className={`bg-white rounded-lg shadow-sm ${compact ? "p-4" : "p-6"}`}>
+      <h3
+        className={`${
+          compact ? "text-sm" : "text-lg"
+        } font-semibold text-gray-800 mb-4`}
+      >
+        {title}
+      </h3>
+      <div className={compact ? "h-48" : "h-64"}>
+        <ResponsiveContainer width="100%" height="100%">
+          <RechartsLineChart
+            data={chartData}
+            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="date" fontSize={compact ? 10 : 12} />
+            <YAxis fontSize={compact ? 10 : 12} />
+            <Tooltip />
+            <Line
+              type="monotone"
+              dataKey="value"
+              stroke={color}
+              strokeWidth={2}
+              dot={{ fill: color, strokeWidth: 2, r: 4 }}
+            />
+          </RechartsLineChart>
+        </ResponsiveContainer>
       </div>
     </div>
   );
