@@ -16,15 +16,21 @@ type EBDatePickerProps = {
   name: string;
   label: string;
   required?: boolean;
+  defaultValue?: string;
 };
 
-const EBDatePicker = ({ name, label, required }: EBDatePickerProps) => {
+const EBDatePicker = ({
+  name,
+  label,
+  required,
+  defaultValue,
+}: EBDatePickerProps) => {
   return (
     <div className="flex flex-col gap-1">
       <label className="text-sm font-medium mb-1">{label}</label>
       <Controller
         name={name}
-        defaultValue={null}
+        defaultValue={defaultValue}
         render={({ field }) => (
           <Popover>
             <PopoverTrigger asChild>

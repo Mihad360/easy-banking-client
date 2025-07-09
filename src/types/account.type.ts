@@ -1,4 +1,5 @@
 export interface TBankAccount {
+  _id: string;
   accountNumber: string;
   user: string;
   customer?: string;

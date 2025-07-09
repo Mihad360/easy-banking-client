@@ -23,6 +23,7 @@ type TEBSelect = {
   placeholder?: string;
   icon?: ReactNode;
   className?: string;
+  defaultValue?: string;
 };
 
 const EBSelect = ({
@@ -33,6 +34,7 @@ const EBSelect = ({
   placeholder,
   icon,
   className,
+  defaultValue,
 }: TEBSelect) => {
   const { control } = useFormContext();
 
@@ -44,6 +46,7 @@ const EBSelect = ({
       </Label>
       <Controller
         name={name}
+        defaultValue={defaultValue}
         control={control}
         render={({ field }) => (
           <Select

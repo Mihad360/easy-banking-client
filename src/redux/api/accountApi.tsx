@@ -39,7 +39,7 @@ const accountApi = baseApi.injectEndpoints({
           meta: response.meta,
         };
       },
-      providesTags: ["account"],
+      providesTags: ["admin"],
     }),
   }),
 });

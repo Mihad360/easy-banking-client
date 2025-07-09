@@ -25,6 +25,13 @@ const adminApi = baseApi.injectEndpoints({
       }),
       providesTags: ["admin"],
     }),
+    getAccount: build.query({
+      query: (id) => ({
+        url: `/account/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["admin"],
+    }),
     getAdminLastMonthStats: build.query({
       query: () => ({
         url: "/stats/last-month-stats",
@@ -49,6 +56,31 @@ const adminApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["user"],
     }),
+    updateAccountStatus: build.mutation({
+      query: (data) => ({
+        url: `/account/update-status/${data.id}`,
+        method: "PATCH",
+        contentType: "application/json",
+        data: data.data,
+      }),
+      invalidatesTags: ["admin"],
+    }),
+    updateAccount: build.mutation({
+      query: (data) => ({
+        url: `/account/${data.id}`,
+        method: "PATCH",
+        contentType: "application/json",
+        data: data.data,
+      }),
+      invalidatesTags: ["admin"],
+    }),
+    deleteAccount: build.mutation({
+      query: (id) => ({
+        url: `/account/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["admin"],
+    }),
   }),
 });
 
@@ -59,4 +91,8 @@ export const {
   useDeleteUserMutation,
   useGetAdminStatsQuery,
   useGetAdminLastMonthStatsQuery,
+  useUpdateAccountStatusMutation,
+  useGetAccountQuery,
+  useDeleteAccountMutation,
+  useUpdateAccountMutation,
 } = adminApi;
