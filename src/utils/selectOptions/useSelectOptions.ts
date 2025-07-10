@@ -9,6 +9,13 @@ export const selectBranchOptions = (data: any) => {
   }));
 };
 
+export const selectBranchManagerOptions = (data: any) => {
+  return data?.map((item: any) => ({
+    label: `${item.name.firstName} ${item.name.lastName}`,
+    value: item._id,
+  }));
+};
+
 export const daysOptions = days.map((day) => ({
   label: day,
   value: day,

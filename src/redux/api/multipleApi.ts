@@ -2,13 +2,6 @@ import { baseApi } from "./baseApi";
 
 const multipleApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    getBranches: build.query({
-      query: () => ({
-        url: "/branch/",
-        method: "GET",
-      }),
-      providesTags: ["branch"],
-    }),
     getStripeTransaction: build.query({
       query: (id) => ({
         url: `/transaction/stripe/success/${id}`,
@@ -34,7 +27,6 @@ const multipleApi = baseApi.injectEndpoints({
 });
 
 export const {
-  useGetBranchesQuery,
   useGetStripeTransactionQuery,
   useGetMyTransactionsQuery,
   useGetAccountTypesQuery,

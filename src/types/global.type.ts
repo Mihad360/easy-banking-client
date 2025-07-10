@@ -8,6 +8,17 @@ export const days = [
   "Saturday",
 ];
 
+export const states = [
+  "Barisal",
+  "Chattogram",
+  "Dhaka",
+  "Khulna",
+  "Mymensingh",
+  "Rajshahi",
+  "Rangpur",
+  "Sylhet",
+];
+
 export type TError = {
   error: {
     data?: {

@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { useGetBranchesQuery } from "@/redux/api/multipleApi";
 import Loading from "@/shared/loading/Loading";
 import { motion, Variants } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,8 +7,17 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Phone, Edit, Eye, Building2, Hash } from "lucide-react";
 import Link from "next/link";
+import { useGetBranchesQuery } from "@/redux/api/branchApi";
+import UpdateBranch from "@/components/adminPages/UpdateBranch";
+import TableModal from "@/shared/modal/TableModal";
+import { useState } from "react";
+import UpdateBranchManager from "@/components/adminPages/UpdateBranchManager";
 
 const AdminBranchesPage = () => {
+  const [open1, setOpen1] = useState(false);
+  const [open2, setOpen2] = useState(false);
+  const [id1, setId1] = useState<string | null>(null);
+  const [id2, setId2] = useState<string | null>(null);
   const { data: allBranches, isLoading } = useGetBranchesQuery(undefined);
   const branches = allBranches?.data;
 
@@ -193,30 +201,75 @@ const AdminBranchesPage = () => {
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="flex space-x-2 pt-4 border-t border-gray-100">
-                      <Button
-                        size="sm"
-                        className="flex-1 bg-[#104042] hover:bg-[#0d3335] text-white"
-                        onClick={() => {
-                          console.log("Edit branch:", branch._id);
+                    <div className="flex w-full space-x-2 pt-4 border-t border-gray-100">
+                      <TableModal
+                        open={open1}
+                        onOpenChange={(isOpen) => {
+                          setOpen1(isOpen); // 👈 update modal visibility
+                          if (isOpen) {
+                            setId1(branch._id);
+                          } else {
+                            setId1(null);
+                          }
                         }}
+                        title="Add Manager"
+                        description="Update Branch managers here"
+                        trigger={
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="flex-1 bg-[#104042] hover:bg-[#0d3335] text-white hover:text-white cursor-pointer w-[50%]"
+                            onClick={() => {
+                              setOpen1(true);
+                            }}
+                          >
+                            <Edit className="w-4 h-4 mr-2" />
+                            Add manager
+                          </Button>
+                        }
                       >
-                        <Edit className="w-4 h-4 mr-2" />
-                        Edit
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="flex-1 border-[#104042] text-[#104042] hover:bg-[#104042] hover:text-white bg-transparent"
-                        onClick={() => {
-                          console.log("View branch:", branch._id);
+                        <UpdateBranchManager setOpen1={setOpen1} id1={id1} />
+                      </TableModal>
+                      <TableModal
+                        open={open2}
+                        onOpenChange={(isOpen) => {
+                          setOpen2(isOpen); // 👈 update modal visibility
+                          if (isOpen) {
+                            setId2(branch._id);
+                          } else {
+                            setId2(null);
+                          }
                         }}
+                        title="Edit Branch"
+                        description="Update Branch details here."
+                        width="!w-full !max-w-3xl"
+                        trigger={
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="flex-1 bg-[#104042] hover:bg-[#0d3335] text-white hover:text-white cursor-pointer w-[50%]"
+                            onClick={() => {
+                              setOpen2(true);
+                            }}
+                          >
+                            <Edit className="w-4 h-4 mr-2" />
+                            Edit
+                          </Button>
+                        }
                       >
-                        <Eye className="w-4 h-4 mr-2" />
-                        View
-                      </Button>
+                        <UpdateBranch id2={id2} setOpen2={setOpen2} />
+                      </TableModal>
                     </div>
                   </CardContent>
+                  <Link
+                    className=" border-[#104042] text-[#104042] hover:bg-[#104042] hover:text-white bg-transparent cursor-pointer w-[50%] rounded-lg duration-200 transition-all border-2 mx-auto"
+                    href={`/dashboard/admin/branches/${branch._id}`}
+                  >
+                    <span className="flex items-center justify-center gap-2">
+                      <Eye className="w-5 h-5" />
+                      View
+                    </span>
+                  </Link>
                 </Card>
               </motion.div>
             </motion.div>

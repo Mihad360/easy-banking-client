@@ -347,6 +347,7 @@ const ManageAccountsPage = () => {
                         }}
                         title="Edit Account"
                         description="Update Account here."
+                        width="!w-full !max-w-3xl"
                         trigger={
                           <Button
                             variant="ghost"

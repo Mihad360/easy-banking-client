@@ -17,6 +17,7 @@ type ReusableModalProps = {
   footer?: React.ReactNode;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
+  width?: string;
 };
 
 const TableModal = ({
@@ -26,6 +27,7 @@ const TableModal = ({
   children,
   footer,
   open,
+  width,
   onOpenChange,
 }: ReusableModalProps) => {
   return (
@@ -33,7 +35,7 @@ const TableModal = ({
       {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
       <DialogContent
         onOpenAutoFocus={(e) => e.preventDefault()}
-        className="overflow-y-auto max-h-[90vh] !w-full !max-w-3xl"
+        className={`overflow-y-auto max-h-[90vh] ${width}`}
       >
         {(title || description) && (
           <DialogHeader>

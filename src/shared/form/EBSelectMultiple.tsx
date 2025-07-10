@@ -15,9 +15,10 @@ type EBSelectMultipleProps = {
   options: OptionType[];
   disabled?: boolean;
   placeholder?: string;
-  mode?: "multiple" | "tags";
+  mode: "multiple" | "tags";
   className?: string;
   icon?: ReactNode;
+  defaultValue?: string;
 };
 
 const EBSelectMultiple = ({
@@ -29,6 +30,7 @@ const EBSelectMultiple = ({
   mode,
   className,
   icon,
+  defaultValue,
 }: EBSelectMultipleProps) => {
   return (
     <div className="flex flex-col gap-1">
@@ -38,6 +40,7 @@ const EBSelectMultiple = ({
       </Label>
       <Controller
         name={name}
+        defaultValue={defaultValue}
         render={({ field }) => (
           <Select
             className={` ${className ?? ""}`}
@@ -48,6 +51,7 @@ const EBSelectMultiple = ({
             disabled={disabled}
             placeholder={placeholder}
             options={options}
+            getPopupContainer={(triggerNode) => triggerNode.parentElement}
           />
         )}
       />

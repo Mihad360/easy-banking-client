@@ -39,6 +39,13 @@ const adminApi = baseApi.injectEndpoints({
       }),
       providesTags: ["admin"],
     }),
+    getManagers: build.query({
+      query: () => ({
+        url: "/users/managers",
+        method: "GET",
+      }),
+      providesTags: ["admin"],
+    }),
     updateUserRole: build.mutation({
       query: (data) => ({
         url: `/users/update-role/${data.id}`,
@@ -95,4 +102,5 @@ export const {
   useGetAccountQuery,
   useDeleteAccountMutation,
   useUpdateAccountMutation,
+  useGetManagersQuery,
 } = adminApi;
