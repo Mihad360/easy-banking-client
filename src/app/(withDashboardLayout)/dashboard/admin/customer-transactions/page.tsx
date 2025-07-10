@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
-import { Eye, Search, X } from "lucide-react";
+import { Download, Search, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -18,7 +18,11 @@ import Loading from "@/shared/loading/Loading";
 import { ActionConfig, ColumnDef, EBTable } from "@/shared/table/EBTable";
 import SecondLoading from "@/shared/loading/SecondLoading";
 import { useDebounce } from "@/hooks/debounce.hook";
-import { useGetTransactionsQuery } from "@/redux/api/transactionApi";
+import {
+  useDownloadTransactionMutation,
+  useGetTransactionsQuery,
+} from "@/redux/api/transactionApi";
+import { toast } from "sonner";
 
 const AdminCustomerTransactionPage = () => {
   const [transactionTypeFilter, setTransactionTypeFilter] = useState<
@@ -27,8 +31,34 @@ const AdminCustomerTransactionPage = () => {
   const [statusFilter, setStatusFilter] = useState<string | undefined>(
     undefined
   );
+  const [downloadTransaction] = useDownloadTransactionMutation();
   const { register, watch, setValue } = useForm();
   const searchTerm = useDebounce(watch("search"));
+
+  const handleDownload = async (transaction: TTransaction) => {
+    try {
+      const res = await downloadTransaction(transaction?._id);
+      if (res?.data?.data?.data) {
+        const pdfArray = new Uint8Array(res.data.data.data);
+        const blob = new Blob([pdfArray], { type: "application/pdf" });
+        // Create a download URL
+        const url = window.URL.createObjectURL(blob);
+        // Create a temporary anchor element
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `transaction-${transaction?.transaction_Id}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        // Clean up
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      } else {
+        toast.error("Something went wrong", { duration: 4000 });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const queryParams = [];
   if (searchTerm && searchTerm.trim() !== "") {
@@ -59,7 +89,12 @@ const AdminCustomerTransactionPage = () => {
     {
       key: "transaction_Id",
       header: "Transaction ID",
-      className: " text-gray-900",
+      className: "text-black",
+      render: (item) => (
+        <>
+          <h1>{item.transaction_Id}</h1>
+        </>
+      ),
     },
     {
       key: "transactionType",
@@ -68,6 +103,19 @@ const AdminCustomerTransactionPage = () => {
         <Badge className="capitalize bg-blue-100 text-blue-800 hover:bg-blue-100">
           {item.transactionType}
         </Badge>
+      ),
+    },
+    {
+      key: "transaction_account",
+      header: "Transaction Account",
+      className: "text-gray-900",
+      render: (item) => (
+        <>
+          <>
+            <h1>{item.account ? item.account : `From: ${item.fromAccount}`}</h1>
+            <p>{item.toAccount && `To: ${item.toAccount}`}</p>
+          </>
+        </>
       ),
     },
     {
@@ -135,16 +183,15 @@ const AdminCustomerTransactionPage = () => {
   const actions: ActionConfig<TTransaction>[] = [
     {
       type: "button",
-      icon: <Eye className="h-4 w-4" />,
+      icon: <Download className="h-4 w-4" />,
       onClick: (item) => {
-        console.log("View details for:", item.transaction_Id);
-        // Implement navigation or modal to view transaction details
+        handleDownload(item);
       },
       hoverClassName: "hover:bg-[#104042] hover:text-white",
     },
   ];
 
-  if (isLoading && !transactions.length) {
+  if (isLoading) {
     return <Loading />;
   }
 

@@ -120,7 +120,7 @@ const AdminBranchesPage = () => {
             <motion.div
               key={branch._id || index}
               variants={cardVariants}
-            //   whileHover="hover"
+              //   whileHover="hover"
               className="h-full"
             >
               <motion.div variants={hoverVariants} className="h-full">

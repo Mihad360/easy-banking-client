@@ -9,6 +9,13 @@ const loanApi = baseApi.injectEndpoints({
       }),
       providesTags: ["loan"],
     }),
+    getLoan: build.query({
+      query: (id) => ({
+        url: `/loan/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["loan"],
+    }),
     getCustomerLoans: build.query({
       query: (args) => {
         const params = new URLSearchParams();
@@ -57,4 +64,5 @@ export const {
   useRequestLoanMutation,
   usePayLaonMutation,
   useGetCustomerLoansQuery,
+  useGetLoanQuery,
 } = loanApi;

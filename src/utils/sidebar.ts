@@ -85,13 +85,13 @@ export const adminRoutes = [
     icon: Banknote,
   },
   {
-    label: "Create Branch",
-    href: "/dashboard/admin/create-branch",
+    label: "Branches",
+    href: "/dashboard/admin/branches",
     icon: Building,
   },
   {
-    label: "Branches",
-    href: "/dashboard/admin/branches",
+    label: "Create Branch",
+    href: "/dashboard/admin/create-branch",
     icon: Building,
   },
 ];

@@ -18,6 +18,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import SecondLoading from "../loading/SecondLoading";
+import Link from "next/link";
 
 // Generic column definition
 export interface ColumnDef<T> {
@@ -29,7 +30,7 @@ export interface ColumnDef<T> {
 
 // Action definition
 export interface ActionConfig<T> {
-  type: "select" | "button";
+  type: "select" | "button" | "link";
   // For select actions
   selectOptions?: Array<{ value: string; label: string }>;
   defaultValue?: string;
@@ -41,6 +42,8 @@ export interface ActionConfig<T> {
   variant?: "ghost" | "default" | "destructive" | "outline" | "secondary";
   className?: string;
   hoverClassName?: string;
+  href?: string | ((item: T) => string);
+  label?: ReactNode;
 }
 
 export interface ReusableDataTableProps<T> {
@@ -163,13 +166,28 @@ export function EBTable<T>({
                               key={index}
                               variant={action.variant || "ghost"}
                               size="sm"
-                              className={`h-8 w-8 p-0 transition-colors ${
+                              className={`cursor-pointer h-8 w-8 p-0 transition-colors ${
                                 action.className || ""
                               } ${action.hoverClassName || ""}`}
                               onClick={() => action.onClick?.(item)}
                             >
                               {action.icon}
                             </Button>
+                          );
+                        }
+                        if (action.type === "link") {
+                          return (
+                            <Link
+                              key={index}
+                              href={
+                                typeof action.href === "function"
+                                  ? action.href(item)
+                                  : action.href || "#"
+                              }
+                              className={`cursor-pointer hover:bg-[#104042] py-1 px-1 rounded-lg transition-colors hover:text-white`}
+                            >
+                              {action.label || action.icon || "View"}
+                            </Link>
                           );
                         }
 

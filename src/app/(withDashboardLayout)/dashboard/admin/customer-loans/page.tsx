@@ -160,13 +160,10 @@ const AdminCustomerLoansPage = () => {
 
   const actions: ActionConfig<TLoan>[] = [
     {
-      type: "button",
-      icon: <Eye className="h-4 w-4" />,
-      onClick: (item) => {
-        console.log("View loan details for:", item._id);
-        // Implement navigation or modal to view loan details
-      },
-      hoverClassName: "hover:bg-[#104042] hover:text-white",
+      type: "link",
+      icon: <Eye />,
+      href: (item) => `/dashboard/admin/customer-loans/${item._id}`,
+      className: "bg-blue-100 text-blue-700 hover:bg-blue-200",
     },
   ];
 

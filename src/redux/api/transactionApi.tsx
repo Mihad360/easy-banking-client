@@ -34,7 +34,6 @@ const transactionApi = baseApi.injectEndpoints({
         url: `/transaction/${id}/download`,
         method: "POST",
       }),
-      invalidatesTags: ["transaction"],
     }),
     getTransactions: build.query({
       query: (args) => {
