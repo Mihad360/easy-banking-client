@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useGetManagersQuery } from "@/redux/api/adminApi";
 import EBForm from "@/shared/form/EBForm";
 import EBSelect from "@/shared/form/EBSelect";

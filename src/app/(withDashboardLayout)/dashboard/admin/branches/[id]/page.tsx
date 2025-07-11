@@ -19,7 +19,7 @@ import {
   PiggyBank,
 } from "lucide-react";
 
-const SpecificBranchPage = () => {
+const AdminSpecificBranchPage = () => {
   const params = useParams();
   const id = params?.id;
   const { data: branchData, isLoading } = useGetEachBranchQuery(id, {
@@ -289,4 +289,4 @@ const SpecificBranchPage = () => {
   );
 };
 
-export default SpecificBranchPage;
+export default AdminSpecificBranchPage;

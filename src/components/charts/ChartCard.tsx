@@ -54,7 +54,6 @@ const ChartCard: React.FC<ChartCardProps> = ({
   const getChartData = () => {
     switch (type) {
       case "line":
-        // Process daily trends data
         const processedData = data.reduce((acc: any, item: any) => {
           const day = item._id.day;
           if (!acc[day]) {
@@ -242,7 +241,6 @@ const ChartCard: React.FC<ChartCardProps> = ({
         {renderChart()}
       </div>
 
-      {/* Branch Details for multiBar */}
       {showDetails && type === "multiBar" && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
           {data.map((branch, index) => (
@@ -266,9 +264,7 @@ const ChartCard: React.FC<ChartCardProps> = ({
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-600">Used:</span>
-                  <span className="font-medium">
-                    ৳{branch.usedBalance}
-                  </span>
+                  <span className="font-medium">৳{branch.usedBalance}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-600">Liquidity:</span>

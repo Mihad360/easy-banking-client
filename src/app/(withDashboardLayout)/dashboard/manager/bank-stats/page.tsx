@@ -1,7 +1,11 @@
-import React from "react";
+import AdminManagerBankStats from "@/components/adminManagerPages/AdminManagerBankStats";
 
 const ManagerBankStatsPage = () => {
-  return <div></div>;
+  return (
+    <div>
+      <AdminManagerBankStats />
+    </div>
+  );
 };
 
 export default ManagerBankStatsPage;

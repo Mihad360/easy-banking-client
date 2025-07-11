@@ -1,7 +1,5 @@
 "use client";
-import { useGetBranchesQuery } from "@/redux/api/multipleApi";
 import type React from "react";
-
 import EBForm from "@/shared/form/EBForm";
 import EBInput from "@/shared/form/EBInput";
 import EBSelect from "@/shared/form/EBSelect";
@@ -15,6 +13,7 @@ import dayjs from "dayjs";
 import { useCreateAccountMutation } from "@/redux/api/accountApi";
 import { toast } from "sonner";
 import { TGlobalResponse } from "@/types/global.type";
+import { useGetBranchesQuery } from "@/redux/api/branchApi";
 
 // Reusable Motion Components
 const MotionContainer = ({
@@ -97,120 +96,122 @@ const CreateAccount = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <MotionContainer className="w-full max-w-4xl">
-        <div className="rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
-          {/* Header */}
-          <div className="bg-gradient-to-r from-[#104042] to-[#1a5a5d] p-4 text-center">
-            <motion.h1
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-2xl  text-white"
-            >
-              Create Account
-            </motion.h1>
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: "4rem" }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="h-1 bg-white/30 mx-auto mt-3 rounded-full"
-            />
-          </div>
-
-          {/* Form */}
-          <div className="p-8">
-            <EBForm onSubmit={onSubmit}>
-              <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-3">
-                <MotionField delay={0.1}>
-                  <EBSelect
-                    label="Branch"
-                    name="branch"
-                    options={branchOptions}
-                    placeholder="Select your branch"
-                    className="w-full"
-                  />
-                </MotionField>
-
-                <MotionField delay={0.15}>
-                  <EBSelect
-                    label="Account Type"
-                    name="accountType"
-                    options={accountTypeOptions}
-                    placeholder="Choose account type"
-                    className="w-full"
-                  />
-                </MotionField>
-
-                <MotionField delay={0.25}>
-                  <EBDatePicker label="Date of Birth" name="dateOfBirth" />
-                </MotionField>
-
-                <MotionField delay={0.3}>
-                  <EBSelect
-                    label="Gender"
-                    name="gender"
-                    options={genderOptions}
-                    placeholder="Select gender"
-                    className="w-full"
-                  />
-                </MotionField>
-
-                <MotionField delay={0.35}>
-                  <EBSelect
-                    label="City"
-                    name="city"
-                    options={cityOptions}
-                    placeholder="Enter your city"
-                    className="w-full"
-                  />
-                </MotionField>
-
-                <MotionField delay={0.4}>
-                  <EBInput
-                    label="Your Address"
-                    name="address"
-                    type="text"
-                    placeholder="Enter your full address"
-                  />
-                </MotionField>
-
-                <MotionField delay={0.45}>
-                  <EBInput
-                    label="Postal Code"
-                    name="postalCode"
-                    type="text"
-                    placeholder="Enter postal code"
-                  />
-                </MotionField>
-
-                <MotionField delay={0.5}>
-                  <EBInput
-                    label="Country"
-                    name="country"
-                    defaultValue="Bangladesh"
-                    type="text"
-                  />
-                </MotionField>
-              </div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
+    <div>
+      <div className="flex items-center justify-center px-4">
+        <MotionContainer className="w-full max-w-4xl">
+          <div className="rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-[#104042] to-[#1a5a5d] p-4 text-center">
+              <motion.h1
+                initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.6 }}
-                className="mt-8 flex justify-center"
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="text-2xl  text-white"
               >
-                <Button
-                  type="submit"
-                  className="bg-[#104042] hover:bg-[#0d3335] text-white px-12 py-3 rounded-xl text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer"
+                Create Account
+              </motion.h1>
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: "4rem" }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                className="h-1 bg-white/30 mx-auto mt-3 rounded-full"
+              />
+            </div>
+
+            {/* Form */}
+            <div className="p-8">
+              <EBForm onSubmit={onSubmit}>
+                <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-3">
+                  <MotionField delay={0.1}>
+                    <EBSelect
+                      label="Branch"
+                      name="branch"
+                      options={branchOptions}
+                      placeholder="Select your branch"
+                      className="w-full"
+                    />
+                  </MotionField>
+
+                  <MotionField delay={0.15}>
+                    <EBSelect
+                      label="Account Type"
+                      name="accountType"
+                      options={accountTypeOptions}
+                      placeholder="Choose account type"
+                      className="w-full"
+                    />
+                  </MotionField>
+
+                  <MotionField delay={0.25}>
+                    <EBDatePicker label="Date of Birth" name="dateOfBirth" />
+                  </MotionField>
+
+                  <MotionField delay={0.3}>
+                    <EBSelect
+                      label="Gender"
+                      name="gender"
+                      options={genderOptions}
+                      placeholder="Select gender"
+                      className="w-full"
+                    />
+                  </MotionField>
+
+                  <MotionField delay={0.35}>
+                    <EBSelect
+                      label="City"
+                      name="city"
+                      options={cityOptions}
+                      placeholder="Enter your city"
+                      className="w-full"
+                    />
+                  </MotionField>
+
+                  <MotionField delay={0.4}>
+                    <EBInput
+                      label="Your Address"
+                      name="address"
+                      type="text"
+                      placeholder="Enter your full address"
+                    />
+                  </MotionField>
+
+                  <MotionField delay={0.45}>
+                    <EBInput
+                      label="Postal Code"
+                      name="postalCode"
+                      type="text"
+                      placeholder="Enter postal code"
+                    />
+                  </MotionField>
+
+                  <MotionField delay={0.5}>
+                    <EBInput
+                      label="Country"
+                      name="country"
+                      defaultValue="Bangladesh"
+                      type="text"
+                    />
+                  </MotionField>
+                </div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.6 }}
+                  className="mt-8 flex justify-center"
                 >
-                  Create Account
-                </Button>
-              </motion.div>
-            </EBForm>
+                  <Button
+                    type="submit"
+                    className="bg-[#104042] hover:bg-[#0d3335] text-white px-12 py-3 rounded-xl text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer"
+                  >
+                    Create Account
+                  </Button>
+                </motion.div>
+              </EBForm>
+            </div>
           </div>
-        </div>
-      </MotionContainer>
+        </MotionContainer>
+      </div>
     </div>
   );
 };

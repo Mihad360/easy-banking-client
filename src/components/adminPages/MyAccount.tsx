@@ -39,8 +39,8 @@ const MyAccount = ({
               style={{
                 background:
                   "linear-gradient(135deg, #104042 0%, #0d363a 50%, #0a2d30 100%)",
-                boxShadow:
-                  "0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1)",
+                // boxShadow:
+                //   "0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1)",
               }}
             >
               {/* Background Geometric Shapes */}

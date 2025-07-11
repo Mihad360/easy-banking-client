@@ -5,21 +5,23 @@ import {
   ArrowUpToLine,
   Repeat2,
   Banknote,
-  Home,
-  Building,
   Users,
+  MapPin,
+  PlusSquare,
+  UserCog,
+  List,
 } from "lucide-react";
 
 export const customerRoutes = [
   {
-    label: "My Account",
-    href: "/dashboard/customer/my-account",
-    icon: User,
-  },
-  {
     label: "Account Stats",
     href: "/dashboard/customer/account-stats",
     icon: BarChart2,
+  },
+  {
+    label: "My Account",
+    href: "/dashboard/customer/my-account",
+    icon: User,
   },
   {
     label: "Deposit Balance",
@@ -44,25 +46,25 @@ export const customerRoutes = [
   {
     label: "My Transactions",
     href: "/dashboard/customer/transactions",
-    icon: Banknote,
+    icon: List,
   },
 ];
 
 export const adminRoutes = [
-  {
-    label: "My Account",
-    href: "/dashboard/admin/my-account",
-    icon: User,
-  },
   {
     label: "Bank Stats",
     href: "/dashboard/admin/bank-stats",
     icon: BarChart2,
   },
   {
-    label: "Bank Details",
-    href: "/dashboard/admin/bank-details",
-    icon: Home,
+    label: "My Account",
+    href: "/dashboard/admin/my-account",
+    icon: User,
+  },
+  {
+    label: "Account Stats",
+    href: "/dashboard/admin/account-stats",
+    icon: BarChart2,
   },
   {
     label: "Manage Accounts",
@@ -72,12 +74,12 @@ export const adminRoutes = [
   {
     label: "Manage Users",
     href: "/dashboard/admin/manage-users",
-    icon: Users,
+    icon: UserCog,
   },
   {
     label: "Customer Transactions",
     href: "/dashboard/admin/customer-transactions",
-    icon: Banknote,
+    icon: List,
   },
   {
     label: "Customer Loans",
@@ -87,24 +89,29 @@ export const adminRoutes = [
   {
     label: "Branches",
     href: "/dashboard/admin/branches",
-    icon: Building,
+    icon: MapPin,
   },
   {
     label: "Create Branch",
     href: "/dashboard/admin/create-branch",
-    icon: Building,
+    icon: PlusSquare,
   },
 ];
 
 export const managerRoutes = [
+  {
+    label: "Bank Stats",
+    href: "/dashboard/manager/bank-stats",
+    icon: BarChart2,
+  },
   {
     label: "My Account",
     href: "/dashboard/manager/my-account",
     icon: User,
   },
   {
-    label: "Bank Stats",
-    href: "/dashboard/manager/bank-stats",
+    label: "Account Stats",
+    href: "/dashboard/manager/account-stats",
     icon: BarChart2,
   },
   {
@@ -115,7 +122,7 @@ export const managerRoutes = [
   {
     label: "Customer Transactions",
     href: "/dashboard/manager/customer-transactions",
-    icon: Banknote,
+    icon: List,
   },
   {
     label: "Customer Loans",
@@ -125,7 +132,7 @@ export const managerRoutes = [
   {
     label: "My Branch",
     href: "/dashboard/manager/my-branch",
-    icon: Building,
+    icon: MapPin,
   },
   {
     label: "Deposit Balance",
@@ -150,6 +157,6 @@ export const managerRoutes = [
   {
     label: "My Transactions",
     href: "/dashboard/manager/transactions",
-    icon: Banknote,
+    icon: List,
   },
 ];

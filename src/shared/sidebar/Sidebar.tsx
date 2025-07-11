@@ -100,9 +100,7 @@ const EasyBankSidebar = () => {
                     })()}
                   </div>
                   <div className="flex-1">
-                    <p className="text-white text-xs">
-                      {user.name || "User"}
-                    </p>
+                    <p className="text-white text-xs">{user.name || "User"}</p>
                     <p className="text-gray-100 text-[11px] font-medium">
                       {getRoleBadgeText(user.role)}
                     </p>
@@ -163,10 +161,10 @@ const EasyBankSidebar = () => {
                   <Link
                     href={route.href}
                     className={cn(
-                      "group relative flex items-center gap-4 px-3 py-[6px] text-xs font-semibold rounded-2xl transition-all duration-500 overflow-hidden border-2 ",
+                      "group relative flex items-center gap-4 px-3 py-[6px] text-xs font-semibold rounded-2xl transition-all duration-500 overflow-hidden",
                       isActive
-                        ? "bg-[#104042] text-white shadow-lg border-[#104042]"
-                        : "bg-white hover:text-white border-gray-200 hover:border-[#104042] hover:shadow-md text-black font-semibold"
+                        ? "bg-[#104042] text-white shadow-lg"
+                        : "bg-white hover:text-white hover:shadow-md text-black font-semibold"
                     )}
                   >
                     {/* Left-to-right fill effect */}

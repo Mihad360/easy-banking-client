@@ -1,82 +1,75 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type React from "react";
+// components/BarChart.tsx
+import React from "react";
 import {
-  BarChart as RechartsBarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
+  BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
+  Title,
   Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
+
+// Register Chart.js components
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 interface BarChartProps {
-  data: any[];
-  title: string;
-  showBalance: boolean;
-  horizontal?: boolean;
-  colors?: string[];
-  compact?: boolean;
+  data: any;
+  title?: string;
 }
 
-const BarChart: React.FC<BarChartProps> = ({
-  data,
-  title,
-  showBalance,
-  horizontal = false,
-  colors = ["#059669", "#10b981", "#34d399", "#6ee7b7"],
-  compact = false,
-}) => {
-  const chartData = data.map((item, index) => ({
-    name: item._id || item.name || `Item ${index + 1}`,
-    value: showBalance
-      ? item.totalBalance || item.totalLoanAmount || 0
-      : item.count,
-    fill: colors[index % colors.length],
-  }));
-
+const BarChart: React.FC<BarChartProps> = ({ data, title }) => {
   return (
-    <div className={`bg-white rounded-lg shadow-sm ${compact ? "p-4" : "p-6"}`}>
-      <h3
-        className={`${
-          compact ? "text-sm" : "text-lg"
-        } font-semibold text-gray-800 mb-4`}
-      >
-        {title}
-      </h3>
-      <div className={compact ? "h-48" : "h-64"}>
-        <ResponsiveContainer width="100%" height="100%">
-          <RechartsBarChart
-            data={chartData}
-            layout={horizontal ? "horizontal" : "vertical"}
-            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            {horizontal ? (
-              <>
-                <XAxis type="number" fontSize={compact ? 10 : 12} />
-                <YAxis
-                  type="category"
-                  dataKey="name"
-                  fontSize={compact ? 10 : 12}
-                />
-              </>
-            ) : (
-              <>
-                <XAxis dataKey="name" fontSize={compact ? 10 : 12} />
-                <YAxis fontSize={compact ? 10 : 12} />
-              </>
-            )}
-            <Tooltip
-              formatter={(value: any) => [
-                showBalance ? `$${value.toLocaleString()}` : value,
-                showBalance ? "Amount" : "Count",
-              ]}
-            />
-            <Bar dataKey="value" radius={4} />
-          </RechartsBarChart>
-        </ResponsiveContainer>
-      </div>
+    <div className="bg-white shadow-lg p-5 rounded-xl w-full h-[340px]">
+      <Bar
+        options={{
+          responsive: true,
+          maintainAspectRatio: false, // 👈 important for filling height
+          plugins: {
+            title: {
+              display: !!title,
+              text: title,
+            },
+          },
+        }}
+        data={{
+          labels: data?.map((item: any) => `${item._id}-${item.count}`),
+          datasets: [
+            {
+              label: "TotalAmount",
+              data: data?.map(
+                (item: any) =>
+                  `${
+                    item.totalAmount
+                      ? item.totalAmount
+                      : item.totalLoanAmount
+                      ? item.totalLoanAmount
+                      : item.reserevedBalance
+                      ? item.reserevedBalance
+                      : ""
+                  }`
+              ),
+              backgroundColor: [
+                "#104042",
+                "rgba(253, 108, 108)",
+                "rgba(132, 234, 91)",
+                "rgba(70, 165, 255)",
+                "rgba(250, 207, 81)",
+              ],
+              borderRadius: 5,
+            },
+          ],
+        }}
+      />
     </div>
   );
 };

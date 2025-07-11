@@ -201,7 +201,7 @@ const Navbar = () => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
                   align="end"
-                  className="w-56 mt-2 bg-white text-black shadow-2xl rounded-xl"
+                  className="w-56 mt-2 bg-gray-200 text-black shadow-2xl rounded-xl"
                 >
                   <DropdownMenuLabel className="font-semibold px-4 py-3">
                     <div className="flex flex-col space-y-0.5">
@@ -210,24 +210,57 @@ const Navbar = () => {
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator className="bg-[#0d3636]" />
-                  <Link href={`/dashboard/${user.role}/my-account`}>
-                    <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-black/60 rounded-md cursor-pointer">
-                      <CreditCard className="w-4 h-4 hover:text-black " />
-                      My Account
-                    </DropdownMenuItem>
-                  </Link>
-                  <Link href={`/dashboard/${user.role}/my-account`}>
-                    <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-black/60 rounded-md cursor-pointer">
-                      <CreditCard className="w-4 h-4 hover:text-black " />
-                      My Cards
-                    </DropdownMenuItem>
-                  </Link>
-                  <Link href={`/dashboard/${user.role}/my-account`}>
-                    <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-black/60 rounded-md cursor-pointer">
-                      <Settings className="w-4 h-4 hover:text-black" />
-                      Settings
-                    </DropdownMenuItem>
-                  </Link>
+                  {user.role === "customer" ? (
+                    <>
+                      <Link href={`/dashboard/${user.role}/my-account`}>
+                        <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-black/60 rounded-md cursor-pointer">
+                          <CreditCard className="w-4 h-4 hover:text-black " />
+                          My Account
+                        </DropdownMenuItem>
+                      </Link>
+                      <Link href={`/dashboard/${user.role}/account-stats`}>
+                        <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-black/60 rounded-md cursor-pointer">
+                          <CreditCard className="w-4 h-4 hover:text-black " />
+                          My Account Stats
+                        </DropdownMenuItem>
+                      </Link>
+                      <Link href={`/dashboard/${user.role}/transactions`}>
+                        <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-black/60 rounded-md cursor-pointer">
+                          <Settings className="w-4 h-4 hover:text-black" />
+                          My Transactions
+                        </DropdownMenuItem>
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <Link href={`/dashboard/${user.role}/bank-stats`}>
+                        <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-black/60 rounded-md cursor-pointer">
+                          <CreditCard className="w-4 h-4 hover:text-black " />
+                          Bank Stats
+                        </DropdownMenuItem>
+                      </Link>
+                      <Link href={`/dashboard/${user.role}/my-account`}>
+                        <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-black/60 rounded-md cursor-pointer">
+                          <CreditCard className="w-4 h-4 hover:text-black " />
+                          My Account
+                        </DropdownMenuItem>
+                      </Link>
+                      <Link href={`/dashboard/${user.role}/account-stats`}>
+                        <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-black/60 rounded-md cursor-pointer">
+                          <Settings className="w-4 h-4 hover:text-black" />
+                          My Account Stats
+                        </DropdownMenuItem>
+                      </Link>
+                      <Link
+                        href={`/dashboard/${user.role}/customer-transactions`}
+                      >
+                        <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-black/60 rounded-md cursor-pointer">
+                          <Settings className="w-4 h-4 hover:text-black" />
+                          Customer Transations
+                        </DropdownMenuItem>
+                      </Link>
+                    </>
+                  )}
                   <DropdownMenuSeparator className="bg-[#0d3636]" />
                   <button
                     onClick={handleSignOut}

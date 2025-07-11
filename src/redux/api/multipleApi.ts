@@ -23,6 +23,20 @@ const multipleApi = baseApi.injectEndpoints({
       }),
       providesTags: ["types"],
     }),
+    getAccountStats: build.query({
+      query: () => ({
+        url: "/stats/customer-stats",
+        method: "GET",
+      }),
+      providesTags: ["stats"],
+    }),
+    getCustomerAdditionalStats: build.query({
+      query: () => ({
+        url: "/stats/customer-additional-stats",
+        method: "GET",
+      }),
+      providesTags: ["stats"],
+    }),
   }),
 });
 
@@ -30,4 +44,6 @@ export const {
   useGetStripeTransactionQuery,
   useGetMyTransactionsQuery,
   useGetAccountTypesQuery,
+  useGetAccountStatsQuery,
+  useGetCustomerAdditionalStatsQuery,
 } = multipleApi;
