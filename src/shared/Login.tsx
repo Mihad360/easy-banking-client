@@ -36,7 +36,7 @@ const Login = () => {
         password: data.password,
       };
       const res = (await loginUser(userData)) as TGlobalResponse;
-      console.log(res);
+      // console.log(res);
       if (res?.data?.data?.accessToken) {
         setToLocalStorage("accessToken", res?.data?.data?.accessToken);
         await saveCookie(
