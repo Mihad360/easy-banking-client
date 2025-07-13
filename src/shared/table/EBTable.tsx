@@ -44,6 +44,7 @@ export interface ActionConfig<T> {
   hoverClassName?: string;
   href?: string | ((item: T) => string);
   label?: ReactNode;
+  placeholder?: string;
 }
 
 export interface ReusableDataTableProps<T> {
@@ -134,7 +135,6 @@ export function EBTable<T>({
                           return (
                             <Select
                               key={index}
-                              defaultValue={action.defaultValue}
                               onValueChange={(value) =>
                                 action.onSelectChange?.(value, item)
                               }
@@ -144,11 +144,18 @@ export function EBTable<T>({
                                   action.selectClassName || ""
                                 }`}
                               >
-                                <SelectValue />
+                                <SelectValue placeholder={action.placeholder} />
                               </SelectTrigger>
                               <SelectContent>
+                                <SelectItem
+                                  disabled
+                                  value={action.placeholder as string}
+                                >
+                                  {action.placeholder}
+                                </SelectItem>
                                 {action.selectOptions?.map((option) => (
                                   <SelectItem
+                                    className="cursor-pointer"
                                     key={option.value}
                                     value={option.value}
                                   >

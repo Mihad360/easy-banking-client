@@ -3,7 +3,7 @@
 "use client";
 import { motion } from "framer-motion";
 import type { FieldValues } from "react-hook-form";
-import { DollarSign, Calendar, MapPin } from "lucide-react";
+import { Calendar, MapPin } from "lucide-react";
 import EBForm from "@/shared/form/EBForm";
 import EBInput from "@/shared/form/EBInput";
 import EBDatePicker from "@/shared/form/EBDatePicker";
@@ -11,6 +11,7 @@ import dayjs from "dayjs";
 import { useRequestLoanMutation } from "@/redux/api/loanApi";
 import { toast } from "sonner";
 import AuthLoading from "@/shared/loader/AuthLoading";
+import { TbCoinTaka } from "react-icons/tb";
 
 const RequestLoan = ({ myAccount }: { myAccount: any }) => {
   const [requestLoan, { isLoading }] = useRequestLoanMutation();
@@ -68,7 +69,7 @@ const RequestLoan = ({ myAccount }: { myAccount: any }) => {
         {/* Header Section */}
         <motion.div variants={itemVariants} className="text-center mb-5">
           <div className="flex items-center justify-center bg-[#104042] rounded-full mb-3 py-1">
-            <DollarSign className="w-8 h-8 text-white" />
+            <TbCoinTaka className="w-8 h-8 text-white" />
             <h1 className="text-2xl font-bold text-white">Request a Loan</h1>
           </div>
           <p className="text-lg text-gray-600">
@@ -87,7 +88,7 @@ const RequestLoan = ({ myAccount }: { myAccount: any }) => {
               {/* Loan Amount */}
               <motion.div variants={itemVariants} className="relative">
                 <div className="flex items-center mb-2">
-                  <DollarSign className="w-5 h-5 text-[#104042] mr-2" />
+                  <TbCoinTaka className="w-5 h-5 text-[#104042] mr-2" />
                   <label className="text-sm  text-gray-700">
                     Loan Amount
                   </label>

@@ -1,4 +1,3 @@
-import { cookies } from "next/headers";
 import { decodeToken } from "./decodeToken";
 import { JwtPayload } from "@/types/common.type";
 
@@ -9,10 +8,10 @@ export const getCookieToken = (token: string) => {
   }
 };
 
-export const getToken = async (key: string) => {
-  const cookie = await cookies();
-  const token = cookie.get(key)?.value as string;
-  if (token) {
-    return token;
-  }
-};
+// export const getToken = async (key: string) => {
+//   const cookie = await cookies();
+//   const token = cookie.get(key)?.value as string;
+//   if (token) {
+//     return token;
+//   }
+// };

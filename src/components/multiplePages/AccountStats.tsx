@@ -66,17 +66,6 @@ interface AccountStatsProps {
 }
 
 const AccountStats = ({ accountStat }: AccountStatsProps) => {
-  if (!accountStat) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-slate-600">Loading account statistics...</p>
-        </div>
-      </div>
-    );
-  }
-
   const {
     balanceDistribution = [],
     loanProgress = [],
@@ -84,8 +73,6 @@ const AccountStats = ({ accountStat }: AccountStatsProps) => {
     recentTransactions = [],
     transactionFrequency = [],
   } = accountStat;
-
-  console.log(accountStat);
   // Calculate key metrics
   const totalBalance = balanceDistribution.reduce(
     (sum, item) => sum + item.balance,

@@ -3,13 +3,19 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Edit3 } from "lucide-react";
+import { Edit } from "lucide-react";
 import Image from "next/image";
 
 import { useGetMyBranchQuery } from "@/redux/api/branchApi";
 import Loading from "@/shared/loading/Loading";
+import TableModal from "@/shared/modal/TableModal";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import UpdateBranch from "@/components/adminPages/UpdateBranch";
 
 const ManagerMyBranchPage = () => {
+  const [open, setOpen] = useState<boolean>(false);
+  const [id, setId] = useState<string | null>(null);
   const { data: myBranch, isLoading } = useGetMyBranchQuery(undefined);
   const branch = myBranch?.data;
 
@@ -47,13 +53,40 @@ const ManagerMyBranchPage = () => {
             Manage your branch information and details
           </p>
         </div>
-        <motion.button
+        <motion.div
           whileTap={{ scale: 0.95 }}
-          className="flex items-center gap-2 px-6 py-2 bg-[#104042] text-white font-medium rounded-xl shadow-lg hover:bg-[#0d3638] transition-colors duration-300"
+          className="flex items-center gap-2 px-5 py-1 bg-[#104042] text-white font-medium rounded-xl shadow-lg hover:bg-[#0d3638] transition-colors duration-300"
         >
-          <Edit3 size={18} />
-          Update
-        </motion.button>
+          <TableModal
+            open={open}
+            onOpenChange={(isOpen) => {
+              setOpen(isOpen); // 👈 update modal visibility
+              if (isOpen) {
+                setId(branch._id);
+              } else {
+                setId(null);
+              }
+            }}
+            title="Edit Branch"
+            description="Update Branch details here."
+            width="!w-full !max-w-3xl"
+            trigger={
+              <Button
+                variant="ghost"
+                size="sm"
+                className="flex-1 bg-[#104042] hover:bg-[#0d3335] text-white hover:text-white cursor-pointer w-[50%] text-lg"
+                onClick={() => {
+                  setOpen(true);
+                }}
+              >
+                <Edit className="w-4 h-4 mr-2" />
+                Edit
+              </Button>
+            }
+          >
+            <UpdateBranch id2={id} setOpen2={setOpen} />
+          </TableModal>
+        </motion.div>
       </motion.div>
 
       {/* Main Branch Card */}
@@ -150,7 +183,7 @@ const ManagerMyBranchPage = () => {
                     Used Balance
                   </p>
                   <p className="text-2xl font-bold text-blue-800">
-                    ${branch.usedBalance.toFixed(2)}
+                    ৳{branch.usedBalance.toFixed(2)}
                   </p>
                 </div>
                 <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded-lg">
@@ -158,7 +191,7 @@ const ManagerMyBranchPage = () => {
                     Reserved Balance
                   </p>
                   <p className="text-2xl font-bold text-green-800">
-                    ${branch.reserevedBalance.toFixed(2)}
+                    ৳{branch.reserevedBalance.toFixed(2)}
                   </p>
                 </div>
                 <div className="bg-purple-50 border-l-4 border-purple-500 p-4 rounded-lg">
@@ -166,7 +199,7 @@ const ManagerMyBranchPage = () => {
                     Interest Balance
                   </p>
                   <p className="text-2xl font-bold text-purple-800">
-                    ${branch.interestBalance.toFixed(2)}
+                    ৳{branch.interestBalance.toFixed(2)}
                   </p>
                 </div>
               </div>

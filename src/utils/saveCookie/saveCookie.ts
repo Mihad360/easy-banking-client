@@ -9,14 +9,34 @@ export const saveCookie = async (accessToken: string, refreshToken: string) => {
       httpOnly: true,
       secure: true,
       sameSite: "none",
-      maxAge: 60 * 60 * 24 * 7,
+      // maxAge: 15,
     });
-
     cookieStore.set("refreshToken", refreshToken, {
       httpOnly: true,
       secure: true,
       sameSite: "none",
-      maxAge: 60 * 60 * 24 * 30,
+      // maxAge: 35,
     });
+  }
+};
+
+export const saveNewCookieAccessToken = async (accessToken: string) => {
+  if (accessToken) {
+    const cookieStore = await cookies();
+
+    cookieStore.set("accessToken", accessToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      // maxAge: 15,
+    });
+  }
+};
+
+export const getToken = async (key: string) => {
+  const cookie = await cookies();
+  const token = cookie.get(key)?.value as string;
+  if (token) {
+    return token;
   }
 };

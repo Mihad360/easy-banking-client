@@ -37,6 +37,15 @@ const multipleApi = baseApi.injectEndpoints({
       }),
       providesTags: ["stats"],
     }),
+    updateLoanStatus: build.mutation({
+      query: (data) => ({
+        url: `/loan/update-requested-loan/${data.id}`,
+        method: "PATCH",
+        contentType: "application/json",
+        data: data.data,
+      }),
+      invalidatesTags: ["loan"],
+    }),
   }),
 });
 
@@ -46,4 +55,5 @@ export const {
   useGetAccountTypesQuery,
   useGetAccountStatsQuery,
   useGetCustomerAdditionalStatsQuery,
+  useUpdateLoanStatusMutation,
 } = multipleApi;

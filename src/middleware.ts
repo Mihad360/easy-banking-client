@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { getUserById } from "./utils/getMiddlewareUser";
+// import { getUserById } from "./utils/getMiddlewareUser";
 import { getCookieToken } from "./utils/cookieGet";
+import { cookies } from "next/headers";
 
 type TRole = keyof typeof roleBasedRoutes;
 
@@ -26,23 +27,9 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Get the accessToken cookie
-  const token = request.cookies?.get("accessToken")?.value || null;
+  const token = (await cookies()).get("accessToken")?.value || null;
+  // console.log(token);
   const user = token ? getCookieToken(token) : null;
-
-  // Check if user exists and is soft deleted
-  if (user && token) {
-    const userData = await getUserById(user?.user, token);
-    console.log(userData?.data);
-    if (!userData?.data || userData.isDeleted) {
-      const url = new URL("/login", request.url);
-      url.searchParams.set("cleanup", "1");
-
-      const response = NextResponse.redirect(url);
-      response.cookies.delete("accessToken");
-      response.cookies.delete("refreshToken");
-      return response;
-    }
-  }
 
   // 1. Block access to login/signup if user is authenticated
   if (user && privateAuthRoutes.includes(pathname)) {

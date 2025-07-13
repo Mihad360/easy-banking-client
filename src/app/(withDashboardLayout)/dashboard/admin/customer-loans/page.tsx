@@ -24,14 +24,44 @@ import SecondLoading from "@/shared/loading/SecondLoading";
 import { useDebounce } from "@/hooks/debounce.hook";
 import { useGetCustomerLoansQuery } from "@/redux/api/loanApi";
 import { TLoan } from "@/types/global.type";
+import { useUpdateLoanStatusMutation } from "@/redux/api/multipleApi";
+import { toast } from "sonner";
 
 const AdminCustomerLoansPage = () => {
   const [statusFilter, setStatusFilter] = useState<string | undefined>(
     undefined
   );
+  const [updateLoanStatus] = useUpdateLoanStatusMutation();
 
   const { register, watch, setValue } = useForm();
   const searchTerm = useDebounce(watch("search"));
+
+  const handleStatusUpdate = async (value: string, id: string | undefined) => {
+    const toastId = toast.loading("Processing...");
+    try {
+      const statusData = {
+        id: id,
+        data: {
+          status: value.toString(),
+        },
+      };
+      const res = await updateLoanStatus(statusData);
+      console.log(res);
+      if (res?.data?.success) {
+        toast.success("Loan status updated", {
+          id: toastId,
+          duration: 3000,
+        });
+      } else {
+        toast.error("Loan status update failed!", {
+          id: toastId,
+          duration: 4000,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const queryParams = [];
 
@@ -164,6 +194,19 @@ const AdminCustomerLoansPage = () => {
       icon: <Eye />,
       href: (item) => `/dashboard/admin/customer-loans/${item._id}`,
       className: "bg-blue-100 text-blue-700 hover:bg-blue-200",
+    },
+    {
+      type: "select",
+      placeholder: "Status Update",
+      selectOptions: [
+        { value: "pending", label: "Pending" },
+        { value: "approved", label: "Approved" },
+        { value: "rejected", label: "Rejected" },
+        { value: "active", label: "Active" },
+        { value: "paid", label: "Paid" },
+      ],
+      onSelectChange: (value, item) => handleStatusUpdate(value, item?._id),
+      selectClassName: "cursor-pointer", // optional
     },
   ];
 

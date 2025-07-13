@@ -26,10 +26,8 @@ const AdminManagerBankStats = () => {
     useGetAdminLastMonthStatsQuery(undefined, {
       skip: bankStatLoading,
     });
-
   const bankstats = bankStats?.data?.[0];
   const lastMonthBankStats = bankLastMonthStats?.data;
-  console.log(bankstats, lastMonthBankStats);
   // Animation variants
   const containerVariants: Variants = {
     hidden: { opacity: 0 },

@@ -82,7 +82,7 @@ const VerifyOtp = () => {
           />
           <button
             type="submit"
-            className="cursor-pointer mt-6 w-full py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg transition duration-300 shadow-md hover:shadow-lg"
+            className="cursor-pointer mt-6 w-full py-2 bg-[#104042] hover:to-purple-700 text-white font-semibold rounded-lg transition duration-300 shadow-md hover:shadow-lg"
           >
             Verify
           </button>
