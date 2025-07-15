@@ -12,10 +12,25 @@ const adminApi = baseApi.injectEndpoints({
       invalidatesTags: ["branch"],
     }),
     getUsers: build.query({
-      query: () => ({
-        url: "/users/",
-        method: "GET",
-      }),
+      query: (args) => {
+        const params = new URLSearchParams();
+        if (args) {
+          args.forEach((item: { name: string; value: string }) => {
+            params.append(item.name, item.value);
+          });
+        }
+        return {
+          url: "/users/",
+          method: "GET",
+          params: params,
+        };
+      },
+      transformResponse: (response) => {
+        return {
+          data: response.data,
+          meta: response.meta,
+        };
+      },
       providesTags: ["user"],
     }),
     getAdminStats: build.query({

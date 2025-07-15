@@ -1,13 +1,26 @@
 "use client";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Download, Search, X } from "lucide-react";
+import { useGetMyTransactionsQuery } from "@/redux/api/multipleApi";
+import { useDownloadTransactionMutation } from "@/redux/api/transactionApi";
 import { EBTable } from "@/shared/table/EBTable";
 import { Badge } from "@/components/ui/badge";
-import { Download, RefreshCw } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
 import type { ColumnDef, ActionConfig } from "@/shared/table/EBTable";
 import Loading from "@/shared/loading/Loading";
 import { toast } from "sonner";
-import { TUser } from "@/types/global.type";
-import { useDownloadTransactionMutation } from "@/redux/api/transactionApi";
-import { useGetMyTransactionsQuery } from "@/redux/api/multipleApi";
+import { useDebounce } from "@/hooks/debounce.hook";
+import type { TUser } from "@/types/global.type";
+
 // Your transaction type
 export type TTransaction = {
   _id: string;
@@ -31,14 +44,40 @@ export type TTransaction = {
 };
 
 const ManagerTransactionPage = () => {
-  const { data: myTransactions, isLoading } =
-    useGetMyTransactionsQuery(undefined);
-  const transactions = myTransactions?.data;
+  const [transactionTypeFilter, setTransactionTypeFilter] = useState<
+    string | undefined
+  >(undefined);
+  const [statusFilter, setStatusFilter] = useState<string | undefined>(
+    undefined
+  );
   const [downloadTransaction] = useDownloadTransactionMutation();
+  const { register, watch, setValue } = useForm();
+  const searchTerm = useDebounce(watch("search"));
 
-  if (isLoading) {
-    return <Loading />;
+  const queryParams = [];
+  if (searchTerm && searchTerm.trim() !== "") {
+    queryParams.push({ name: "searchTerm", value: searchTerm.trim() });
   }
+  if (transactionTypeFilter) {
+    queryParams.push({ name: "transactionType", value: transactionTypeFilter });
+  }
+  if (statusFilter) {
+    queryParams.push({ name: "status", value: statusFilter });
+  }
+
+  const resetFilter = () => {
+    setTransactionTypeFilter(undefined);
+    setStatusFilter(undefined);
+    setValue("search", "");
+  };
+
+  const {
+    data: myTransactions,
+    isLoading,
+    isFetching,
+  } = useGetMyTransactionsQuery(queryParams.length ? queryParams : undefined);
+
+  const transactions = myTransactions?.data || [];
 
   const handleDownloadTransaction = async (transaction: TTransaction) => {
     try {
@@ -90,7 +129,6 @@ const ManagerTransactionPage = () => {
           loan: "bg-orange-100 text-orange-800",
           "deposit-loan": "bg-yellow-100 text-yellow-800",
         };
-
         return (
           <Badge
             className={`capitalize ${
@@ -149,9 +187,7 @@ const ManagerTransactionPage = () => {
           completed: "bg-green-100 text-green-800",
           failed: "bg-red-100 text-red-800",
         };
-
         const status = transaction.status || "pending";
-
         return (
           <Badge
             className={`capitalize ${statusColors[status]} hover:${statusColors[status]}`}
@@ -189,26 +225,14 @@ const ManagerTransactionPage = () => {
       className: "cursor-pointer text-white bg-[#104042] hover:bg-gray-300",
       onClick: (transaction) => handleDownloadTransaction(transaction),
     },
-    // Only show retry for failed transactions
-    ...(transactions?.some((t: TTransaction) => t.status === "failed")
-      ? [
-          {
-            type: "button" as const,
-            icon: <RefreshCw className="h-4 w-4" />,
-            className: "hover:bg-orange-500 hover:text-white",
-            onClick: (transaction: TTransaction) => {
-              if (transaction.status === "failed") {
-                console.log("Retry transaction:", transaction.transaction_Id);
-                // Handle retry transaction
-              }
-            },
-          },
-        ]
-      : []),
   ];
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
-    <div className="px-6 space-y-4">
+    <div className="px-6 space-y-4 pb-12">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-[#104042]">My Transactions</h1>
@@ -218,18 +242,88 @@ const ManagerTransactionPage = () => {
         </div>
       </div>
 
-      <EBTable
-        data={transactions}
-        columns={columns}
-        actions={actions}
-        isLoading={isLoading}
-        emptyMessage="No transactions found. Your transaction history will appear here."
-        getRowKey={(transaction) =>
-          transaction.transaction_Id ||
-          transaction.createdAt?.toString() ||
-          Math.random().toString()
-        }
-      />
+      {/* Search and Filters */}
+      <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between bg-gray-50 p-4 rounded-lg border">
+        <div className="flex flex-col sm:flex-row gap-3 flex-1">
+          <div className="relative flex-1 max-w-sm">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+            <Input
+              {...register("search")}
+              placeholder="Search transactions..."
+              className="pl-10 pr-8 border-gray-200 focus:border-[#104042] focus:ring-[#104042]"
+            />
+            {searchTerm && (
+              <X
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4 cursor-pointer hover:text-red-500"
+                onClick={() => setValue("search", "")}
+              />
+            )}
+          </div>
+          <div className="flex gap-2">
+            <Select
+              value={transactionTypeFilter}
+              onValueChange={(value) =>
+                setTransactionTypeFilter(value === "all" ? undefined : value)
+              }
+            >
+              <SelectTrigger className="w-[160px] border-gray-200">
+                <SelectValue placeholder="Types filter" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Types</SelectItem>
+                <SelectItem value="deposit">Deposit</SelectItem>
+                <SelectItem value="withdraw">Withdraw</SelectItem>
+                <SelectItem value="transfer">Transfer</SelectItem>
+                <SelectItem value="loan">Loan</SelectItem>
+                <SelectItem value="deposit-loan">Deposit Loan</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select
+              value={statusFilter}
+              onValueChange={(value) =>
+                setStatusFilter(value === "all" ? undefined : value)
+              }
+            >
+              <SelectTrigger className="w-[120px] border-gray-200">
+                <SelectValue placeholder="Status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Status</SelectItem>
+                <SelectItem value="pending">Pending</SelectItem>
+                <SelectItem value="completed">Completed</SelectItem>
+                <SelectItem value="failed">Failed</SelectItem>
+              </SelectContent>
+            </Select>
+            <Button
+              className="bg-rose-500 cursor-pointer"
+              onClick={resetFilter}
+            >
+              <X />
+            </Button>
+          </div>
+        </div>
+        <div className="text-xs text-gray-600">
+          {transactions.length} of{" "}
+          {myTransactions?.meta?.total || transactions.length} transactions
+        </div>
+      </div>
+
+      {/* Table */}
+      <div className="border rounded-lg overflow-hidden bg-white shadow-sm">
+        <EBTable
+          data={transactions}
+          columns={columns}
+          actions={actions}
+          isLoading={isFetching}
+          emptyMessage="No transactions found. Your transaction history will appear here."
+          getRowKey={(transaction) =>
+            transaction.transaction_Id ||
+            transaction.createdAt?.toString() ||
+            Math.random().toString()
+          }
+          className="bg-white"
+        />
+      </div>
     </div>
   );
 };

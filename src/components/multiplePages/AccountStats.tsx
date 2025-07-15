@@ -73,6 +73,7 @@ const AccountStats = ({ accountStat }: AccountStatsProps) => {
     recentTransactions = [],
     transactionFrequency = [],
   } = accountStat;
+  // console.log(loanProgress);
   // Calculate key metrics
   const totalBalance = balanceDistribution.reduce(
     (sum, item) => sum + item.balance,
@@ -210,21 +211,21 @@ const AccountStats = ({ accountStat }: AccountStatsProps) => {
           >
             <MetricCard
               title="Total Balance"
-              value={formatCurrency(totalBalance)}
+              value={`৳${totalBalance}`}
               subtitle={`Across ${totalAccounts} accounts`}
               icon={<Wallet className="w-6 h-6" />}
               gradient="from-blue-500 to-blue-600"
             />
             <MetricCard
               title="Active Loans"
-              value={formatCurrency(totalLoanAmount)}
+              value={`৳${totalLoanAmount}`}
               subtitle={`${formatCurrency(totalLoanRemaining)} remaining`}
               icon={<CreditCard className="w-6 h-6" />}
               gradient="from-purple-500 to-purple-600"
             />
             <MetricCard
               title="Monthly Spending"
-              value={formatCurrency(currentMonthSpending)}
+              value={`৳${currentMonthSpending}`}
               subtitle="Current month total"
               icon={<TrendingUp className="w-6 h-6" />}
               gradient="from-green-500 to-green-600"
@@ -282,7 +283,7 @@ const AccountStats = ({ accountStat }: AccountStatsProps) => {
             )}
 
             {/* Loan Progress */}
-            {loanProgress.length > 0 && (
+            {loanProgress.length > 0 ? (
               <motion.div variants={itemVariants}>
                 <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 h-full">
                   <div className="flex items-center justify-between mb-8">
@@ -353,6 +354,8 @@ const AccountStats = ({ accountStat }: AccountStatsProps) => {
                   </div>
                 </div>
               </motion.div>
+            ) : (
+              <p>You do not have any loan now</p>
             )}
           </div>
 

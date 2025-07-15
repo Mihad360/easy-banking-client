@@ -9,13 +9,13 @@ export const saveCookie = async (accessToken: string, refreshToken: string) => {
       httpOnly: true,
       secure: true,
       sameSite: "none",
-      // maxAge: 15,
+      maxAge: 60 * 60 * 24 * 8,
     });
     cookieStore.set("refreshToken", refreshToken, {
       httpOnly: true,
       secure: true,
       sameSite: "none",
-      // maxAge: 35,
+      maxAge: 60 * 60 * 24 * 35,
     });
   }
 };
@@ -28,7 +28,7 @@ export const saveNewCookieAccessToken = async (accessToken: string) => {
       httpOnly: true,
       secure: true,
       sameSite: "none",
-      // maxAge: 15,
+      maxAge: 60 * 60 * 24 * 8,
     });
   }
 };

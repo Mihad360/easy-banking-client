@@ -21,7 +21,7 @@ import { FieldValues } from "react-hook-form";
 import { TbCoinTaka } from "react-icons/tb";
 import { usePayLaonMutation } from "@/redux/api/loanApi";
 import { toast } from "sonner";
-import AuthLoading from "@/shared/loader/AuthLoading";
+import { TGlobalResponse } from "@/types/global.type";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 const MyLoan = ({ myLoan }: { myLoan: any }) => {
@@ -46,14 +46,15 @@ const MyLoan = ({ myLoan }: { myLoan: any }) => {
           monthsToPay: Number(data?.monthsToPay),
         },
       };
-      const res = await payLoan(payLoanData);
+      console.log(payLoanData);
+      const res = (await payLoan(payLoanData)) as TGlobalResponse;
       console.log(res);
       if (res?.data) {
         if (res.data?.data?.startsWith("http")) {
           window.location.href = res?.data?.data;
         }
       } else {
-        toast.error("Something went wrong", { duration: 4000 });
+        toast.error(res?.error?.data?.message, { duration: 4000 });
       }
     } catch (error) {
       console.log(error);
@@ -129,20 +130,17 @@ const MyLoan = ({ myLoan }: { myLoan: any }) => {
                 </p>
               </div>
               <div className="flex items-center gap-3">
-                <Badge
-                  className={`${getStatusColor(
-                    loan.status
-                  )} text-sm `}
-                >
+                <Badge className={`${getStatusColor(loan.status)} text-sm `}>
                   {loan.status.toUpperCase()}
                 </Badge>
                 <ReusableModal
                   trigger={
                     <Button
+                      disabled={loan.status === "pending"}
                       size="sm"
                       className="bg-[#104042] text-white hover:bg-[#355354]  shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
                     >
-                      {isLoading ? <AuthLoading /> : "Make Payment"}
+                      Make Payment
                     </Button>
                   }
                   title="Loan Payment"
@@ -150,6 +148,7 @@ const MyLoan = ({ myLoan }: { myLoan: any }) => {
                   onOpenChange={setIsModalOpen}
                 >
                   <LoanPaymentForm
+                    isLoading={isLoading}
                     onSubmit={handlePaymentSubmit}
                     onClose={() => setIsModalOpen(false)}
                   />
@@ -251,9 +250,7 @@ const MyLoan = ({ myLoan }: { myLoan: any }) => {
                     <Clock className="h-5 w-5 text-[#104042]" />
                     <span className="text-sm font-medium">Term</span>
                   </div>
-                  <p className="text-xl  text-[#104042]">
-                    {loan.term} months
-                  </p>
+                  <p className="text-xl  text-[#104042]">{loan.term} months</p>
                 </motion.div>
 
                 {/* Start Date */}
@@ -359,9 +356,7 @@ const MyLoan = ({ myLoan }: { myLoan: any }) => {
               <div className="space-y-4">
                 <div>
                   <p className="text-sm text-gray-600">Account Holder</p>
-                  <p className="">
-                    {loan.account.accountHolderName}
-                  </p>
+                  <p className="">{loan.account.accountHolderName}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-600">Account Balance</p>
@@ -371,17 +366,13 @@ const MyLoan = ({ myLoan }: { myLoan: any }) => {
                 </div>
                 <div>
                   <p className="text-sm text-gray-600">Account Type</p>
-                  <p className=" capitalize">
-                    {loan.account.accountType}
-                  </p>
+                  <p className=" capitalize">{loan.account.accountType}</p>
                 </div>
               </div>
               <div className="space-y-4">
                 <div>
                   <p className="text-sm text-gray-600">Date of Birth</p>
-                  <p className="">
-                    {formatDate(loan.account.dateOfBirth)}
-                  </p>
+                  <p className="">{formatDate(loan.account.dateOfBirth)}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-600">Gender</p>

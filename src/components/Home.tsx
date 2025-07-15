@@ -2,6 +2,7 @@
 import Banner from "./homePages/Banner";
 import Delivery from "./homePages/Delivery";
 import FAQ from "./homePages/FAQ";
+import LoanCalculator from "./homePages/LoanCalculator";
 import SliderPart from "./homePages/SliderPart";
 
 const Home = () => {
@@ -10,6 +11,7 @@ const Home = () => {
       <Banner />
       <SliderPart />
       <Delivery />
+      <LoanCalculator />
       <FAQ />
     </div>
   );

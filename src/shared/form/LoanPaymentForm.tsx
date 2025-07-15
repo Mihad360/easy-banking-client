@@ -4,13 +4,19 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import EBInput from "./EBInput";
 import EBForm from "./EBForm";
+import AuthLoading from "../loader/AuthLoading";
 
 interface LoanPaymentFormProps {
+  isLoading?: boolean;
   onSubmit: (data: { transactionType: string; monthsToPay: number }) => void;
   onClose: () => void;
 }
 
-export function LoanPaymentForm({ onSubmit, onClose }: LoanPaymentFormProps) {
+export function LoanPaymentForm({
+  onSubmit,
+  onClose,
+  isLoading,
+}: LoanPaymentFormProps) {
   return (
     <motion.div
       className="space-y-6 pt-4"
@@ -45,7 +51,7 @@ export function LoanPaymentForm({ onSubmit, onClose }: LoanPaymentFormProps) {
           <EBInput
             name="monthsToPay"
             label="How much months you want to pay?"
-            type="number"
+            type="text"
           />
         </motion.div>
         <motion.div
@@ -66,7 +72,7 @@ export function LoanPaymentForm({ onSubmit, onClose }: LoanPaymentFormProps) {
             type="submit"
             className="cursor-pointer flex-1 bg-[#104042] hover:bg-[#0d3335] text-white"
           >
-            Submit Payment
+            {isLoading ? <AuthLoading /> : "Submit Payment"}
           </Button>
         </motion.div>
       </EBForm>

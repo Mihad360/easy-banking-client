@@ -28,6 +28,10 @@ import {
   Linkedin,
   Play,
   UserPen,
+  ChartNoAxesCombined,
+  SquareUserRound,
+  ArrowLeftRight,
+  ChartBarStacked,
 } from "lucide-react";
 import { getUser } from "@/services/authServices";
 import { JwtPayload } from "@/types/common.type";
@@ -212,21 +216,21 @@ const Navbar = () => {
                   <DropdownMenuSeparator className="bg-[#0d3636]" />
                   {user.role === "customer" ? (
                     <>
-                      <Link href={`/dashboard/${user.role}/my-account`}>
-                        <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-black/60 rounded-md cursor-pointer">
-                          <CreditCard className="w-4 h-4 hover:text-black " />
-                          My Account
-                        </DropdownMenuItem>
-                      </Link>
                       <Link href={`/dashboard/${user.role}/account-stats`}>
                         <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-black/60 rounded-md cursor-pointer">
-                          <CreditCard className="w-4 h-4 hover:text-black " />
+                          <ChartNoAxesCombined className="w-4 h-4 hover:text-black " />
                           My Account Stats
+                        </DropdownMenuItem>
+                      </Link>
+                      <Link href={`/dashboard/${user.role}/my-account`}>
+                        <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-black/60 rounded-md cursor-pointer">
+                          <SquareUserRound className="w-4 h-4 hover:text-black " />
+                          My Account
                         </DropdownMenuItem>
                       </Link>
                       <Link href={`/dashboard/${user.role}/transactions`}>
                         <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-black/60 rounded-md cursor-pointer">
-                          <Settings className="w-4 h-4 hover:text-black" />
+                          <ArrowLeftRight className="w-4 h-4 hover:text-black" />
                           My Transactions
                         </DropdownMenuItem>
                       </Link>
@@ -235,19 +239,19 @@ const Navbar = () => {
                     <>
                       <Link href={`/dashboard/${user.role}/bank-stats`}>
                         <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-black/60 rounded-md cursor-pointer">
-                          <CreditCard className="w-4 h-4 hover:text-black " />
+                          <ChartBarStacked className="w-4 h-4 hover:text-black " />
                           Bank Stats
                         </DropdownMenuItem>
                       </Link>
                       <Link href={`/dashboard/${user.role}/my-account`}>
                         <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-black/60 rounded-md cursor-pointer">
-                          <CreditCard className="w-4 h-4 hover:text-black " />
+                          <SquareUserRound className="w-4 h-4 hover:text-black " />
                           My Account
                         </DropdownMenuItem>
                       </Link>
                       <Link href={`/dashboard/${user.role}/account-stats`}>
                         <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-black/60 rounded-md cursor-pointer">
-                          <Settings className="w-4 h-4 hover:text-black" />
+                          <ChartNoAxesCombined className="w-4 h-4 hover:text-black" />
                           My Account Stats
                         </DropdownMenuItem>
                       </Link>
@@ -255,7 +259,7 @@ const Navbar = () => {
                         href={`/dashboard/${user.role}/customer-transactions`}
                       >
                         <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-black/60 rounded-md cursor-pointer">
-                          <Settings className="w-4 h-4 hover:text-black" />
+                          <ArrowLeftRight className="w-4 h-4 hover:text-black" />
                           Customer Transations
                         </DropdownMenuItem>
                       </Link>

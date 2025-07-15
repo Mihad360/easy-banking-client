@@ -2,8 +2,8 @@ import type React from "react";
 import { TrendingUp, TrendingDown } from "lucide-react";
 
 interface MetricCardProps {
-  title: string;
-  value: string;
+  title: string
+  value: number | string
   subtitle: string;
   icon: React.ReactNode;
   gradient: string;

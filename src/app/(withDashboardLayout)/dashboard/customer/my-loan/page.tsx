@@ -33,13 +33,19 @@ const MyLoanPage = () => {
     return <Loading />;
   }
 
+  if (!myLoan) {
+    return <RequestLoan myAccount={myAccount} />;
+  }
+  if (myLoan && myLoan?.data?.status === "rejected") {
+    return <RequestLoan myAccount={myAccount} />;
+  }
+  // if (myLoan && myLoan?.data?.status === "paid") {
+  //   return <RequestLoan myAccount={myAccount} />;
+  // }
+
   return (
     <div>
-      {myLoan ? (
-        <MyLoan myLoan={myLoan} />
-      ) : (
-        <RequestLoan myAccount={myAccount} />
-      )}
+      <MyLoan myLoan={myLoan} />
     </div>
   );
 };
