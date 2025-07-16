@@ -119,43 +119,43 @@ const SignUp = () => {
       animate="visible"
       variants={containerVariants}
     >
-      {/* Geometric background shapes */}
+      {/* Geometric background shapes - Responsive sizing */}
       <motion.div
-        className="absolute top-10 left-10 w-24 h-24 border-4 border-[#104042]/20 rounded-full"
+        className="absolute top-4 left-4 w-16 h-16 sm:top-10 sm:left-10 sm:w-24 sm:h-24 border-4 border-[#104042]/20 rounded-full"
         variants={rotateVariants}
         animate="animate"
       />
       <motion.div
-        className="absolute top-20 right-20 w-20 h-20 bg-[#104042]/10 transform rotate-45"
+        className="absolute top-8 right-8 w-12 h-12 sm:top-20 sm:right-20 sm:w-20 sm:h-20 bg-[#104042]/10 transform rotate-45"
         variants={floatingVariants}
         animate="animate"
       />
       <motion.div
-        className="absolute bottom-20 left-20 w-16 h-16 bg-[#104042]/15 rounded-full"
+        className="absolute bottom-8 left-8 w-12 h-12 sm:bottom-20 sm:left-20 sm:w-16 sm:h-16 bg-[#104042]/15 rounded-full"
         variants={pulseVariants}
         animate="animate"
       />
       <motion.div
-        className="absolute bottom-32 right-32 w-28 h-28 border-2 border-[#104042]/20 transform rotate-12"
+        className="absolute bottom-12 right-12 w-16 h-16 sm:bottom-32 sm:right-32 sm:w-28 sm:h-28 border-2 border-[#104042]/20 transform rotate-12"
         variants={floatingVariants}
         animate="animate"
         style={{ animationDelay: "1s" }}
       />
       <motion.div
-        className="absolute top-1/3 left-5 w-12 h-12 bg-[#104042]/20 transform rotate-45"
+        className="absolute top-1/3 left-2 w-8 h-8 sm:top-1/3 sm:left-5 sm:w-12 sm:h-12 bg-[#104042]/20 transform rotate-45"
         variants={rotateVariants}
         animate="animate"
         style={{ animationDelay: "2s" }}
       />
       <motion.div
-        className="absolute top-1/2 right-5 w-10 h-10 border-2 border-[#104042]/25 rounded-full"
+        className="absolute top-1/2 right-2 w-6 h-6 sm:top-1/2 sm:right-5 sm:w-10 sm:h-10 border-2 border-[#104042]/25 rounded-full"
         variants={pulseVariants}
         animate="animate"
         style={{ animationDelay: "1.5s" }}
       />
 
       <motion.div
-        className="w-full max-w-[900px] bg-white dark:bg-gray-800 rounded-3xl shadow-2xl relative z-10 overflow-hidden"
+        className="w-full max-w-[95%] sm:max-w-[900px] bg-white dark:bg-gray-800 rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl relative z-10 overflow-hidden"
         variants={cardVariants}
         whileHover={{
           scale: 1.01,
@@ -163,24 +163,24 @@ const SignUp = () => {
         }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
       >
-        {/* Header Section */}
+        {/* Header Section - Responsive padding */}
         <motion.div
-          className="bg-[#104042] px-8 pt-6 pb-2 relative overflow-hidden"
+          className="bg-[#104042] px-4 pt-4 pb-2 sm:px-8 sm:pt-6 sm:pb-2 relative overflow-hidden"
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           {/* Geometric pattern overlay */}
           <div className="absolute inset-0 opacity-10">
-            <div className="absolute top-2 left-10 w-16 h-16 border border-white rounded-full"></div>
-            <div className="absolute top-4 right-20 w-12 h-12 border border-white transform rotate-45"></div>
-            <div className="absolute bottom-2 left-32 w-8 h-8 border border-white rounded-full"></div>
-            <div className="absolute bottom-4 right-10 w-10 h-10 border border-white transform rotate-12"></div>
+            <div className="absolute top-1 left-4 sm:top-2 sm:left-10 w-10 h-10 sm:w-16 sm:h-16 border border-white rounded-full"></div>
+            <div className="absolute top-2 right-8 sm:top-4 sm:right-20 w-8 h-8 sm:w-12 sm:h-12 border border-white transform rotate-45"></div>
+            <div className="absolute bottom-1 left-12 sm:bottom-2 sm:left-32 w-6 h-6 sm:w-8 sm:h-8 border border-white rounded-full"></div>
+            <div className="absolute bottom-2 right-4 sm:bottom-4 sm:right-10 w-6 h-6 sm:w-10 sm:h-10 border border-white transform rotate-12"></div>
           </div>
 
-          <div className="text-center relative z-10 flex gap-3 items-center justify-center">
+          <div className="text-center relative z-10 flex flex-col sm:flex-row gap-2 sm:gap-3 items-center justify-center">
             <motion.div
-              className="w-20 h-20 bg-white/20 rounded-3xl flex items-center justify-center mb-4 relative"
+              className="w-14 h-14 sm:w-20 sm:h-20 bg-white/20 rounded-2xl sm:rounded-3xl flex items-center justify-center mb-2 sm:mb-4 relative"
               animate={{
                 rotateY: [0, 360],
               }}
@@ -190,9 +190,9 @@ const SignUp = () => {
                 ease: "easeInOut",
               }}
             >
-              <UserPlus className="w-10 h-10 text-white" />
+              <UserPlus className="w-6 h-6 sm:w-10 sm:h-10 text-white" />
               <motion.div
-                className="absolute -top-2 -right-2 w-6 h-6 bg-white rounded-full flex items-center justify-center"
+                className="absolute -top-1 -right-1 w-4 h-4 sm:-top-2 sm:-right-2 sm:w-6 sm:h-6 bg-white rounded-full flex items-center justify-center"
                 animate={{
                   scale: [1, 1.2, 1],
                 }}
@@ -202,11 +202,11 @@ const SignUp = () => {
                   ease: "easeInOut",
                 }}
               >
-                <Shield className="w-3 h-3 text-[#104042]" />
+                <Shield className="w-2 h-2 sm:w-3 sm:h-3 text-[#104042]" />
               </motion.div>
             </motion.div>
             <motion.h1
-              className="text-3xl font-bold text-white mb-2"
+              className="text-xl sm:text-3xl font-bold text-white"
               variants={itemVariants}
             >
               Create Your Account
@@ -214,15 +214,18 @@ const SignUp = () => {
           </div>
         </motion.div>
 
-        {/* Form Section */}
-        <motion.div className="p-8" variants={containerVariants}>
+        {/* Form Section - Responsive layout */}
+        <motion.div className="p-4 sm:p-8" variants={containerVariants}>
           <EBForm onSubmit={onSubmit}>
             <motion.div
-              className="flex gap-10 justify-center"
+              className="flex flex-col md:flex-row gap-4 sm:gap-10 justify-center"
               variants={containerVariants}
             >
               {/* Left Column */}
-              <motion.div className="space-y-4" variants={itemVariants}>
+              <motion.div
+                className="space-y-3 sm:space-y-4"
+                variants={itemVariants}
+              >
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -270,7 +273,10 @@ const SignUp = () => {
               </motion.div>
 
               {/* Right Column */}
-              <motion.div className="space-y-4" variants={itemVariants}>
+              <motion.div
+                className="space-y-3 sm:space-y-4"
+                variants={itemVariants}
+              >
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -306,12 +312,12 @@ const SignUp = () => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5, delay: 0.6 }}
                 >
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2 pb-1">
-                      <div className="w-8 h-8 bg-[#104042]/10 rounded-lg flex items-center justify-center">
-                        <PictureInPicture className="w-4 h-4 text-[#104042]" />
+                  <div className="space-y-">
+                    <div className="flex items-center gap-2 pb-3">
+                      <div className="flex items-center justify-center">
+                        <PictureInPicture />
                       </div>
-                      <Label className="text-[#104042] font-medium">
+                      <Label className="text-black font-medium">
                         Profile Photo
                       </Label>
                     </div>
@@ -327,7 +333,7 @@ const SignUp = () => {
                             type="file"
                             {...field}
                             onChange={(e) => onChange(e.target.files?.[0])}
-                            className="border-[#104042]/20 focus:border-[#104042] focus:ring-[#104042]/20 rounded-lg"
+                            className="border-[#104042]/20 focus:border-[#104042] focus:ring-[#104042]/20 rounded-lg text-sm sm:text-base"
                           />
                         </motion.div>
                       )}
@@ -339,17 +345,17 @@ const SignUp = () => {
 
             {/* Login Link */}
             <motion.div
-              className="flex items-center gap-2 justify-center py-6"
+              className="flex items-center gap-2 justify-center py-4 sm:py-6"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.7 }}
             >
-              <p className="font-medium text-gray-600 dark:text-gray-300">
+              <p className="font-medium text-gray-600 dark:text-gray-300 text-sm sm:text-base">
                 Already have an account?
               </p>
               <Link
                 href="/login"
-                className="text-[#104042] font-bold hover:text-[#0d353a] transition-colors duration-200"
+                className="text-[#104042] font-bold hover:text-[#0d353a] transition-colors duration-200 text-sm sm:text-base"
               >
                 Login
               </Link>
@@ -357,7 +363,7 @@ const SignUp = () => {
 
             {/* Submit Button */}
             <motion.div
-              className="pt-2 w-96 mx-auto"
+              className="pt-2 w-full sm:w-96 mx-auto"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.8 }}
@@ -370,7 +376,7 @@ const SignUp = () => {
                 <Button
                   type="submit"
                   disabled={isLoading}
-                  className="cursor-pointer w-full py-3 bg-[#104042] hover:bg-[#0d353a] text-white font-medium rounded-lg transition-all duration-300 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden"
+                  className="cursor-pointer w-full py-3 bg-[#104042] hover:bg-[#0d353a] text-white font-medium rounded-lg transition-all duration-300 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden text-sm sm:text-base"
                 >
                   {isLoading ? (
                     <AuthLoading />
@@ -391,20 +397,20 @@ const SignUp = () => {
           </EBForm>
         </motion.div>
 
-        {/* Floating geometric elements */}
+        {/* Floating geometric elements - Responsive positioning */}
         <motion.div
-          className="absolute top-32 right-8 w-4 h-4 border-2 border-[#104042]/20 rounded-full"
+          className="absolute top-12 right-4 sm:top-32 sm:right-8 w-3 h-3 sm:w-4 sm:h-4 border-2 border-[#104042]/20 rounded-full"
           variants={pulseVariants}
           animate="animate"
         />
         <motion.div
-          className="absolute bottom-32 left-8 w-6 h-6 border border-[#104042]/15 transform rotate-45"
+          className="absolute bottom-12 left-4 sm:bottom-32 sm:left-8 w-4 h-4 sm:w-6 sm:h-6 border border-[#104042]/15 transform rotate-45"
           variants={rotateVariants}
           animate="animate"
           style={{ animationDelay: "1s" }}
         />
         <motion.div
-          className="absolute top-1/2 right-4 w-3 h-3 bg-[#104042]/20 rounded-full"
+          className="absolute top-1/2 right-2 sm:top-1/2 sm:right-4 w-2 h-2 sm:w-3 sm:h-3 bg-[#104042]/20 rounded-full"
           variants={floatingVariants}
           animate="animate"
           style={{ animationDelay: "2s" }}

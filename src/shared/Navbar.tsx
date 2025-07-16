@@ -11,13 +11,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 import Link from "next/link";
 import {
   Menu,
@@ -118,24 +111,24 @@ const Navbar = () => {
       <Link
         href={route.path}
         key={index}
+        className={`flex items-center gap-1 relative py-1 px-2 text-sm md:text-base rounded-md transition-all duration-200
+      ${
+        pathname === route.path
+          ? "bg-[#104042] text-white font-bold"
+          : "text-black hover:bg-[#104042] hover:text-white"
+      }`}
         onMouseEnter={() => setHovered(index)}
         onMouseLeave={() => setHovered(null)}
-        className={`flex items-center gap-1 text-black relative py-1 px-2 text-sm md:text-base ${
-          pathname === route.path
-            ? "bg-[#104042] rounded-lg text-white font-bold"
-            : ""
-        }`}
       >
-        {hovered === index && (
+        {/* Optional motion span for hover animation */}
+        {hovered === index && pathname !== route.path && (
           <motion.span
             layoutId="hovered-span"
-            className="absolute inset-0 w-full h-full rounded-md bg-[#104042]"
+            className="absolute inset-0 w-full h-full rounded-md bg-[#104042] z-0"
             transition={{ duration: 0.2, ease: "easeInOut" }}
           />
         )}
-        <span className={`relative z-10 ${hovered === index && "text-white"}`}>
-          {route.label}
-        </span>
+        <span className="relative z-10 font-semibold">{route.label}</span>
       </Link>
     </AnimationWrapper>
   );
@@ -164,7 +157,7 @@ const Navbar = () => {
 
             {/* Match desktop dropdown items exactly */}
             {user.role === "customer" ? (
-              <>
+              <div className="space-y-1">
                 <Link
                   href={`/dashboard/${user.role}/account-stats`}
                   onClick={() => setIsOpen(false)}
@@ -201,7 +194,7 @@ const Navbar = () => {
                     My Transactions
                   </Button>
                 </Link>
-              </>
+              </div>
             ) : (
               <>
                 <Link
@@ -254,7 +247,7 @@ const Navbar = () => {
                 </Link>
               </>
             )}
-
+            <div className="border border-white mt-2"></div>
             <Button
               onClick={handleSignOut}
               variant="ghost"
@@ -273,19 +266,26 @@ const Navbar = () => {
     <motion.nav
       animate={{
         boxShadow: scrolled ? "var(--shadow-aceternity)" : "none",
-        width: scrolled
-          ? typeof window !== "undefined" && window.innerWidth < 768
-            ? "95%"
-            : "90%"
-          : "100%",
-        y: scrolled ? 10 : 0,
-        backgroundColor: scrolled ? "white" : "transparent",
+        width:
+          scrolled && typeof window !== "undefined" && window.innerWidth >= 768
+            ? "90%"
+            : "100%",
+        y:
+          scrolled && typeof window !== "undefined" && window.innerWidth >= 768
+            ? 10
+            : 0,
+        backgroundColor:
+          typeof window !== "undefined" && window.innerWidth >= 768
+            ? scrolled
+              ? "white"
+              : "transparent"
+            : "#e9e7e7",
       }}
       transition={{
         duration: 0.3,
         ease: easeInOut,
       }}
-      className="fixed w-full z-50 rounded-2xl mx-auto inset-x-0 top-0"
+      className="fixed w-full z-50 md:rounded-2xl mx-auto inset-x-0 bottom-0 md:bottom-auto md:top-0"
     >
       {/* Main navigation */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -446,73 +446,68 @@ const Navbar = () => {
                 <UserPen className="w-4 h-4 sm:w-5 sm:h-5" />
               )}
             </div>
-            <Sheet open={isOpen} onOpenChange={setIsOpen}>
-              <SheetTrigger asChild>
-                <button
-                  className="p-1 cursor-pointer rounded-md hover:bg-gray-100 transition"
-                >
+            <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+              <DropdownMenuTrigger asChild>
+                <button className="p-1 cursor-pointer rounded-md hover:bg-gray-100 transition-all duration-100">
                   {isOpen ? (
-                    <X className="text-2xl" />
+                    <X className="text-2xl text-black" />
                   ) : (
-                    <Menu className="text-2xl" />
+                    <Menu className="text-2xl text-black" />
                   )}
                 </button>
-              </SheetTrigger>
-              <SheetContent
-                side="right"
-                className="w-[280px] sm:w-[300px] p-0 bg-[#104042] overflow-y-auto"
-              >
-                <SheetHeader className="p-4 sm:p-6 border-b border-white/10">
-                  <SheetTitle className="flex items-center gap-3">
-                    <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-white rounded-lg flex items-center justify-center shadow-lg">
-                      <div className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 rounded-md flex items-center justify-center">
-                        <Image
-                          src="https://i.ibb.co/wZ0721GL/be-eb-b-e-abstract-260nw-2385258941-removebg-preview.png"
-                          width={100}
-                          height={100}
-                          alt="EasyBank Logo"
-                          className="w-full h-full object-contain"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <h2 className="font-bold text-md sm:text-lg text-white">
-                        EasyBank
-                      </h2>
-                      <p className="text-xs text-white/70">
-                        Financial Services
-                      </p>
-                    </div>
-                  </SheetTitle>
-                </SheetHeader>
+              </DropdownMenuTrigger>
 
-                {/* Mobile Navigation - Match desktop exactly */}
-                <div className="flex-1 px-4 sm:px-6">
-                  <nav className="space-y-1 sm:space-y-2">
-                    {navRoutes?.map((route, index) => (
-                      <Link
-                        key={index}
-                        href={route.path}
-                        onClick={() => setIsOpen(false)}
-                        className="flex items-center justify-between py-2 sm:py-3 px-3 sm:px-4 rounded-lg hover:bg-white/10 text-white hover:text-[#AEFF1C] font-medium transition-all duration-300 text-sm sm:text-base"
-                      >
-                        {route.label}
-                      </Link>
-                    ))}
-                    {!user && (
-                      <Link
-                        className="flex items-center justify-between py-2 sm:py-3 px-3 sm:px-4 rounded-lg hover:bg-white/10 text-[#AEFF1C] hover:text-white font-medium transition-all duration-300 text-sm sm:text-base"
-                        href="/login"
-                      >
-                        Login
-                      </Link>
-                    )}
-                  </nav>
+              <DropdownMenuContent
+                side="bottom"
+                align="start"
+                className="p-0 w-screen left-0 mt-2 mb-2 bg-[#104042] border-none overflow-y-auto rounded-none"
+                style={{ maxWidth: "100vw" }}
+              >
+                {/* Header */}
+                <div className="p-4 border-b border-white/10 flex items-center gap-3">
+                  <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-lg">
+                    <div className="w-6 h-6 rounded-md flex items-center justify-center">
+                      <Image
+                        src="https://i.ibb.co/wZ0721GL/be-eb-b-e-abstract-260nw-2385258941-removebg-preview.png"
+                        width={100}
+                        height={100}
+                        alt="EasyBank Logo"
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <h2 className="font-bold text-white text-lg">EasyBank</h2>
+                    <p className="text-xs text-white/70">Financial Services</p>
+                  </div>
+                </div>
+
+                {/* Navigation */}
+                <div className="px-4 py-4 space-y-2">
+                  {navRoutes?.map((route, index) => (
+                    <Link
+                      key={index}
+                      href={route.path}
+                      onClick={() => setIsOpen(false)}
+                      className="block py-2 px-3 rounded-lg hover:bg-white/10 text-white hover:text-[#AEFF1C] font-medium transition-all duration-300 text-sm"
+                    >
+                      {route.label}
+                    </Link>
+                  ))}
+                  {!user && (
+                    <Link
+                      href="/login"
+                      onClick={() => setIsOpen(false)}
+                      className="block py-2 px-3 rounded-lg hover:bg-white/10 text-[#AEFF1C] hover:text-white font-medium transition-all duration-300 text-sm"
+                    >
+                      Login
+                    </Link>
+                  )}
                 </div>
 
                 <MobileAuthSection />
-              </SheetContent>
-            </Sheet>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </div>

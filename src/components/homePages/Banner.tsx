@@ -92,13 +92,9 @@ const Banner = () => {
   ];
 
   return (
-    <div className="relative overflow-hidden pt-16">
+    <div className="relative overflow-hidden pt-4 md:pt-16">
       {/* Enhanced Transparent Background */}
       <div className="absolute inset-0">
-        {/* Multiple Gradient Overlays for Better Transparency */}
-        {/* <div className="absolute inset-0 bg-gradient-to-br from-[#104042]/3 via-transparent to-[#104042]/5"></div>
-        <div className="absolute inset-0 bg-gradient-to-tl from-white/20 via-transparent to-slate-100/30"></div> */}
-        {/* Enhanced Glass Morphism Elements - Subtle Animations */}
         <motion.div
           className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-br from-[#104042]/8 via-[#104042]/4 to-transparent rounded-full blur-3xl backdrop-blur-sm"
           animate={{
