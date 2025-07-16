@@ -10,7 +10,7 @@ const accountApi = baseApi.injectEndpoints({
         contentType: "application/json",
         data,
       }),
-      invalidatesTags: ["branch"],
+      invalidatesTags: ["account"],
     }),
     getMyAccount: build.query({
       query: () => ({

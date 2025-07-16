@@ -57,10 +57,10 @@ const AdminManagerBankStats = () => {
 
   if (!bankstats || !lastMonthBankStats) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center">
-        <div className="text-center p-8 bg-white rounded-2xl shadow-xl">
-          <Building2 className="w-16 h-16 text-slate-400 mx-auto mb-4" />
-          <p className="text-lg text-slate-600 font-medium">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center p-4">
+        <div className="text-center p-6 bg-white rounded-xl">
+          <Building2 className="w-12 h-12 text-slate-400 mx-auto mb-4" />
+          <p className="text-base sm:text-lg text-slate-600 font-medium">
             You are not currently assigned to any branch. Please contact your
             administrator.
           </p>
@@ -102,17 +102,17 @@ const AdminManagerBankStats = () => {
   };
 
   return (
-    <div className="overflow-hidden max-w-7xl">
+    <div className="overflow-hidden max-w-7xl mx-auto">
       <div className="px-4 sm:px-6 lg:px-8">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="max-w-7xl mx-auto space-y-8"
+          className="mx-auto space-y-8"
         >
           {/* Header */}
-          <motion.div variants={itemVariants} className="text-center mb-4">
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-slate-800 to-blue-600 bg-clip-text text-transparent mb-3">
+          <motion.div variants={itemVariants} className="text-center mb-4 pt-4">
+            <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-slate-800 to-blue-600 bg-clip-text text-transparent mb-3">
               Banking Operations Dashboard
             </h1>
           </motion.div>
@@ -120,13 +120,13 @@ const AdminManagerBankStats = () => {
           {/* Metric Cards */}
           <motion.div
             variants={itemVariants}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8 sm:mb-12"
           >
             <MetricCard
               title="Total Customer Accounts"
               value={totalAccounts.toLocaleString("en-BD")}
               subtitle="Active banking relationships"
-              icon={<Users className="w-6 h-6" />}
+              icon={<Users className="w-5 h-5 sm:w-6 sm:h-6" />}
               gradient="from-blue-500 to-blue-600"
               growth={12.5}
               trend="up"
@@ -135,7 +135,7 @@ const AdminManagerBankStats = () => {
               title="Assets Under Management"
               value={formatTaka(totalBalance)}
               subtitle="Total customer deposits"
-              icon={<DollarSign className="w-6 h-6" />}
+              icon={<DollarSign className="w-5 h-5 sm:w-6 sm:h-6" />}
               gradient="from-emerald-500 to-emerald-600"
               growth={8.3}
               trend="up"
@@ -144,7 +144,7 @@ const AdminManagerBankStats = () => {
               title="Transaction Volume"
               value={totalTransactions.toLocaleString("en-BD")}
               subtitle="Monthly processing activity"
-              icon={<Activity className="w-6 h-6" />}
+              icon={<Activity className="w-5 h-5 sm:w-6 sm:h-6" />}
               gradient="from-orange-500 to-orange-600"
               growth={15.7}
               trend="up"
@@ -153,7 +153,7 @@ const AdminManagerBankStats = () => {
               title="Active Loan Portfolio"
               value={totalLoans.toLocaleString("en-BD")}
               subtitle={`${formatTaka(totalLoanAmount)} outstanding`}
-              icon={<CreditCard className="w-6 h-6" />}
+              icon={<CreditCard className="w-5 h-5 sm:w-6 sm:h-6" />}
               gradient="from-purple-500 to-purple-600"
               growth={2.1}
               trend="down"
@@ -161,22 +161,20 @@ const AdminManagerBankStats = () => {
           </motion.div>
 
           {/* Charts Grid - Row 1 */}
-          <div className="flex gap-5">
+          <div className="flex flex-col lg:flex-row gap-4 sm:gap-5">
             {/* Account Types - Enhanced Doughnut Chart */}
             {bankstats.accountTypes && (
-              <motion.div variants={itemVariants} className="">
-                <div>
-                  <DoughnutChart
-                    data={bankstats.accountTypes}
-                    title="Distribution by account categories"
-                    subtitle=""
-                    icon={<></>}
-                  />
-                </div>
+              <motion.div variants={itemVariants} className="w-full lg:w-1/2">
+                <DoughnutChart
+                  data={bankstats.accountTypes}
+                  title="Distribution by account categories"
+                  subtitle=""
+                  icon={<></>}
+                />
               </motion.div>
             )}
 
-            <div className="w-full">
+            <div className="w-full lg:w-1/2">
               <BarChart
                 data={lastMonthBankStats?.transactions}
                 title="Transaction Summary"
@@ -186,7 +184,7 @@ const AdminManagerBankStats = () => {
 
           {/* Daily Trends - Enhanced Line Chart */}
           {lastMonthBankStats.dailyTrends && (
-            <motion.div variants={itemVariants} className="mb-8">
+            <motion.div variants={itemVariants} className="mb-6 sm:mb-8">
               <div className="w-full">
                 <LineChart
                   data={lastMonthBankStats?.dailyTrends}
@@ -198,7 +196,7 @@ const AdminManagerBankStats = () => {
 
           {/* Loan Analysis */}
           {bankstats.loanInsights && (
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 mb-8">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
               <motion.div variants={itemVariants}>
                 <DoughnutChart
                   data={bankstats.loanInsights}
@@ -208,7 +206,7 @@ const AdminManagerBankStats = () => {
                 />
               </motion.div>
               <motion.div variants={itemVariants}>
-                <div className="p-4 w-full">
+                <div className="w-full">
                   <BarChart
                     data={bankstats?.loanInsights}
                     title="Transaction Summary"
@@ -221,29 +219,29 @@ const AdminManagerBankStats = () => {
           {/* User Growth */}
           {bankstats.userGrowth && bankstats.userGrowth.length > 0 && (
             <motion.div variants={itemVariants}>
-              <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-8 mb-8 border border-white/20">
-                <div className="flex items-center justify-between mb-8">
-                  <div>
-                    <h3 className="text-2xl font-bold text-slate-800">
+              <div className="bg-white/90 rounded-xl p-4 sm:p-6 mb-6 sm:mb-8 border border-gray-100">
+                <div className="flex flex-col sm:flex-row items-center justify-between mb-6">
+                  <div className="mb-4 sm:mb-0">
+                    <h3 className="text-lg sm:text-xl font-bold text-slate-800">
                       Customer Acquisition Trends
                     </h3>
-                    <p className="text-slate-600 mt-1">
+                    <p className="text-sm sm:text-base text-slate-600 mt-1">
                       Monthly new customer onboarding and growth metrics
                     </p>
                   </div>
-                  <div className="p-3 bg-gradient-to-br from-green-500 to-green-600 rounded-xl text-white shadow-lg">
-                    <Users className="w-6 h-6" />
+                  <div className="p-2 sm:p-3 bg-gradient-to-br from-green-500 to-green-600 rounded-lg text-white">
+                    <Users className="w-5 h-5 sm:w-6 sm:h-6" />
                   </div>
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
                   {bankstats.userGrowth
                     .slice(-6)
                     .map((item: any, index: number) => (
                       <div
                         key={index}
-                        className="text-center p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border border-blue-100 hover:shadow-lg transition-all duration-300 hover:scale-105"
+                        className="text-center p-3 sm:p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg border border-blue-100 transition-all duration-300"
                       >
-                        <p className="text-sm font-medium text-slate-600 mb-2">
+                        <p className="text-xs sm:text-sm font-medium text-slate-600 mb-1 sm:mb-2">
                           {new Date(
                             item._id.year,
                             item._id.month - 1
@@ -252,16 +250,16 @@ const AdminManagerBankStats = () => {
                             year: "2-digit",
                           })}
                         </p>
-                        <p className="text-3xl font-bold text-blue-600 mb-1">
+                        <p className="text-xl sm:text-2xl font-bold text-blue-600 mb-1">
                           +{item.newUsers.toLocaleString("en-BD")}
                         </p>
                         <p className="text-xs text-slate-500">new customers</p>
                       </div>
                     ))}
                 </div>
-                <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="text-center p-4 bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg">
-                    <div className="text-2xl font-bold text-green-600">
+                <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+                  <div className="text-center p-3 sm:p-4 bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg">
+                    <div className="text-xl sm:text-2xl font-bold text-green-600">
                       {bankstats.userGrowth
                         .reduce(
                           (sum: number, item: any) => sum + item.newUsers,
@@ -269,12 +267,12 @@ const AdminManagerBankStats = () => {
                         )
                         .toLocaleString("en-BD")}
                     </div>
-                    <div className="text-sm text-slate-600">
+                    <div className="text-xs sm:text-sm text-slate-600">
                       Total New Customers
                     </div>
                   </div>
-                  <div className="text-center p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg">
-                    <div className="text-2xl font-bold text-blue-600">
+                  <div className="text-center p-3 sm:p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg">
+                    <div className="text-xl sm:text-2xl font-bold text-blue-600">
                       {Math.round(
                         bankstats.userGrowth.reduce(
                           (sum: number, item: any) => sum + item.newUsers,
@@ -282,19 +280,21 @@ const AdminManagerBankStats = () => {
                         ) / bankstats.userGrowth.length
                       ).toLocaleString("en-BD")}
                     </div>
-                    <div className="text-sm text-slate-600">
+                    <div className="text-xs sm:text-sm text-slate-600">
                       Monthly Average
                     </div>
                   </div>
-                  <div className="text-center p-4 bg-gradient-to-br from-purple-50 to-violet-50 rounded-lg">
-                    <div className="text-2xl font-bold text-purple-600">
+                  <div className="text-center p-3 sm:p-4 bg-gradient-to-br from-purple-50 to-violet-50 rounded-lg">
+                    <div className="text-xl sm:text-2xl font-bold text-purple-600">
                       {Math.max(
                         ...bankstats.userGrowth.map(
                           (item: any) => item.newUsers
                         )
                       ).toLocaleString("en-BD")}
                     </div>
-                    <div className="text-sm text-slate-600">Peak Month</div>
+                    <div className="text-xs sm:text-sm text-slate-600">
+                      Peak Month
+                    </div>
                   </div>
                 </div>
               </div>
@@ -304,68 +304,68 @@ const AdminManagerBankStats = () => {
           {/* Branch Performance */}
           {bankstats.branchDetails && (
             <motion.div variants={itemVariants}>
-              <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-white/20">
-                <div className="flex items-center justify-between mb-8">
-                  <div>
-                    <h3 className="text-2xl font-bold text-slate-800">
+              <div className="bg-white/90 rounded-xl p-4 sm:p-6 border border-gray-100">
+                <div className="flex flex-col sm:flex-row items-center justify-between mb-6">
+                  <div className="mb-4 sm:mb-0">
+                    <h3 className="text-lg sm:text-xl font-bold text-slate-800">
                       Branch Performance Analytics
                     </h3>
-                    <p className="text-slate-600 mt-1">
+                    <p className="text-sm sm:text-base text-slate-600 mt-1">
                       Comprehensive branch-wise operational metrics and
                       liquidity management
                     </p>
                   </div>
-                  <div className="p-3 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl text-white shadow-lg">
-                    <Building2 className="w-6 h-6" />
+                  <div className="p-2 sm:p-3 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-lg text-white">
+                    <Building2 className="w-5 h-5 sm:w-6 sm:h-6" />
                   </div>
                 </div>
-                <div className="mb-8">
+                <div className="mb-6">
                   <BarChart
                     data={bankstats.branchDetails}
                     title="Branch Account Distribution & Asset Management"
                   />
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                   {bankstats.branchDetails.map((branch: any, index: number) => (
                     <div
                       key={index}
-                      className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-xl p-6 border border-slate-200 hover:shadow-lg transition-all duration-300 hover:scale-105"
+                      className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-lg p-4 sm:p-6 border border-gray-200 transition-all duration-300"
                     >
-                      <h4 className="font-bold text-slate-800 mb-4 text-lg flex items-center">
-                        <Building2 className="w-5 h-5 mr-2 text-blue-600" />
+                      <h4 className="font-bold text-slate-800 mb-3 text-base sm:text-lg flex items-center">
+                        <Building2 className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-blue-600" />
                         {branch._id[0]}
                       </h4>
-                      <div className="space-y-4 text-sm">
-                        <div className="flex justify-between items-center p-3 bg-white rounded-lg">
+                      <div className="space-y-3 text-xs sm:text-sm">
+                        <div className="flex justify-between items-center p-2 sm:p-3 bg-white rounded-md">
                           <span className="text-slate-600 font-medium">
                             Customer Accounts
                           </span>
-                          <span className="font-bold text-slate-800 text-lg">
+                          <span className="font-bold text-slate-800 text-sm sm:text-base">
                             {branch.count.toLocaleString("en-BD")}
                           </span>
                         </div>
-                        <div className="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
+                        <div className="flex justify-between items-center p-2 sm:p-3 bg-blue-50 rounded-md">
                           <span className="text-slate-600 font-medium">
                             Reserved Capital
                           </span>
-                          <span className="font-bold text-blue-700">
+                          <span className="font-bold text-blue-700 text-sm sm:text-base">
                             {formatTaka(branch.reserevedBalance)}
                           </span>
                         </div>
-                        <div className="flex justify-between items-center p-3 bg-green-50 rounded-lg">
+                        <div className="flex justify-between items-center p-2 sm:p-3 bg-green-50 rounded-md">
                           <span className="text-slate-600 font-medium">
                             Deployed Capital
                           </span>
-                          <span className="font-bold text-green-700">
+                          <span className="font-bold text-green-700 text-sm sm:text-base">
                             {formatTaka(branch.usedBalance)}
                           </span>
                         </div>
-                        <div className="flex justify-between items-center p-3 bg-gradient-to-r from-slate-100 to-slate-200 rounded-lg">
+                        <div className="flex justify-between items-center p-2 sm:p-3 bg-gradient-to-r from-slate-100 to-slate-200 rounded-md">
                           <span className="text-slate-600 font-medium">
                             Liquidity Ratio
                           </span>
                           <span
-                            className={`font-bold text-lg ${
+                            className={`font-bold text-sm sm:text-base ${
                               branch.liquidityRatio > 80
                                 ? "text-red-600"
                                 : branch.liquidityRatio > 60
@@ -376,11 +376,11 @@ const AdminManagerBankStats = () => {
                             {branch.liquidityRatio?.toFixed(1)}%
                           </span>
                         </div>
-                        <div className="mt-4 p-3 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg">
+                        <div className="mt-3 p-2 sm:p-3 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-md">
                           <div className="text-xs text-slate-500 mb-1">
                             Total Assets Under Management
                           </div>
-                          <div className="font-bold text-indigo-700 text-lg">
+                          <div className="font-bold text-indigo-700 text-sm sm:text-base">
                             {formatTaka(
                               branch.reserevedBalance + branch.usedBalance
                             )}

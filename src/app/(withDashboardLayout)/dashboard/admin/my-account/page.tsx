@@ -22,9 +22,40 @@ const AdminAccountPage = () => {
     return <Loading />;
   }
 
+  if (myAccount && myAccount?.data?.status === "closed") {
+    return (
+      <div className="pb-12">
+        <h1 className="text-center text-base text-red-500 font-medium">
+          Your previous account has been closed or suspended! Try again...
+        </h1>
+        <CreateAccount />
+      </div>
+    );
+  }
+  if (myAccount && myAccount?.data?.status === "suspended") {
+    return (
+      <div className="pb-12">
+        <h1 className="text-center text-base text-red-500 font-medium">
+          Your previous account has been closed or suspended! Try again...
+        </h1>
+        <CreateAccount />
+      </div>
+    );
+  }
+  if (myAccount && myAccount?.data?.status === "pending") {
+    return (
+      <div className="text-center">
+        <p className="text-red-500 text-xl font-medium">
+          Your account request is in pending
+        </p>
+        <p className="text-red-500 text-base">Please wait until it approved!</p>
+      </div>
+    );
+  }
+
   return (
     <div>
-      {myAccount ? (
+      {myAccount && myAccount?.data?.status === "active" ? (
         <MyAccount user={user} myAccount={myAccount} />
       ) : (
         <CreateAccount></CreateAccount>

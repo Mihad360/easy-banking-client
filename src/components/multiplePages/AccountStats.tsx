@@ -327,7 +327,7 @@ const AccountStats = ({ accountStat }: AccountStatsProps) => {
                             Paid: ৳{loan.paid}
                           </span>
                           <span className="text-red-600 font-medium">
-                            Remaining: ৳-{loan.remaining - loan.paid}
+                            Remaining: ৳-{loan.remaining}
                           </span>
                         </div>
 
@@ -355,7 +355,7 @@ const AccountStats = ({ accountStat }: AccountStatsProps) => {
                 </div>
               </motion.div>
             ) : (
-              <p>You do not have any loan now</p>
+              <p className="px-5 text-red-500">You do not have any loan now</p>
             )}
           </div>
 

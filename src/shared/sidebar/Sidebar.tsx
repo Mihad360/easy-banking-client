@@ -1,5 +1,4 @@
 "use client";
-
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
@@ -131,11 +130,6 @@ const EasyBankSidebar = () => {
                 <div className="absolute inset-0 bg-[#104042] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700 ease-out" />
 
                 <div className="relative z-10 flex items-center gap-2 w-full">
-                  {/* Optional icon */}
-                  {/* <div className="w-4 h-4 text-[#104042] group-hover:text-white group-hover:scale-110 transition-all duration-500">
-                    <Home/>
-                  </div> */}
-
                   <span className="flex-1 font-semibold">Home</span>
                 </div>
               </Link>

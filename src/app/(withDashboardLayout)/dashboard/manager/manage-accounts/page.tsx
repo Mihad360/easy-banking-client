@@ -77,7 +77,6 @@ const ManagerManageAccountsPage = () => {
           duration: 4000,
         });
       }
-      console.log(res);
     } catch (error) {
       console.log(error);
     }
@@ -112,6 +111,7 @@ const ManagerManageAccountsPage = () => {
   const resetFilter = () => {
     setAccountType("");
     setStatus("");
+    setValue("search", "");
   };
 
   const {
@@ -125,26 +125,27 @@ const ManagerManageAccountsPage = () => {
   }
 
   return (
-    <div className="space-y-3 px-6">
+    <div className="space-y-3 px-4 sm:px-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl tracking-tight" style={{ color: "#104042" }}>
+        <h1
+          className="text-xl sm:text-2xl tracking-tight"
+          style={{ color: "#104042" }}
+        >
           Manage Accounts
         </h1>
       </div>
 
       {/* Search and Filters */}
-      <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between bg-gray-50 p-4 rounded-lg border">
-        <div className="flex flex-col sm:flex-row gap-3 flex-1">
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-start sm:items-center justify-between bg-gray-50 p-3 sm:p-4 rounded-lg border">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full">
           <div className="relative flex-1 max-w-sm">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-
             <Input
               {...register("search")}
               placeholder="Search accounts..."
-              className="pl-10 pr-8 border-gray-200 focus:border-[#104042] focus:ring-[#104042]"
+              className="pl-10 pr-8 border-gray-200 focus:border-[#104042] focus:ring-[#104042] text-sm sm:text-base"
             />
-
             {searchTerm && (
               <X
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4 cursor-pointer hover:text-red-500"
@@ -159,44 +160,54 @@ const ManagerManageAccountsPage = () => {
                 setAccountType(value ? value : undefined)
               }
             >
-              <SelectTrigger className="w-[140px] border-gray-200">
+              <SelectTrigger className="w-[120px] sm:w-[140px] border-gray-200 text-xs sm:text-sm">
                 <SelectValue placeholder="Account Type" />
               </SelectTrigger>
               <SelectContent>
-                {/* <SelectItem value="filter by types" disabled>
-                  Filter by Types
-                </SelectItem> */}
-                <SelectItem value="savings">Savings</SelectItem>
-                <SelectItem value="checking">Checking</SelectItem>
-                <SelectItem value="business">Business</SelectItem>
+                <SelectItem value="savings" className="text-xs sm:text-sm">
+                  Savings
+                </SelectItem>
+                <SelectItem value="checking" className="text-xs sm:text-sm">
+                  Checking
+                </SelectItem>
+                <SelectItem value="business" className="text-xs sm:text-sm">
+                  Business
+                </SelectItem>
               </SelectContent>
             </Select>
 
             <Select
               onValueChange={(value) => setStatus(value ? value : undefined)}
             >
-              <SelectTrigger className="w-[120px] border-gray-200">
+              <SelectTrigger className="w-[100px] sm:w-[120px] border-gray-200 text-xs sm:text-sm">
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
               <SelectContent>
-                {/* <SelectItem value="all">All Status</SelectItem> */}
-                <SelectItem value="pending">Pending</SelectItem>
-                <SelectItem value="active">Active</SelectItem>
-                <SelectItem value="closed">Closed</SelectItem>
-                <SelectItem value="suspended">Suspended</SelectItem>
+                <SelectItem value="pending" className="text-xs sm:text-sm">
+                  Pending
+                </SelectItem>
+                <SelectItem value="active" className="text-xs sm:text-sm">
+                  Active
+                </SelectItem>
+                <SelectItem value="closed" className="text-xs sm:text-sm">
+                  Closed
+                </SelectItem>
+                <SelectItem value="suspended" className="text-xs sm:text-sm">
+                  Suspended
+                </SelectItem>
               </SelectContent>
             </Select>
             <Button
-              className="bg-rose-500 cursor-pointer"
+              className="bg-rose-500 cursor-pointer h-9 sm:h-10 w-9 sm:w-10 p-0 sm:p-2"
               onClick={resetFilter}
             >
-              <X />
+              <X className="h-4 w-4" />
             </Button>
           </div>
         </div>
 
-        <div className="text-sm text-gray-600">
-          {accounts?.data?.length} accounts
+        <div className="text-xs sm:text-sm text-gray-600 ml-auto sm:ml-0 flex gap-2">
+          {accounts?.data?.length} <span>accounts</span>
         </div>
       </div>
 
@@ -205,13 +216,27 @@ const ManagerManageAccountsPage = () => {
         <Table>
           <TableHeader>
             <TableRow className="bg-gray-50 hover:bg-gray-50">
-              <TableHead className=" text-gray-900">Account Details</TableHead>
-              <TableHead className=" text-gray-900">Type</TableHead>
-              <TableHead className=" text-gray-900">Balance</TableHead>
-              <TableHead className=" text-gray-900">Status</TableHead>
-              <TableHead className=" text-gray-900">Location</TableHead>
-              <TableHead className=" text-gray-900">Created</TableHead>
-              <TableHead className=" text-gray-900">Actions</TableHead>
+              <TableHead className="text-gray-900 text-xs sm:text-sm">
+                Account Details
+              </TableHead>
+              <TableHead className="text-gray-900 text-xs sm:text-sm">
+                Type
+              </TableHead>
+              <TableHead className="text-gray-900 text-xs sm:text-sm">
+                Balance
+              </TableHead>
+              <TableHead className="text-gray-900 text-xs sm:text-sm">
+                Status
+              </TableHead>
+              <TableHead className="text-gray-900 text-xs sm:text-sm">
+                Location
+              </TableHead>
+              <TableHead className="text-gray-900 text-xs sm:text-sm">
+                Created
+              </TableHead>
+              <TableHead className="text-gray-900 text-xs sm:text-sm">
+                Actions
+              </TableHead>
             </TableRow>
           </TableHeader>
 
@@ -228,7 +253,7 @@ const ManagerManageAccountsPage = () => {
               <TableRow>
                 <TableCell
                   colSpan={7}
-                  className="text-center py-8 text-gray-500"
+                  className="text-center py-8 text-gray-500 text-sm sm:text-base"
                 >
                   No accounts found.
                 </TableCell>
@@ -240,43 +265,48 @@ const ManagerManageAccountsPage = () => {
                 <TableRow key={acc.accountNumber}>
                   <TableCell>
                     <div className="space-y-1">
-                      <div className=" text-gray-900">
+                      <div className="text-gray-900 text-sm sm:text-base">
                         {acc.accountHolderName}
                       </div>
-                      <div className="text-sm text-gray-500 font-mono">
+                      <div className="text-xs sm:text-sm text-gray-500 font-mono">
                         {acc.accountNumber}
                       </div>
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Badge className="capitalize bg-green-100 text-green-800 hover:bg-green-100">
+                    <Badge className="capitalize bg-green-100 text-green-800 hover:bg-green-100 text-xs sm:text-sm">
                       {acc.accountType}
                     </Badge>
                   </TableCell>
                   <TableCell>
-                    <div className=" text-gray-900">৳ {acc.balance}</div>
+                    <div className="text-gray-900 text-sm sm:text-base">
+                      ৳ {acc.balance}
+                    </div>
                   </TableCell>
                   <TableCell>
-                    <Badge variant="default" className="capitalize">
+                    <Badge
+                      variant="default"
+                      className="capitalize text-xs sm:text-sm"
+                    >
                       {acc.status}
                     </Badge>
                   </TableCell>
                   <TableCell>
-                    <div className="text-sm">
+                    <div className="text-xs sm:text-sm">
                       <div className="text-gray-900">{acc.city}</div>
                       <div className="text-gray-500">{acc.country}</div>
                     </div>
                   </TableCell>
-                  <TableCell className="text-sm text-gray-600">
+                  <TableCell className="text-xs sm:text-sm text-gray-600">
                     {acc?.createdAt?.split("T")[0]}
                   </TableCell>
                   <TableCell>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1 sm:gap-2">
                       <Link
                         href={`/dashboard/manager/manage-accounts/${acc._id}`}
                         className="hover:bg-[#104042a1] bg-[#104042] rounded-full p-1 text-white transition-colors cursor-pointer"
                       >
-                        <EyeIcon />
+                        <EyeIcon className="h-3 w-3 sm:h-4 sm:w-4" />
                       </Link>
                       <Select
                         onValueChange={(value) =>
@@ -284,31 +314,37 @@ const ManagerManageAccountsPage = () => {
                         }
                         defaultValue="status update"
                       >
-                        <SelectTrigger className="w-[100px] h-8 text-xs border-gray-200 cursor-pointer">
+                        <SelectTrigger className="w-[80px] sm:w-[100px] h-7 sm:h-8 text-xs border-gray-200 cursor-pointer">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem
-                            className="cursor-pointer"
+                            className="cursor-pointer text-xs sm:text-sm"
                             value="status update"
                             disabled
                           >
                             Status Update
                           </SelectItem>
                           <SelectItem
-                            className="cursor-pointer"
+                            className="cursor-pointer text-xs sm:text-sm"
                             value="pending"
                           >
                             Pending
                           </SelectItem>
-                          <SelectItem className="cursor-pointer" value="active">
+                          <SelectItem
+                            className="cursor-pointer text-xs sm:text-sm"
+                            value="active"
+                          >
                             Active
                           </SelectItem>
-                          <SelectItem className="cursor-pointer" value="closed">
+                          <SelectItem
+                            className="cursor-pointer text-xs sm:text-sm"
+                            value="closed"
+                          >
                             Closed
                           </SelectItem>
                           <SelectItem
-                            className="cursor-pointer"
+                            className="cursor-pointer text-xs sm:text-sm"
                             value="suspended"
                           >
                             Suspended
@@ -319,8 +355,7 @@ const ManagerManageAccountsPage = () => {
                       <TableModal
                         open={open}
                         onOpenChange={(isOpen) => {
-                          setOpen(isOpen); // 👈 update modal visibility
-                          // setId(isOpen && acc._id); // 👈 update selected ID
+                          setOpen(isOpen);
                           if (!isOpen) {
                             setId(null);
                             removeParams();
@@ -333,14 +368,14 @@ const ManagerManageAccountsPage = () => {
                           <Button
                             variant="ghost"
                             size="sm"
-                            className="h-8 w-8 p-0 hover:bg-[#104042] hover:text-white transition-colors cursor-pointer"
+                            className="h-7 w-7 sm:h-8 sm:w-8 p-0 hover:bg-[#104042] hover:text-white transition-colors cursor-pointer"
                             onClick={() => {
                               setId(acc._id);
                               setOpen(true);
                               addParams(acc._id);
                             }}
                           >
-                            <Edit className="h-4 w-4" />
+                            <Edit className="h-3 w-3 sm:h-4 sm:w-4" />
                           </Button>
                         }
                       >
@@ -348,11 +383,13 @@ const ManagerManageAccountsPage = () => {
                       </TableModal>
 
                       <AskDialog
-                        className="h-8 w-8 p-0 hover:bg-red-500 hover:text-white transition-colors cursor-pointer"
+                        className="h-7 w-7 sm:h-8 sm:w-8 p-0 hover:bg-red-500 hover:text-white transition-colors cursor-pointer"
                         title="Delete Account"
                         description="Do you want to delete this account?"
                         okText="Yes, delete"
-                        buttonText={<Trash2 className="h-4 w-4" />}
+                        buttonText={
+                          <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
+                        }
                         handleSubmit={() => handleDelete(acc._id)}
                       />
                     </div>

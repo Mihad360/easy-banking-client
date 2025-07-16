@@ -14,6 +14,7 @@ import { useCreateAccountMutation } from "@/redux/api/accountApi";
 import { toast } from "sonner";
 import { TGlobalResponse } from "@/types/global.type";
 import { useGetBranchesQuery } from "@/redux/api/branchApi";
+import AuthLoading from "@/shared/loader/AuthLoading";
 
 // Reusable Motion Components
 const MotionContainer = ({
@@ -71,7 +72,7 @@ const cityOptions = allDistict()
 const CreateAccount = () => {
   const { data: branches } = useGetBranchesQuery(undefined);
   const branchOptions = selectBranchOptions(branches?.data || []);
-  const [createAccount] = useCreateAccountMutation();
+  const [createAccount, { isLoading }] = useCreateAccountMutation();
 
   const onSubmit = async (data: FieldValues) => {
     try {
@@ -204,7 +205,7 @@ const CreateAccount = () => {
                     type="submit"
                     className="bg-[#104042] hover:bg-[#0d3335] text-white px-12 py-3 rounded-xl text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer"
                   >
-                    Create Account
+                    {isLoading ? <AuthLoading /> : "Create Account"}
                   </Button>
                 </motion.div>
               </EBForm>

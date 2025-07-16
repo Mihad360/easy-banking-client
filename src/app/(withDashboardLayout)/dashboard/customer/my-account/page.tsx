@@ -26,7 +26,7 @@ const CustomerAccountPage = () => {
     return (
       <div className="pb-12">
         <h1 className="text-center text-base text-red-500 font-medium">
-          Your account has been closed or suspended! Try again...
+          Your previous account has been closed or suspended! Try again...
         </h1>
         <CreateAccount />
       </div>
@@ -36,7 +36,7 @@ const CustomerAccountPage = () => {
     return (
       <div className="pb-12">
         <h1 className="text-center text-base text-red-500 font-medium">
-          Your account has been closed or suspended! Try again...
+          Your previous account has been closed or suspended! Try again...
         </h1>
         <CreateAccount />
       </div>
