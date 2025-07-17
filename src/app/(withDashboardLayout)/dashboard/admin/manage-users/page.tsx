@@ -35,6 +35,7 @@ import type { ColumnDef, ActionConfig } from "@/shared/table/EBTable";
 import Loading from "@/shared/loading/Loading";
 import { toast } from "sonner";
 import { useDebounce } from "@/hooks/debounce.hook";
+import PaginationControls from "@/shared/paginate/PaginateControl";
 
 const ManageUsers = () => {
   const [roleFilter, setRoleFilter] = useState<string | undefined>(undefined);
@@ -43,6 +44,7 @@ const ManageUsers = () => {
   );
   const [userToDelete, setUserToDelete] = useState<User | null>(null);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const [updateUserRole] = useUpdateUserRoleMutation();
   const [deleteUser] = useDeleteUserMutation();
@@ -61,11 +63,15 @@ const ManageUsers = () => {
   if (statusFilter) {
     queryParams.push({ name: "status", value: statusFilter });
   }
+  if (currentPage) {
+    queryParams.push({ name: "page", value: currentPage });
+  }
 
   const resetFilter = () => {
     setRoleFilter(undefined);
     setStatusFilter(undefined);
     setValue("search", "");
+    setCurrentPage(1)
   };
 
   const {
@@ -73,8 +79,8 @@ const ManageUsers = () => {
     isLoading,
     isFetching,
   } = useGetUsersQuery(queryParams.length ? queryParams : undefined);
-
   const userData = users?.data;
+  const totalPage = users?.meta.totalPage;
 
   const handleRoleChange = async (userId: string, newRole: string) => {
     try {
@@ -309,6 +315,11 @@ const ManageUsers = () => {
           className="bg-white"
         />
       </div>
+      <PaginationControls
+        currentPage={currentPage}
+        totalPage={totalPage || 1}
+        setPage={setCurrentPage} // this sets the state directly
+      />
       {/* Delete Confirmation Dialog */}
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent>

@@ -147,7 +147,7 @@ const Login = () => {
 
             <motion.div variants={itemVariants} className="mt-3">
               <Link
-                href="/change-password"
+                href="/forget-password"
                 className="text-[#104042] font-bold underline underline-offset-2"
               >
                 Forgot your password?

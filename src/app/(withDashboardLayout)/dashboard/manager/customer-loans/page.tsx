@@ -25,15 +25,42 @@ import { useGetCustomerLoansQuery } from "@/redux/api/loanApi";
 import { TLoan } from "@/types/global.type";
 import { toast } from "sonner";
 import { useUpdateLoanStatusMutation } from "@/redux/api/multipleApi";
+import PaginationControls from "@/shared/paginate/PaginateControl";
 
 const ManagerCustomerLoansPage = () => {
   const [statusFilter, setStatusFilter] = useState<string | undefined>(
     undefined
   );
+  const [currentPage, setCurrentPage] = useState(1);
   const [updateLoanStatus] = useUpdateLoanStatusMutation();
-
   const { register, watch, setValue } = useForm();
   const searchTerm = useDebounce(watch("search"));
+
+  const queryParams = [];
+  if (searchTerm && searchTerm.trim() !== "") {
+    queryParams.push({ name: "searchTerm", value: searchTerm.trim() });
+  }
+  if (statusFilter) {
+    queryParams.push({ name: "status", value: statusFilter });
+  }
+  if (currentPage) {
+    queryParams.push({ name: "page", value: currentPage });
+  }
+
+  const resetFilter = () => {
+    setStatusFilter(undefined);
+    setValue("search", "");
+    setCurrentPage(1);
+  };
+
+  const {
+    data: allLoans,
+    isLoading,
+    isFetching,
+  } = useGetCustomerLoansQuery(queryParams.length ? queryParams : undefined);
+
+  const loans: TLoan[] = allLoans?.data || [];
+  const totalPage = allLoans?.meta.totalPage;
 
   const handleStatusUpdate = async (value: string, id: string | undefined) => {
     const toastId = toast.loading("Processing...");
@@ -61,29 +88,6 @@ const ManagerCustomerLoansPage = () => {
       console.log(error);
     }
   };
-
-  const queryParams = [];
-
-  if (searchTerm && searchTerm.trim() !== "") {
-    queryParams.push({ name: "searchTerm", value: searchTerm.trim() });
-  }
-
-  if (statusFilter) {
-    queryParams.push({ name: "status", value: statusFilter });
-  }
-
-  const resetFilter = () => {
-    setStatusFilter(undefined);
-    setValue("search", "");
-  };
-
-  const {
-    data: allLoans,
-    isLoading,
-    isFetching,
-  } = useGetCustomerLoansQuery(queryParams.length ? queryParams : undefined);
-
-  const loans: TLoan[] = allLoans?.data || [];
 
   const columns: ColumnDef<TLoan>[] = [
     {
@@ -290,6 +294,11 @@ const ManagerCustomerLoansPage = () => {
           className="bg-white"
         />
       </div>
+      <PaginationControls
+        currentPage={currentPage}
+        totalPage={totalPage || 1}
+        setPage={setCurrentPage} // this sets the state directly
+      />
     </div>
   );
 };

@@ -34,12 +34,14 @@ import TableModal from "@/shared/modal/TableModal";
 import UpdateAccount from "@/components/adminPages/UpdateAccount";
 import AskDialog from "@/shared/askDialog/AskDialog";
 import Link from "next/link";
+import PaginationControls from "@/shared/paginate/PaginateControl";
 
 const ManageAccountsPage = () => {
   const [accountType, setAccountType] = useState<string | undefined>(undefined);
   const [status, setStatus] = useState<string | undefined>(undefined);
   const [open, setOpen] = useState(false);
   const [id, setId] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const [updateAccountStatus] = useUpdateAccountStatusMutation();
   const [deleteAccount] = useDeleteAccountMutation();
   const { register, watch, setValue } = useForm();
@@ -55,6 +57,36 @@ const ManageAccountsPage = () => {
     url.searchParams.delete("account");
     window.history.pushState({}, "", url.toString());
   };
+
+  const searchTerm = useDebounce(watch("search"));
+
+  const queryParams = [];
+  if (searchTerm && searchTerm.trim() !== "") {
+    queryParams.push({ name: "searchTerm", value: searchTerm.trim() });
+  }
+  if (accountType) {
+    queryParams.push({ name: "accountType", value: accountType });
+  }
+  if (status) {
+    queryParams.push({ name: "status", value: status });
+  }
+  if (currentPage) {
+    queryParams.push({ name: "page", value: currentPage });
+  }
+
+  const resetFilter = () => {
+    setAccountType("");
+    setStatus("");
+    setValue("search", "");
+    setCurrentPage(1)
+  };
+
+  const {
+    data: accounts,
+    isLoading,
+    isFetching,
+  } = useGetAccountsQuery(queryParams.length ? queryParams : undefined);
+  const totalPage = accounts?.meta.totalPage;
 
   const handleStatusUpdate = async (accountNumber: string, value: string) => {
     const toastId = toast.loading("Processing...");
@@ -95,31 +127,6 @@ const ManageAccountsPage = () => {
       console.log(error);
     }
   };
-
-  const searchTerm = useDebounce(watch("search"));
-
-  const queryParams = [];
-  if (searchTerm && searchTerm.trim() !== "") {
-    queryParams.push({ name: "searchTerm", value: searchTerm.trim() });
-  }
-  if (accountType) {
-    queryParams.push({ name: "accountType", value: accountType });
-  }
-  if (status) {
-    queryParams.push({ name: "status", value: status });
-  }
-
-  const resetFilter = () => {
-    setAccountType("");
-    setStatus("");
-    setValue("search", "");
-  };
-
-  const {
-    data: accounts,
-    isLoading,
-    isFetching,
-  } = useGetAccountsQuery(queryParams.length ? queryParams : undefined);
 
   if (isLoading) {
     return <Loading />;
@@ -192,7 +199,7 @@ const ManageAccountsPage = () => {
             {/* Reset Button */}
             <Button
               variant="outline"
-              className="border border-red-300 hover:bg-red-100 text-red-500 px-3 py-2"
+              className="border cursor-pointer border-red-300 hover:bg-red-100 text-red-500 px-3 py-2"
               onClick={resetFilter}
             >
               <X className="w-4 h-4" />
@@ -385,6 +392,11 @@ const ManageAccountsPage = () => {
           </TableBody>
         </Table>
       </div>
+      <PaginationControls
+        currentPage={currentPage}
+        totalPage={totalPage || 1}
+        setPage={setCurrentPage} // this sets the state directly
+      />
     </div>
   );
 };

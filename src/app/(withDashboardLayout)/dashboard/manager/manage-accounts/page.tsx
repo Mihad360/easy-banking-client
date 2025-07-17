@@ -117,6 +117,7 @@ const ManagerManageAccountsPage = () => {
     setAccountType("");
     setStatus("");
     setValue("search", "");
+    setCurrentPage(1);
   };
 
   const {

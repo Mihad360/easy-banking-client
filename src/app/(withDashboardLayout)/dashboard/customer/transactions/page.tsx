@@ -21,6 +21,7 @@ import Loading from "@/shared/loading/Loading";
 import { toast } from "sonner";
 import { useDebounce } from "@/hooks/debounce.hook";
 import type { TUser } from "@/types/global.type";
+import PaginationControls from "@/shared/paginate/PaginateControl";
 
 // Your transaction type
 export type TTransaction = {
@@ -51,6 +52,7 @@ const CustomerTransactionPage = () => {
   const [statusFilter, setStatusFilter] = useState<string | undefined>(
     undefined
   );
+  const [currentPage, setCurrentPage] = useState(1);
   const [downloadTransaction] = useDownloadTransactionMutation();
   const { register, watch, setValue } = useForm();
   const searchTerm = useDebounce(watch("search"));
@@ -65,11 +67,15 @@ const CustomerTransactionPage = () => {
   if (statusFilter) {
     queryParams.push({ name: "status", value: statusFilter });
   }
+  if (currentPage) {
+    queryParams.push({ name: "page", value: currentPage });
+  }
 
   const resetFilter = () => {
     setTransactionTypeFilter(undefined);
     setStatusFilter(undefined);
     setValue("search", "");
+    setCurrentPage(1)
   };
 
   const {
@@ -77,8 +83,8 @@ const CustomerTransactionPage = () => {
     isLoading,
     isFetching,
   } = useGetMyTransactionsQuery(queryParams.length ? queryParams : undefined);
-
   const transactions = myTransactions?.data;
+  const totalPage = myTransactions?.meta.totalPage;
 
   const handleDownloadTransaction = async (transaction: TTransaction) => {
     try {
@@ -335,6 +341,11 @@ const CustomerTransactionPage = () => {
           className="bg-white"
         />
       </div>
+      <PaginationControls
+        currentPage={currentPage}
+        totalPage={totalPage || 1}
+        setPage={setCurrentPage} // this sets the state directly
+      />
     </div>
   );
 };

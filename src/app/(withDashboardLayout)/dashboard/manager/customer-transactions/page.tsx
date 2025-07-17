@@ -55,6 +55,7 @@ const ManagerCustomerTransactionPage = () => {
     setTransactionTypeFilter(undefined);
     setStatusFilter(undefined);
     setValue("search", "");
+    setCurrentPage(1);
   };
 
   const {

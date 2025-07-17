@@ -117,7 +117,7 @@ const MyLoan = ({ myLoan }: { myLoan: any }) => {
       >
         {/* Loan Account Card */}
         <Card className="border-0 bg-gray-200 rounded-b-none">
-          <CardHeader className="p-4 sm:p-6">
+          <CardHeader className="px-4 sm:px-6">
             <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
               <div>
                 <CardTitle className="text-lg sm:text-xl flex items-center gap-2">
@@ -364,7 +364,7 @@ const MyLoan = ({ myLoan }: { myLoan: any }) => {
               <span className="text-sm sm:text-base">Account Information</span>
             </CardTitle>
           </CardHeader>
-          <CardContent className="p-4 sm:p-6">
+          <CardContent className="px-4 sm:px-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               <div className="space-y-3 sm:space-y-4">
                 <div>
@@ -430,7 +430,7 @@ const MyLoan = ({ myLoan }: { myLoan: any }) => {
               <span className="text-sm sm:text-base">Branch Information</span>
             </CardTitle>
           </CardHeader>
-          <CardContent className="p-4 sm:p-6">
+          <CardContent className="px-4 sm:px-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               <div className="space-y-3 sm:space-y-4">
                 <div>

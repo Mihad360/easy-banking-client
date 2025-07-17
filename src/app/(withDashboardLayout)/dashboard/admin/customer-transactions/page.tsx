@@ -23,6 +23,7 @@ import {
   useGetTransactionsQuery,
 } from "@/redux/api/transactionApi";
 import { toast } from "sonner";
+import PaginationControls from "@/shared/paginate/PaginateControl";
 
 const AdminCustomerTransactionPage = () => {
   const [transactionTypeFilter, setTransactionTypeFilter] = useState<
@@ -31,9 +32,39 @@ const AdminCustomerTransactionPage = () => {
   const [statusFilter, setStatusFilter] = useState<string | undefined>(
     undefined
   );
+  const [currentPage, setCurrentPage] = useState(1);
   const [downloadTransaction] = useDownloadTransactionMutation();
   const { register, watch, setValue } = useForm();
   const searchTerm = useDebounce(watch("search"));
+
+  const queryParams = [];
+  if (searchTerm && searchTerm.trim() !== "") {
+    queryParams.push({ name: "searchTerm", value: searchTerm.trim() });
+  }
+  if (transactionTypeFilter) {
+    queryParams.push({ name: "transactionType", value: transactionTypeFilter });
+  }
+  if (statusFilter) {
+    queryParams.push({ name: "status", value: statusFilter });
+  }
+  if (currentPage) {
+    queryParams.push({ name: "page", value: currentPage });
+  }
+
+  const resetFilter = () => {
+    setTransactionTypeFilter(undefined);
+    setStatusFilter(undefined);
+    setValue("search", "");
+    setCurrentPage(1);
+  };
+
+  const {
+    data: allTransactions,
+    isLoading,
+    isFetching,
+  } = useGetTransactionsQuery(queryParams.length ? queryParams : undefined);
+  const transactions: TTransaction[] = allTransactions?.data || [];
+  const totalPage = allTransactions?.meta.totalPage;
 
   const handleDownload = async (transaction: TTransaction) => {
     try {
@@ -59,31 +90,6 @@ const AdminCustomerTransactionPage = () => {
       console.log(error);
     }
   };
-
-  const queryParams = [];
-  if (searchTerm && searchTerm.trim() !== "") {
-    queryParams.push({ name: "searchTerm", value: searchTerm.trim() });
-  }
-  if (transactionTypeFilter) {
-    queryParams.push({ name: "transactionType", value: transactionTypeFilter });
-  }
-  if (statusFilter) {
-    queryParams.push({ name: "status", value: statusFilter });
-  }
-
-  const resetFilter = () => {
-    setTransactionTypeFilter(undefined);
-    setStatusFilter(undefined);
-    setValue("search", "");
-  };
-
-  const {
-    data: allTransactions,
-    isLoading,
-    isFetching,
-  } = useGetTransactionsQuery(queryParams.length ? queryParams : undefined);
-
-  const transactions: TTransaction[] = allTransactions?.data || [];
 
   const columns: ColumnDef<TTransaction>[] = [
     {
@@ -265,7 +271,7 @@ const AdminCustomerTransactionPage = () => {
             <Button
               size="icon"
               variant="outline"
-              className="border-gray-300 text-gray-500 hover:text-red-600"
+              className="border-gray-300 cursor-pointer text-gray-500 hover:text-red-600"
               onClick={resetFilter}
               title="Reset filters"
             >
@@ -300,6 +306,11 @@ const AdminCustomerTransactionPage = () => {
           className="bg-white"
         />
       </div>
+      <PaginationControls
+        currentPage={currentPage}
+        totalPage={totalPage || 1}
+        setPage={setCurrentPage} // this sets the state directly
+      />
     </div>
   );
 };
