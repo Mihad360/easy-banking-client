@@ -34,12 +34,14 @@ import {
 } from "@/redux/api/adminApi";
 import { toast } from "sonner";
 import Link from "next/link";
+import PaginationControls from "@/shared/paginate/PaginateControl";
 
 const ManagerManageAccountsPage = () => {
   const [accountType, setAccountType] = useState<string | undefined>(undefined);
   const [status, setStatus] = useState<string | undefined>(undefined);
   const [open, setOpen] = useState(false);
   const [id, setId] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const [updateAccountStatus] = useUpdateAccountStatusMutation();
   const [deleteAccount] = useDeleteAccountMutation();
   const { register, watch, setValue } = useForm();
@@ -107,6 +109,9 @@ const ManagerManageAccountsPage = () => {
   if (status) {
     queryParams.push({ name: "status", value: status });
   }
+  if (currentPage) {
+    queryParams.push({ name: "page", value: currentPage });
+  }
 
   const resetFilter = () => {
     setAccountType("");
@@ -119,6 +124,7 @@ const ManagerManageAccountsPage = () => {
     isLoading,
     isFetching,
   } = useGetAccountsQuery(queryParams.length ? queryParams : undefined);
+  const totalPage = accounts?.meta.totalPage;
 
   if (isLoading) {
     return <Loading />;
@@ -206,8 +212,8 @@ const ManagerManageAccountsPage = () => {
           </div>
         </div>
 
-        <div className="text-xs sm:text-sm text-gray-600 ml-auto sm:ml-0 flex gap-2">
-          {accounts?.data?.length} <span>accounts</span>
+        <div className="text-xs text-gray-600 text-right">
+          {accounts?.meta.total} of {accounts?.data.length} Accounts
         </div>
       </div>
 
@@ -399,6 +405,11 @@ const ManagerManageAccountsPage = () => {
           </TableBody>
         </Table>
       </div>
+      <PaginationControls
+        currentPage={currentPage}
+        totalPage={totalPage || 1}
+        setPage={setCurrentPage} // this sets the state directly
+      />
     </div>
   );
 };

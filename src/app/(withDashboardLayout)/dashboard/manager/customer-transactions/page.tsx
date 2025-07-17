@@ -23,6 +23,7 @@ import { ActionConfig, ColumnDef, EBTable } from "@/shared/table/EBTable";
 import SecondLoading from "@/shared/loading/SecondLoading";
 import { useDebounce } from "@/hooks/debounce.hook";
 import { toast } from "sonner";
+import PaginationControls from "@/shared/paginate/PaginateControl";
 
 const ManagerCustomerTransactionPage = () => {
   const [transactionTypeFilter, setTransactionTypeFilter] = useState<
@@ -31,9 +32,39 @@ const ManagerCustomerTransactionPage = () => {
   const [statusFilter, setStatusFilter] = useState<string | undefined>(
     undefined
   );
+  const [currentPage, setCurrentPage] = useState(1);
   const [downloadTransaction] = useDownloadTransactionMutation();
   const { register, watch, setValue } = useForm();
   const searchTerm = useDebounce(watch("search"));
+
+  const queryParams = [];
+  if (searchTerm && searchTerm.trim() !== "") {
+    queryParams.push({ name: "searchTerm", value: searchTerm.trim() });
+  }
+  if (transactionTypeFilter) {
+    queryParams.push({ name: "transactionType", value: transactionTypeFilter });
+  }
+  if (statusFilter) {
+    queryParams.push({ name: "status", value: statusFilter });
+  }
+  if (currentPage) {
+    queryParams.push({ name: "page", value: currentPage });
+  }
+
+  const resetFilter = () => {
+    setTransactionTypeFilter(undefined);
+    setStatusFilter(undefined);
+    setValue("search", "");
+  };
+
+  const {
+    data: allTransactions,
+    isLoading,
+    isFetching,
+  } = useGetTransactionsQuery(queryParams.length ? queryParams : undefined);
+
+  const transactions: TTransaction[] = allTransactions?.data || [];
+  const totalPage = allTransactions?.meta.totalPage;
 
   const handleDownload = async (transaction: TTransaction) => {
     try {
@@ -56,31 +87,6 @@ const ManagerCustomerTransactionPage = () => {
       console.log(error);
     }
   };
-
-  const queryParams = [];
-  if (searchTerm && searchTerm.trim() !== "") {
-    queryParams.push({ name: "searchTerm", value: searchTerm.trim() });
-  }
-  if (transactionTypeFilter) {
-    queryParams.push({ name: "transactionType", value: transactionTypeFilter });
-  }
-  if (statusFilter) {
-    queryParams.push({ name: "status", value: statusFilter });
-  }
-
-  const resetFilter = () => {
-    setTransactionTypeFilter(undefined);
-    setStatusFilter(undefined);
-    setValue("search", "");
-  };
-
-  const {
-    data: allTransactions,
-    isLoading,
-    isFetching,
-  } = useGetTransactionsQuery(queryParams.length ? queryParams : undefined);
-
-  const transactions: TTransaction[] = allTransactions?.data || [];
 
   const columns: ColumnDef<TTransaction>[] = [
     {
@@ -292,6 +298,11 @@ const ManagerCustomerTransactionPage = () => {
           className="bg-white"
         />
       </div>
+      <PaginationControls
+        currentPage={currentPage}
+        totalPage={totalPage || 1}
+        setPage={setCurrentPage} // this sets the state directly
+      />
     </div>
   );
 };

@@ -96,29 +96,31 @@ const DepositBalance = ({
         </div>
 
         {/* Suggestions Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-5">
-          {suggestions.map((suggestion, index) => (
-            <Card
-              key={index}
-              className="border-l-4 border-l-[#104042] hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-gray-200"
-            >
-              <CardContent className="px-4">
-                <div className="flex items-start space-x-3">
-                  <div className="bg-[#104042] text-white p-2 rounded-lg">
-                    {suggestion.icon}
+        <div className="hidden md:block">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-5">
+            {suggestions.map((suggestion, index) => (
+              <Card
+                key={index}
+                className="border-l-4 border-l-[#104042] hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-gray-200"
+              >
+                <CardContent className="px-4">
+                  <div className="flex items-start space-x-3">
+                    <div className="bg-[#104042] text-white p-2 rounded-lg">
+                      {suggestion.icon}
+                    </div>
+                    <div className="flex-1">
+                      <h3 className=" text-[#104042] text-sm">
+                        {suggestion.title}
+                      </h3>
+                      <p className="text-xs text-slate-600 mt-1">
+                        {suggestion.description}
+                      </p>
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <h3 className=" text-[#104042] text-sm">
-                      {suggestion.title}
-                    </h3>
-                    <p className="text-xs text-slate-600 mt-1">
-                      {suggestion.description}
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
 
         {/* Main Form Card */}

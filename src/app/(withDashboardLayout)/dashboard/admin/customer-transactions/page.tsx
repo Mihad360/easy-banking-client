@@ -198,20 +198,19 @@ const AdminCustomerTransactionPage = () => {
   return (
     <div className="space-y-3 px-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <h1
-          className="text-2xl font-bold tracking-tight"
-          style={{ color: "#104042" }}
-        >
+      <div className="flex items-center justify-between mb-4">
+        <h1 className="text-2xl font-bold tracking-tight text-[#104042]">
           Manage Customer Transactions
         </h1>
       </div>
 
-      {/* Search and Filters */}
-      <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between bg-gray-50 p-4 rounded-lg border">
-        <div className="flex flex-col sm:flex-row gap-3 flex-1">
+      {/* Filters Section */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-gray-50 p-4 rounded-xl border shadow-sm">
+        {/* Left side: Search and Filters */}
+        <div className="flex flex-col sm:flex-row gap-3 flex-1 w-full">
+          {/* Search Input */}
           <div className="relative flex-1 max-w-sm">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" />
             <Input
               {...register("search")}
               placeholder="Search transactions..."
@@ -219,20 +218,22 @@ const AdminCustomerTransactionPage = () => {
             />
             {searchTerm && (
               <X
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4 cursor-pointer hover:text-red-500"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4 cursor-pointer hover:text-red-500 transition"
                 onClick={() => setValue("search", "")}
               />
             )}
           </div>
-          <div className="flex gap-2">
+
+          {/* Filters */}
+          <div className="flex flex-wrap gap-2">
             <Select
               value={transactionTypeFilter}
               onValueChange={(value) =>
                 setTransactionTypeFilter(value === "all" ? undefined : value)
               }
             >
-              <SelectTrigger className="w-[160px] border-gray-200">
-                <SelectValue placeholder="Types filter" />
+              <SelectTrigger className="w-[150px] border-gray-200">
+                <SelectValue placeholder="Filter by Type" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Types</SelectItem>
@@ -242,14 +243,15 @@ const AdminCustomerTransactionPage = () => {
                 <SelectItem value="loan">Loan</SelectItem>
               </SelectContent>
             </Select>
+
             <Select
               value={statusFilter}
               onValueChange={(value) =>
                 setStatusFilter(value === "all" ? undefined : value)
               }
             >
-              <SelectTrigger className="w-[120px] border-gray-200">
-                <SelectValue placeholder="Status" />
+              <SelectTrigger className="w-[130px] border-gray-200">
+                <SelectValue placeholder="Filter by Status" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Status</SelectItem>
@@ -258,17 +260,30 @@ const AdminCustomerTransactionPage = () => {
                 <SelectItem value="failed">Failed</SelectItem>
               </SelectContent>
             </Select>
+
+            {/* Reset Filters */}
             <Button
-              className="bg-rose-500 cursor-pointer"
+              size="icon"
+              variant="outline"
+              className="border-gray-300 text-gray-500 hover:text-red-600"
               onClick={resetFilter}
+              title="Reset filters"
             >
-              <X />
+              <X className="w-4 h-4 text-red-500" />
             </Button>
           </div>
         </div>
-        <div className="text-xs text-gray-600">
-          {transactions.length} of{" "}
-          {allTransactions?.meta?.total || transactions.length} transactions
+
+        {/* Right side: Count */}
+        <div className="text-sm text-gray-600 whitespace-nowrap">
+          <span className="font-medium text-[#104042]">
+            {transactions.length}
+          </span>{" "}
+          of{" "}
+          <span className="font-medium">
+            {allTransactions?.meta?.total || transactions.length}
+          </span>{" "}
+          transactions
         </div>
       </div>
 

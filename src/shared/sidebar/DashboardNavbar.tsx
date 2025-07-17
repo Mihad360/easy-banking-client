@@ -10,6 +10,7 @@ import {
   DollarSign,
   LogOut,
   Menu,
+  Home,
 } from "lucide-react";
 import Image from "next/image";
 
@@ -34,7 +35,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePathname } from "next/navigation";
 
 const DashboardNavbar = () => {
-  const pathname = usePathname()
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [userData, setUser] = useState<any>(null);
 
@@ -110,26 +111,56 @@ const DashboardNavbar = () => {
                   <Menu className="text-2xl text-[#104042]" />
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent side="bottom" align="start">
-                <DropdownMenuItem disabled>
-                  {"Welcome, "}
-                  {userData?.name || "User"}
+              <DropdownMenuContent side="bottom" align="start" className="w-60">
+                {/* Welcome Message */}
+                <DropdownMenuItem
+                  disabled
+                  className="opacity-100 font-semibold text-gray-700"
+                >
+                  👋 Welcome, {userData?.name || "User"}
                 </DropdownMenuItem>
-                {/* Divider (optional) */}
-                <div className="px-2 py-1 text-xs text-gray-400 font-medium">
+
+                {/* Divider Label */}
+                <div className="px-3 py-1 text-xs text-gray-400 font-medium border-b border-gray-100">
                   Dashboard Links
                 </div>
-                <div className="space-y-1">
+
+                {/* Dynamic Links */}
+                <div className="py-1 space-y-1">
                   {userRole.map((route) => (
                     <DropdownMenuItem asChild key={route.href}>
                       <Link
                         href={route.href}
-                        className={`w-full text-sm cursor-pointer ${pathname === route.href && "bg-gray-200"}`}
+                        className={`flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors w-full
+            ${
+              pathname === route.href
+                ? "bg-[#f1f5f9] text-[#104042] font-semibold"
+                : "hover:bg-gray-100 text-gray-700"
+            }`}
                       >
+                        {route.icon && <route.icon />}
                         {route.label}
                       </Link>
                     </DropdownMenuItem>
                   ))}
+                </div>
+
+                {/* Home Link */}
+                <div className="border-t pt-2 mt-1">
+                  <DropdownMenuItem asChild>
+                    <Link
+                      href="/"
+                      className={`flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors w-full
+          ${
+            pathname === "/"
+              ? "bg-[#f1f5f9] text-[#104042] font-semibold"
+              : "hover:bg-gray-100 text-gray-700"
+          }`}
+                    >
+                      <Home />
+                      Home
+                    </Link>
+                  </DropdownMenuItem>
                 </div>
               </DropdownMenuContent>
             </DropdownMenu>

@@ -1,16 +1,22 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
 import { Calculator, TrendingUp } from "lucide-react";
 import { TbCoinTakaFilled } from "react-icons/tb";
 
-export default function LoanCalculator() {
+export default function InterestCalculator() {
   const [amount, setAmount] = useState("");
-  const interestRate = 0.05;
   const loan = Number(amount);
-  const interest = loan * interestRate;
-  const total = loan + interest;
+
+  // Compound interest constants
+  const interestRate = 0.06; // 6% per annum
+  const n = 1; // compounded once a year
+  const t = 1; // time in years
+
+  // Compound Interest Calculation
+  const A = loan * Math.pow(1 + interestRate / n, n * t);
+  const interest = A - loan;
+  const total = A;
 
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
@@ -55,14 +61,8 @@ export default function LoanCalculator() {
       scale: 1,
       transition: { duration: 0.3 },
     },
-    hover: {
-      scale: 1.05,
-      transition: { duration: 0.2 },
-    },
-    tap: {
-      scale: 0.95,
-      transition: { duration: 0.1 },
-    },
+    hover: { scale: 1.05, transition: { duration: 0.2 } },
+    tap: { scale: 0.95, transition: { duration: 0.1 } },
   };
 
   const displayVariants = {
@@ -81,9 +81,8 @@ export default function LoanCalculator() {
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
-        className=""
       >
-        {/* Header - Made responsive */}
+        {/* Header */}
         <motion.div
           variants={itemVariants}
           className="text-center mb-6 sm:mb-8"
@@ -97,46 +96,47 @@ export default function LoanCalculator() {
             <Calculator className="w-5 h-5 sm:w-8 sm:h-8 text-white" />
           </motion.div>
           <h1 className="text-2xl sm:text-3xl font-bold text-[#104042] mb-1 sm:mb-2">
-            Loan Calculator
+            Savings Interest Calculator
           </h1>
-          <p className="text-sm sm:text-base text-gray-600">
-            Calculate your loan interest instantly
+          <p className="text-sm sm:text-base text-gray-600 max-w-md mx-auto">
+            Enter an amount to calculate your compound interest after 1 year at{" "}
+            <span className="font-semibold text-[#104042]">6% interest</span> on
+            a savings account.
           </p>
         </motion.div>
 
-        {/* Main Calculator Card - Made responsive */}
+        {/* Card */}
         <motion.div
           variants={itemVariants}
           className="bg-white rounded-2xl sm:rounded-3xl overflow-hidden border border-gray-200 flex flex-col md:flex-row"
         >
-          {/* Left Side: Display & Calculator */}
+          {/* Input + Buttons */}
           <div className="w-full md:w-[50%] p-4 sm:p-6 border-b md:border-b-0 md:border-r border-gray-100">
-            {/* Display - Responsive sizing */}
             <motion.div
               variants={displayVariants}
-              className="bg-gradient-to-r from-[#104042] to-[#1a5a5d] p-4 sm:p-6 rounded-lg sm:rounded-xl mb-4 sm:mb-6"
+              className="bg-gradient-to-r from-[#104042] to-[#1a5a5d] p-4 sm:p-6 rounded-lg mb-6"
             >
-              <div className="flex items-center justify-between mb-1 sm:mb-2">
-                <span className="text-white/80 text-xs sm:text-sm font-medium">
-                  Loan Amount
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-white/80 text-sm font-medium">
+                  Principal Amount
                 </span>
-                <TbCoinTakaFilled className="w-4 h-4 sm:w-5 sm:h-5 text-white/80" />
+                <TbCoinTakaFilled className="w-5 h-5 text-white/80" />
               </div>
               <motion.div
                 key={amount}
                 initial={{ scale: 1.1, opacity: 0.8 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.2 }}
-                className="text-right text-2xl sm:text-3xl font-bold text-white"
+                className="text-right text-3xl font-bold text-white"
               >
                 ৳{amount || "0"}
               </motion.div>
             </motion.div>
 
-            {/* Button Grid - Responsive spacing */}
+            {/* Buttons */}
             <motion.div
               variants={itemVariants}
-              className="grid grid-cols-3 gap-2 sm:gap-3"
+              className="grid grid-cols-3 gap-3"
             >
               {buttons.map((btn, index) => (
                 <motion.button
@@ -154,9 +154,7 @@ export default function LoanCalculator() {
                     }
                     shadow-sm hover:shadow-md
                   `}
-                  style={{
-                    animationDelay: `${index * 0.05}s`,
-                  }}
+                  style={{ animationDelay: `${index * 0.05}s` }}
                 >
                   {btn}
                 </motion.button>
@@ -164,29 +162,29 @@ export default function LoanCalculator() {
             </motion.div>
           </div>
 
-          {/* Right Side: Results - Responsive padding */}
+          {/* Results */}
           <div className="w-full md:w-1/2 p-4 sm:p-6 flex flex-col justify-center">
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.4 }}
-              className="space-y-4 sm:space-y-6"
+              className="space-y-6"
             >
               <motion.div
                 initial={{ x: -20, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ delay: 0.1 }}
-                className="flex items-center justify-between p-3 sm:p-4 bg-blue-50 rounded-lg sm:rounded-xl"
+                className="flex items-center justify-between p-4 bg-blue-50 rounded-xl"
               >
-                <div className="flex items-center gap-2 sm:gap-3">
-                  <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
-                  <span className="font-medium text-sm sm:text-base text-gray-700">
-                    Interest (5%)
+                <div className="flex items-center gap-3">
+                  <TrendingUp className="w-5 h-5 text-blue-600" />
+                  <span className="font-medium text-base text-gray-700">
+                    Compound Interest (6%)
                   </span>
                 </div>
-                <span className="font-bold text-sm sm:text-base text-blue-600">
-                  ৳{Math.ceil(interest)}
+                <span className="font-bold text-base text-blue-600">
+                  ৳{loan ? Math.ceil(interest) : 0}
                 </span>
               </motion.div>
 
@@ -194,29 +192,31 @@ export default function LoanCalculator() {
                 initial={{ x: -20, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ delay: 0.2 }}
-                className="flex items-center justify-between p-3 sm:p-4 bg-[#104042]/5 rounded-lg sm:rounded-xl border border-[#104042]/20"
+                className="flex items-center justify-between p-4 bg-[#104042]/5 rounded-xl border border-[#104042]/20"
               >
-                <div className="flex items-center gap-2 sm:gap-3">
-                  <TbCoinTakaFilled className="text-xl sm:text-2xl text-[#104042]" />
-                  <span className="font-medium text-sm sm:text-base text-gray-700">
-                    Total Payable
+                <div className="flex items-center gap-3">
+                  <TbCoinTakaFilled className="text-2xl text-[#104042]" />
+                  <span className="font-medium text-base text-gray-700">
+                    Total After 1 Year
                   </span>
                 </div>
-                <span className="font-bold text-sm sm:text-base md:text-lg text-[#104042]">
-                  ৳{Math.ceil(total)}
+                <span className="font-bold text-lg text-[#104042]">
+                  ৳{loan ? Math.ceil(total) : 0}
                 </span>
               </motion.div>
             </motion.div>
           </div>
         </motion.div>
 
-        {/* Footer Info - Responsive text */}
+        {/* Footer Note */}
         <motion.div
           variants={itemVariants}
-          className="text-center mt-6 sm:mt-8 text-xs sm:text-sm text-gray-500"
+          className="text-center mt-8 text-sm text-gray-500"
         >
-          <p>Interest rate: 5% per annum</p>
-          <p className="mt-1">Enter amount to see calculations</p>
+          <p>
+            This calculator is based on 1 year compound interest at 6% for
+            savings accounts.
+          </p>
         </motion.div>
       </motion.div>
     </div>

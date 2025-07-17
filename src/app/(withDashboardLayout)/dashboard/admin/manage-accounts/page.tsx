@@ -128,78 +128,82 @@ const ManageAccountsPage = () => {
   return (
     <div className="space-y-3 px-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <h1
-          className="text-2xl font-bold tracking-tight"
-          style={{ color: "#104042" }}
-        >
-          Manage Accounts
-        </h1>
-      </div>
+      <div className="flex flex-col gap-4">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-bold tracking-tight text-[#104042]">
+            Manage Accounts
+          </h1>
+        </div>
 
-      {/* Search and Filters */}
-      <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between bg-gray-50 p-4 rounded-lg border">
-        <div className="flex flex-col sm:flex-row gap-3 flex-1">
-          <div className="relative flex-1 max-w-sm">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+        {/* Filters & Search */}
+        <div className="bg-gray-50 p-4 rounded-lg border flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          {/* Left side: Search & Selects */}
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center flex-1">
+            {/* Search Input */}
+            <div className="relative w-full max-w-sm">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" />
 
-            <Input
-              {...register("search")}
-              placeholder="Search accounts..."
-              className="pl-10 pr-8 border-gray-200 focus:border-[#104042] focus:ring-[#104042]"
-            />
-
-            {searchTerm && (
-              <X
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4 cursor-pointer hover:text-red-500"
-                onClick={() => setValue("search", "")}
+              <Input
+                {...register("search")}
+                placeholder="Search accounts..."
+                className="pl-10 pr-8 border-gray-200 focus:border-[#104042] focus:ring-[#104042]"
               />
-            )}
-          </div>
 
-          <div className="flex gap-2">
+              {searchTerm && (
+                <X
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4 cursor-pointer hover:text-red-500"
+                  onClick={() => setValue("search", "")}
+                />
+              )}
+            </div>
+
+            {/* Account Type */}
             <Select
               onValueChange={(value) =>
                 setAccountType(value ? value : undefined)
               }
             >
-              <SelectTrigger className="w-[140px] border-gray-200">
+              <SelectTrigger className="w-[140px] border-gray-200 focus:border-[#104042] focus:ring-[#104042]">
                 <SelectValue placeholder="Account Type" />
               </SelectTrigger>
               <SelectContent>
-                {/* <SelectItem value="filter by types" disabled>
-                  Filter by Types
-                </SelectItem> */}
                 <SelectItem value="savings">Savings</SelectItem>
                 <SelectItem value="checking">Checking</SelectItem>
                 <SelectItem value="business">Business</SelectItem>
               </SelectContent>
             </Select>
 
+            {/* Status */}
             <Select
               onValueChange={(value) => setStatus(value ? value : undefined)}
             >
-              <SelectTrigger className="w-[120px] border-gray-200">
+              <SelectTrigger className="w-[120px] border-gray-200 focus:border-[#104042] focus:ring-[#104042]">
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
               <SelectContent>
-                {/* <SelectItem value="all">All Status</SelectItem> */}
                 <SelectItem value="pending">Pending</SelectItem>
                 <SelectItem value="active">Active</SelectItem>
                 <SelectItem value="closed">Closed</SelectItem>
                 <SelectItem value="suspended">Suspended</SelectItem>
               </SelectContent>
             </Select>
+
+            {/* Reset Button */}
             <Button
-              className="bg-rose-500 cursor-pointer"
+              variant="outline"
+              className="border border-red-300 hover:bg-red-100 text-red-500 px-3 py-2"
               onClick={resetFilter}
             >
-              <X />
+              <X className="w-4 h-4" />
             </Button>
           </div>
-        </div>
 
-        <div className="text-sm text-gray-600">3 of 3 accounts</div>
+          {/* Right side: Info */}
+          <div className="text-xs text-gray-600 text-right">
+            {accounts?.meta.total} of {accounts?.data.length} Accounts
+          </div>
+        </div>
       </div>
 
       {/* Table */}

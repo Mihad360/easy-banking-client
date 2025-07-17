@@ -78,6 +78,10 @@ const ManagerTransactionPage = () => {
   } = useGetMyTransactionsQuery(queryParams.length ? queryParams : undefined);
 
   const transactions = myTransactions?.data || [];
+  // console.log(myTransactions);
+  // const limit = myTransactions?.meta.limit;
+  // const page = myTransactions?.meta.page;
+  // const total = myTransactions?.meta.total;
 
   const handleDownloadTransaction = async (transaction: TTransaction) => {
     try {
@@ -233,7 +237,7 @@ const ManagerTransactionPage = () => {
 
   return (
     <div className="px-6 space-y-4 pb-12">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-4">
         <div>
           <h1 className="text-2xl font-bold text-[#104042]">My Transactions</h1>
           <p className="text-gray-600 mt-1">
@@ -243,14 +247,16 @@ const ManagerTransactionPage = () => {
       </div>
 
       {/* Search and Filters */}
-      <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between bg-gray-50 p-4 rounded-lg border">
-        <div className="flex flex-col sm:flex-row gap-3 flex-1">
-          <div className="relative flex-1 max-w-sm">
+      <div className="flex flex-col gap-4 md:flex-row md:items-center justify-between bg-gray-50 p-4 rounded-lg border">
+        {/* Left Side: Search + Filters */}
+        <div className="flex flex-col gap-3 md:flex-row md:items-center w-full">
+          {/* Search Field */}
+          <div className="relative w-full md:max-w-sm">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
             <Input
               {...register("search")}
               placeholder="Search transactions..."
-              className="pl-10 pr-8 border-gray-200 focus:border-[#104042] focus:ring-[#104042]"
+              className="pl-10 pr-8 border-gray-200 focus:border-[#104042] focus:ring-[#104042] w-full"
             />
             {searchTerm && (
               <X
@@ -259,14 +265,16 @@ const ManagerTransactionPage = () => {
               />
             )}
           </div>
-          <div className="flex gap-2">
+
+          {/* Filter Dropdowns */}
+          <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
             <Select
               value={transactionTypeFilter}
               onValueChange={(value) =>
                 setTransactionTypeFilter(value === "all" ? undefined : value)
               }
             >
-              <SelectTrigger className="w-[160px] border-gray-200">
+              <SelectTrigger className="w-full sm:w-[160px] border-gray-200">
                 <SelectValue placeholder="Types filter" />
               </SelectTrigger>
               <SelectContent>
@@ -278,13 +286,14 @@ const ManagerTransactionPage = () => {
                 <SelectItem value="deposit-loan">Deposit Loan</SelectItem>
               </SelectContent>
             </Select>
+
             <Select
               value={statusFilter}
               onValueChange={(value) =>
                 setStatusFilter(value === "all" ? undefined : value)
               }
             >
-              <SelectTrigger className="w-[120px] border-gray-200">
+              <SelectTrigger className="w-full sm:w-[120px] border-gray-200">
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
               <SelectContent>
@@ -294,15 +303,18 @@ const ManagerTransactionPage = () => {
                 <SelectItem value="failed">Failed</SelectItem>
               </SelectContent>
             </Select>
+
             <Button
-              className="bg-rose-500 cursor-pointer"
+              className="bg-rose-500 hover:bg-rose-600"
               onClick={resetFilter}
             >
-              <X />
+              <X className="w-4 h-4" />
             </Button>
           </div>
         </div>
-        <div className="text-xs text-gray-600">
+
+        {/* Right Side: Transaction Count */}
+        <div className="text-xs text-gray-600 text-right">
           {transactions.length} of{" "}
           {myTransactions?.meta?.total || transactions.length} transactions
         </div>

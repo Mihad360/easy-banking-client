@@ -217,16 +217,14 @@ const SignUp = () => {
         {/* Form Section - Responsive layout */}
         <motion.div className="p-4 sm:p-8" variants={containerVariants}>
           <EBForm onSubmit={onSubmit}>
-            <motion.div
-              className="flex flex-col md:flex-row gap-4 sm:gap-10 justify-center"
-              variants={containerVariants}
-            >
-              {/* Left Column */}
+            <motion.div className="space-y-6" variants={containerVariants}>
+              {/* Row 1: First + Last Name */}
               <motion.div
-                className="space-y-3 sm:space-y-4"
+                className="flex flex-col sm:flex-row gap-4"
                 variants={itemVariants}
               >
                 <motion.div
+                  className="flex-1"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5, delay: 0.4 }}
@@ -240,44 +238,8 @@ const SignUp = () => {
                     size={40}
                   />
                 </motion.div>
-
                 <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.5 }}
-                >
-                  <EBInput
-                    label="Email"
-                    name="email"
-                    type="email"
-                    icon={<Mail />}
-                    placeholder="Enter your verified email"
-                    size={40}
-                  />
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.6 }}
-                >
-                  <EBInput
-                    label="Password"
-                    name="password"
-                    type="password"
-                    icon={<Key />}
-                    placeholder="Enter your valid password ..."
-                    size={40}
-                  />
-                </motion.div>
-              </motion.div>
-
-              {/* Right Column */}
-              <motion.div
-                className="space-y-3 sm:space-y-4"
-                variants={itemVariants}
-              >
-                <motion.div
+                  className="flex-1"
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5, delay: 0.4 }}
@@ -291,8 +253,30 @@ const SignUp = () => {
                     size={40}
                   />
                 </motion.div>
+              </motion.div>
 
+              {/* Row 2: Email + Phone Number */}
+              <motion.div
+                className="flex flex-col sm:flex-row gap-4"
+                variants={itemVariants}
+              >
                 <motion.div
+                  className="flex-1"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.5 }}
+                >
+                  <EBInput
+                    label="Email"
+                    name="email"
+                    type="email"
+                    icon={<Mail />}
+                    placeholder="Enter your verified email"
+                    size={40}
+                  />
+                </motion.div>
+                <motion.div
+                  className="flex-1"
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5, delay: 0.5 }}
@@ -306,8 +290,30 @@ const SignUp = () => {
                     size={40}
                   />
                 </motion.div>
+              </motion.div>
 
+              {/* Row 3: Password + Profile Photo */}
+              <motion.div
+                className="flex flex-col sm:flex-row gap-4"
+                variants={itemVariants}
+              >
                 <motion.div
+                  className="flex-1"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.6 }}
+                >
+                  <EBInput
+                    label="Password"
+                    name="password"
+                    type="password"
+                    icon={<Key />}
+                    placeholder="Enter your valid password ..."
+                    size={40}
+                  />
+                </motion.div>
+                <motion.div
+                  className="flex-1"
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5, delay: 0.6 }}
