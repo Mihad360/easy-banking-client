@@ -285,7 +285,7 @@ const Navbar = () => {
         duration: 0.3,
         ease: easeInOut,
       }}
-      className="fixed w-full z-50 md:rounded-2xl mx-auto inset-x-0 bottom-0 md:bottom-auto md:top-0"
+      className="fixed w-full z-60 md:rounded-2xl mx-auto inset-x-0 bottom-0 md:bottom-auto md:top-0"
     >
       {/* Main navigation */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

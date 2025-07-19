@@ -52,7 +52,7 @@ export default function Component() {
   return (
     <motion.div
       ref={ref}
-      className="bg-white py-16 overflow-hidden"
+      className="py-16 overflow-hidden"
       variants={containerVariants}
       initial="hidden"
       animate={controls}
@@ -121,8 +121,8 @@ export default function Component() {
         </motion.div>
 
         {/* Gradient overlays for fade effect */}
-        <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white to-transparent pointer-events-none" />
-        <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white to-transparent pointer-events-none" />
+        {/* <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white to-transparent pointer-events-none" />
+        <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white to-transparent pointer-events-none" /> */}
       </div>
     </motion.div>
   );

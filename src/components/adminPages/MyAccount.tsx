@@ -181,7 +181,9 @@ const MyAccount = ({
             <p className="text-2xl sm:text-3xl font-bold text-slate-800 mb-2">
               BDT {balance}
             </p>
-            <p className="text-xs sm:text-sm text-slate-500">Available Balance</p>
+            <p className="text-xs sm:text-sm text-slate-500">
+              Available Balance
+            </p>
           </div>
           <div className="mt-4 pt-4 border-t border-slate-200">
             <div className="flex justify-between text-xs sm:text-sm">

@@ -8,6 +8,7 @@
   font-family: "Funnel Sans", sans-serif;
   font-optical-sizing: auto;
 }
+
 .custom-ant-select .ant-select-selector {
   border: 2px solid #b7b9bc !important;  /* Tailwind gray-200 */
   border-radius: 10px !important;        /* rounded-2xl */

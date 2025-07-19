@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" data-arp="">
-      <body className={`font antialiased bg-white`}>
+      <body className={`font antialiased`}>
         <Providers>{children}</Providers>
       </body>
     </html>

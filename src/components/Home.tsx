@@ -20,7 +20,6 @@ const Home = () => {
           <InterestCalculator />
         </div>
       </div>
-
       <FAQ />
     </div>
   );
