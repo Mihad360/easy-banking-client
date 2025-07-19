@@ -39,7 +39,7 @@ const Banner = () => {
 
         <div className="absolute bottom-20 w-[500px] h-[300px] bg-[#104042]/40 blur-[100px] rounded-full" />
 
-        <div className="w-[500px] h-[300px] bg-[#104042] opacity-40 blur-[100px] absolute top-0 right-0 md:block hidden"></div>
+        <div className="w-[500px] h-[300px] bg-[#104042] opacity-40 blur-[100px] absolute top-0 md:right-0"></div>
         <div
           className="absolute inset-0 opacity-[0.015]"
           style={{
@@ -49,7 +49,7 @@ const Banner = () => {
         />
       </div>
 
-      <div className="container mx-auto px-6 py-16 relative">
+      <div className="container mx-auto px-4 sm:px-6 py-16 relative">
         <motion.div
           className="grid lg:grid-cols-2 gap-8 items-center min-h-[80vh]"
           variants={containerVariants}
@@ -65,12 +65,12 @@ const Banner = () => {
                 transition={{ type: "spring", stiffness: 400, damping: 25 }}
               >
                 <div className="w-2 h-2 bg-[#104042] rounded-full animate-pulse"></div>
-                <span className="bg-white/40 backdrop-blur-md border border-white/30 text-[#104042] px-6 py-3 rounded-full text-sm font-semibold tracking-wide shadow-lg">
+                <span className="bg-white/40 backdrop-blur-md border border-white/30 text-[#104042] px-4 sm:px-6 py-2 sm:py-3 rounded-full text-xs sm:text-sm font-semibold tracking-wide shadow-lg">
                   ENTERPRISE FINANCIAL PLATFORM
                 </span>
               </motion.div>
               <motion.h1
-                className="text-4xl lg:text-6xl font-bold leading-[0.9]"
+                className="text-3xl sm:text-4xl lg:text-6xl font-bold leading-[0.9]"
                 variants={itemVariants}
               >
                 <span className="bg-gradient-to-r from-[#104042] via-[#0d3335] to-[#104042] bg-clip-text text-transparent">
@@ -78,10 +78,10 @@ const Banner = () => {
                 </span>
                 <br />
                 <span className="text-slate-900">Digital Banking</span>
-                <span className="text-[#104042] text-6xl">.</span>
+                <span className="text-[#104042] text-4xl sm:text-6xl">.</span>
               </motion.h1>
               <motion.p
-                className="text-lg text-slate-600 leading-relaxed max-w-2xl font-medium"
+                className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl font-medium"
                 variants={itemVariants}
               >
                 Experience seamless banking with our comprehensive platform.
@@ -97,19 +97,19 @@ const Banner = () => {
             {/* CTA Section */}
             <motion.div
               variants={itemVariants}
-              className="flex flex-col sm:flex-row gap-6 items-start"
+              className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-start"
             >
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-[#104042] to-[#0d3335] hover:from-[#0d3335] hover:to-[#104042] text-white px-10 py-6 rounded-2xl text-lg font-bold shadow-2xl hover:shadow-[#104042]/25 transition-all duration-300"
+                className="bg-gradient-to-r from-[#104042] to-[#0d3335] hover:from-[#0d3335] hover:to-[#104042] text-white px-6 sm:px-10 py-4 sm:py-6 rounded-xl sm:rounded-2xl text-base sm:text-lg font-bold shadow-2xl hover:shadow-[#104042]/25 transition-all duration-300"
               >
                 Start Your Journey
-                <ArrowRight className="ml-3 h-6 w-6" />
+                <ArrowRight className="ml-2 sm:ml-3 h-5 w-5 sm:h-6 sm:w-6" />
               </Button>
               <Button
                 variant="outline"
                 size="lg"
-                className="border-2 border-white/40 text-[#104042] hover:bg-white/20 hover:border-white/60 px-10 py-6 rounded-2xl text-lg font-bold transition-all duration-300 bg-white/20 backdrop-blur-md shadow-lg"
+                className="border-2 border-white/40 text-[#104042] hover:bg-white/20 hover:border-white/60 px-6 sm:px-10 py-4 sm:py-6 rounded-xl sm:rounded-2xl text-base sm:text-lg font-bold transition-all duration-300 bg-white/20 backdrop-blur-md shadow-lg"
               >
                 Schedule Demo
               </Button>
@@ -118,7 +118,7 @@ const Banner = () => {
             {/* Stats */}
             <motion.div
               variants={itemVariants}
-              className="grid grid-cols-3 gap-8 pt-8 border-t border-white/30"
+              className="grid grid-cols-3 gap-4 sm:gap-8 pt-6 sm:pt-8 border-t border-white/30"
             >
               {[
                 { value: "99.9%", label: "Uptime", icon: Shield },
@@ -127,15 +127,15 @@ const Banner = () => {
               ].map((stat, index) => (
                 <div
                   key={index}
-                  className="text-center group cursor-pointer p-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-300"
+                  className="text-center group cursor-pointer p-2 sm:p-4 rounded-xl sm:rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-300"
                 >
-                  <div className="flex items-center justify-center mb-2">
-                    <stat.icon className="h-5 w-5 text-[#104042] mr-2" />
-                    <div className="text-3xl font-bold text-[#104042]">
+                  <div className="flex items-center justify-center mb-1 sm:mb-2">
+                    <stat.icon className="h-4 w-4 sm:h-5 sm:w-5 text-[#104042] mr-1 sm:mr-2" />
+                    <div className="text-xl sm:text-3xl font-bold text-[#104042]">
                       {stat.value}
                     </div>
                   </div>
-                  <div className="text-sm text-slate-600 font-medium">
+                  <div className="text-xs sm:text-sm text-slate-600 font-medium">
                     {stat.label}
                   </div>
                 </div>
@@ -144,10 +144,10 @@ const Banner = () => {
           </div>
 
           {/* Right Content - Card Stack - Improved centering and sizing */}
-          <div className="relative flex justify-center items-center mt-16 lg:mt-0">
+          <div className="relative flex justify-center items-center mt-60 mb-32 md:mb-48 lg:mb-0 lg:mt-0">
             <motion.div
               variants={itemVariants}
-              className="relative w-full max-w-lg mx-auto lg:mx-0"
+              className="relative w-full max-w-md sm:max-w-lg mx-auto lg:mx-0"
             >
               <div className="relative flex items-center justify-center">
                 {/* Card Stack */}
@@ -156,7 +156,7 @@ const Banner = () => {
                   initial={{ opacity: 0, rotateY: -30, z: -100 }}
                   animate={{ opacity: 1, rotateY: -15, z: 0 }}
                   transition={{ delay: 0.5, duration: 0.6 }}
-                  className="absolute z-50 w-[400px] h-72 bg-gradient-to-br from-[#104042] to-[#0d3335] rounded-2xl shadow-2xl transform -rotate-60 -translate-x-14 -translate-y-2 overflow-hidden border border-white/20"
+                  className="absolute z-50 w-[250px] sm:w-[400px] h-56 sm:h-72 bg-gradient-to-br from-[#104042] to-[#0d3335] rounded-xl sm:rounded-2xl shadow-2xl transform md:-rotate-60 -translate-x-10 sm:-translate-x-14 -translate-y-2 overflow-hidden border border-white/20"
                   style={{ transformStyle: "preserve-3d" }}
                 >
                   {/* Background Geometric Shapes */}
@@ -173,7 +173,7 @@ const Banner = () => {
                     {/* Header */}
                     <div className="flex justify-between items-start">
                       <div>
-                        <h1 className="text-xl font-bold tracking-wide">
+                        <h1 className="text-lg sm:text-xl font-bold tracking-wide">
                           EasyBank
                         </h1>
                         <p className="text-xs opacity-90 mt-1 font-medium">
@@ -181,10 +181,12 @@ const Banner = () => {
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="text-base font-semibold">VISA</p>
+                        <p className="text-sm sm:text-base font-semibold">
+                          VISA
+                        </p>
                         <div className="flex items-center gap-1 mt-1">
                           <svg
-                            className="w-4 h-4"
+                            className="w-3 h-3 sm:w-4 sm:h-4"
                             fill="none"
                             stroke="currentColor"
                             strokeWidth="2"
@@ -201,9 +203,9 @@ const Banner = () => {
 
                     {/* Chip and Dots */}
                     <div className="flex items-center gap-3 my-2">
-                      <div className="w-10 h-7 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-md flex items-center justify-center">
+                      <div className="w-8 h-5 sm:w-10 sm:h-7 bg-gradient-to-br from-yellow-300 to-yellow-500 rounded-md flex items-center justify-center">
                         <svg
-                          className="w-4 h-4 text-yellow-800"
+                          className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-800"
                           fill="none"
                           stroke="currentColor"
                           strokeWidth="2"
@@ -217,19 +219,19 @@ const Banner = () => {
                         transition={{ duration: 2, repeat: Infinity }}
                         className="flex gap-1"
                       >
-                        <div className="w-3 h-2 bg-white/80 rounded-full"></div>
-                        <div className="w-3 h-2 bg-white/60 rounded-full"></div>
-                        <div className="w-3 h-2 bg-white/40 rounded-full"></div>
+                        <div className="w-2 h-1 sm:w-3 sm:h-2 bg-white/80 rounded-full"></div>
+                        <div className="w-2 h-1 sm:w-3 sm:h-2 bg-white/60 rounded-full"></div>
+                        <div className="w-2 h-1 sm:w-3 sm:h-2 bg-white/40 rounded-full"></div>
                       </motion.div>
                     </div>
 
                     {/* Card Number */}
-                    <div className="my-3">
+                    <div className="my-2 sm:my-3">
                       <motion.p
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 1.2, duration: 0.8 }}
-                        className="text-xl font-mono tracking-widest font-bold"
+                        className="text-base sm:text-xl font-mono tracking-widest font-bold"
                       >
                         4532 •••• •••• 7890
                       </motion.p>
@@ -245,7 +247,7 @@ const Banner = () => {
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           transition={{ delay: 1.5, duration: 0.8 }}
-                          className="font-bold text-base tracking-wide"
+                          className="font-bold text-sm sm:text-base tracking-wide"
                         >
                           JOHN SMITH
                         </motion.p>
@@ -258,7 +260,7 @@ const Banner = () => {
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           transition={{ delay: 1.6, duration: 0.8 }}
-                          className="font-bold text-base font-mono"
+                          className="font-bold text-sm sm:text-base font-mono"
                         >
                           12/28
                         </motion.p>
@@ -284,7 +286,7 @@ const Banner = () => {
                   initial={{ opacity: 0, rotateY: 30, z: -50 }}
                   animate={{ opacity: 1, rotateY: 0, z: 10 }}
                   transition={{ delay: 0.6, duration: 0.6 }}
-                  className="absolute z-30 w-[400px] h-72 rounded-2xl shadow-2xl transform -rotate-45 translate-x-4 mb-5.5 bg-amber-500 overflow-hidden"
+                  className="absolute z-30 w-[250px] sm:w-[400px] h-56 sm:h-72 rounded-xl sm:rounded-2xl shadow-2xl transform md:-rotate-45 translate-x-2 sm:translate-x-4 mb-4 translate-y-16 md:translate-y-0 sm:mb-5.5 bg-amber-500 overflow-hidden"
                   style={{
                     transformStyle: "preserve-3d",
                   }}
@@ -297,18 +299,18 @@ const Banner = () => {
                     <div className="absolute top-1/2 left-1/2 w-24 h-1 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -rotate-12"></div>
                   </div>
 
-                  <div className="p-6 h-full flex flex-col justify-between text-black font-semibold relative z-10">
+                  <div className="p-4 sm:p-6 h-full flex flex-col justify-between text-black font-semibold relative z-10">
                     <div className="flex justify-between items-start">
-                      <div className="text-sm font-semibold opacity-80">
+                      <div className="text-xs sm:text-sm font-semibold opacity-80">
                         GOLD
                       </div>
-                      <div className="text-lg font-bold">VISA</div>
+                      <div className="text-base sm:text-lg font-bold">VISA</div>
                     </div>
                     <div>
-                      <div className="text-lg font-mono tracking-wider mb-2">
+                      <div className="text-base sm:text-lg font-mono tracking-wider mb-1 sm:mb-2">
                         •••• •••• •••• 1234
                       </div>
-                      <div className="flex justify-between text-sm opacity-80">
+                      <div className="flex justify-between text-xs sm:text-sm opacity-80">
                         <span>JOHN SMITH</span>
                         <span>09/27</span>
                       </div>
@@ -334,7 +336,7 @@ const Banner = () => {
                   initial={{ opacity: 0, rotateY: 45, z: -150 }}
                   animate={{ opacity: 1, rotateY: 15, z: -20 }}
                   transition={{ delay: 0.7, duration: 0.6 }}
-                  className="absolute w-[400px] h-72 bg-gradient-to-br from-purple-500 to-purple-700 rounded-2xl shadow-2xl transform -rotate-30 translate-x-20 translate-y-4 mb-3 overflow-hidden"
+                  className="absolute w-[250px] sm:w-[400px] h-56 sm:h-72 bg-gradient-to-br from-purple-500 to-purple-700 rounded-xl sm:rounded-2xl shadow-2xl transform md:-rotate-30 translate-x-12 sm:translate-x-20 -translate-y-16 sm:translate-y-4 mb-2 sm:mb-3 overflow-hidden"
                   style={{ transformStyle: "preserve-3d" }}
                 >
                   {/* Background Elements */}
@@ -345,18 +347,18 @@ const Banner = () => {
                     <div className="absolute top-1/2 left-1/2 w-24 h-1 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -rotate-12"></div>
                   </div>
 
-                  <div className="p-6 h-full flex flex-col justify-between text-white relative z-10">
+                  <div className="p-4 sm:p-6 h-full flex flex-col justify-between text-white relative z-10">
                     <div className="flex justify-between items-start">
-                      <div className="text-sm font-semibold opacity-80">
+                      <div className="text-xs sm:text-sm font-semibold opacity-80">
                         PREMIUM
                       </div>
-                      <div className="text-lg font-bold">VISA</div>
+                      <div className="text-base sm:text-lg font-bold">VISA</div>
                     </div>
                     <div>
-                      <div className="text-lg font-mono tracking-wider mb-2">
+                      <div className="text-base sm:text-lg font-mono tracking-wider mb-1 sm:mb-2">
                         •••• •••• •••• 5678
                       </div>
-                      <div className="flex justify-between text-sm opacity-80">
+                      <div className="flex justify-between text-xs sm:text-sm opacity-80">
                         <span>JOHN SMITH</span>
                         <span>03/29</span>
                       </div>

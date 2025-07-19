@@ -37,6 +37,7 @@ import {
 } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ShimmerButton } from "@/components/ui/ShimmerButton";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -414,7 +415,7 @@ const Navbar = () => {
               <AnimationWrapper className="hover:scale-105">
                 <UserPen className="w-4 h-4 sm:w-5 sm:h-5" />
               </AnimationWrapper>
-              <AnimationWrapper>
+              {/* <AnimationWrapper>
                 <Link
                   href="/login"
                   className="text-white bg-[#104042] font-medium transition-colors duration-300 px-3 sm:px-4 md:px-5 tracking-wide py-1 sm:py-2 rounded-md relative group text-sm sm:text-base"
@@ -423,7 +424,14 @@ const Navbar = () => {
                   <span className="absolute inset-x-0 bottom-px bg-gradient-to-r from-transparent via-[#AEFF1C] to-transparent h-[1px]"></span>
                   <span className="absolute opacity-0 group-hover:opacity-100 transition-opacity duration-300 inset-x-0 bottom-px bg-gradient-to-r from-transparent via-[#AEFF1C] to-transparent h-[4px] blur-sm"></span>
                 </Link>
-              </AnimationWrapper>
+              </AnimationWrapper> */}
+              <Link href="/login">
+                <ShimmerButton className="shadow-2xl">
+                  <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight text-white dark:from-white dark:to-slate-900/10 lg:text-lg">
+                    Login
+                  </span>
+                </ShimmerButton>
+              </Link>
             </div>
           )}
 
