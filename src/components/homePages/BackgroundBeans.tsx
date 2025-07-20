@@ -94,7 +94,7 @@ export const BackgroundBeams = React.memo(
                 }}
                 animate={{
                   x1: ["0%", "100%"],
-                  x2: ["0%", "95%"],
+                  x2: ["0%", "65%"],
                   y1: ["0%", "100%"],
                   y2: ["0%", `${93 + Math.random() * 8}%`],
                 }}

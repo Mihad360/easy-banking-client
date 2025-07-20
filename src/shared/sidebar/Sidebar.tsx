@@ -205,6 +205,13 @@ const EasyBankSidebar = () => {
             })}
           </AnimatePresence>
         </nav>
+
+        <div className="px-4 py-3 text-center border-t border-gray-200 mt-4">
+          <p className="font-medium text-gray-700">EasyBank</p>
+          <p className="text-sm italic text-gray-500 mt-1">
+            Your trusted financial partner
+          </p>
+        </div>
       </div>
     </AnimatedContainer>
   );

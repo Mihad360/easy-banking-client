@@ -2,11 +2,8 @@
 "use client";
 import { motion, Variants } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
+import { useRef } from "react";
+import emailjs from "@emailjs/browser";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   MapPin,
@@ -19,14 +16,11 @@ import {
   Youtube,
   Instagram,
 } from "lucide-react";
-import { FieldValues } from "react-hook-form";
-import EBInput from "@/shared/form/EBInput";
-import EBForm from "@/shared/form/EBForm";
 import { toast } from "sonner";
 
 const ContactUs = () => {
+  const form = useRef<HTMLFormElement>(null);
   const ref = useRef(null);
-  const [formData, setFormData] = useState();
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   const containerVariants: Variants = {
@@ -49,32 +43,25 @@ const ContactUs = () => {
     },
   };
 
-  const onSubmit = async (data: FieldValues) => {
-    const body = new URLSearchParams();
-    body.append("name", data.name);
-    body.append("email", data.email);
-    body.append("subject", data.subject);
-    body.append("message", data.message);
-    body.append("_captcha", "false");
+  const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-    try {
-      const response = await fetch("https://formsubmit.co/el/nebulo", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          Accept: "application/json",
+    emailjs
+      .sendForm("service_mob0n5y", "template_owyg79e", form.current!, {
+        publicKey: "jSFNkrUxU0F-VKblX",
+      })
+      .then(
+        (res) => {
+          console.log(res, "SUCCESS!");
+          if (res.status === 200) {
+            form.current?.reset();
+            toast.success("Email sent successfully ✔️", { duration: 3000 });
+          }
         },
-        body: body.toString(),
-      });
-
-      if (response.ok) {
-        toast.success("Message sent successfully!");
-      } else {
-        toast.error("Failed to send message. Try again later.");
-      }
-    } catch (error) {
-      toast.error("An error occurred.");
-    }
+        (error) => {
+          console.log("FAILED...", error.text);
+        }
+      );
   };
 
   return (
@@ -105,11 +92,7 @@ const ContactUs = () => {
                 <h3 className="text-2xl font-bold text-[#104042] mb-6">
                   Leave Your Message
                 </h3>
-                <form
-                  action="https://formsubmit.co/el/nebulo"
-                  method="POST"
-                  className="space-y-4"
-                >
+                <form ref={form} onSubmit={sendEmail} className="space-y-4">
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <label
@@ -181,7 +164,7 @@ const ContactUs = () => {
 
                   <button
                     type="submit"
-                    className="w-full mt-3 bg-[#104042] hover:bg-[#0d353a] text-white py-3 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 rounded-md"
+                    className="cursor-pointer w-full mt-3 bg-[#104042] hover:bg-[#0d353a] text-white py-3 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 rounded-md"
                   >
                     Send Message
                   </button>
