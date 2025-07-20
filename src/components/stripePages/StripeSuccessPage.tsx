@@ -61,8 +61,8 @@ const StripeSuccessPage = ({ data }: { data: any }) => {
           </div>
 
           <Button className="text-center mt-5">
-            <Link href={`/dashboard/${user?.role}/my-loan`}>
-              Go to Your Loan section
+            <Link href={`/dashboard/${user?.role}/my-account`}>
+              Go to Your Account section
             </Link>
           </Button>
 

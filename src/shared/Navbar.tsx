@@ -337,7 +337,7 @@ const Navbar = () => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
                   align="end"
-                  className="w-56 mt-2 bg-gray-200 text-black shadow-2xl rounded-xl"
+                  className="w-56 mt-2 bg-[#104042] text-white shadow-2xl rounded-xl border-[#104042]"
                 >
                   <DropdownMenuLabel className="font-semibold px-4 py-3">
                     <div className="flex flex-col space-y-0.5">
@@ -397,15 +397,15 @@ const Navbar = () => {
                       </Link>
                     </>
                   )}
-                  <DropdownMenuSeparator className="bg-[#0d3636]" />
+                  <DropdownMenuSeparator className="bg-[#c5d0d0]" />
                   <button
                     onClick={handleSignOut}
-                    className="w-full hover:text-red-500 cursor-pointer"
+                    className="w-full px-4 py-2 flex items-center gap-2 text-sm rounded-md cursor-pointer hover:bg-black/60"
                   >
-                    <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm hover:bg-black/60 rounded-md hover:text-red-500 cursor-pointer">
-                      <LogOut className="w-4 h-4 text-red-500" />
-                      <span className="text-red-500">Sign Out</span>
-                    </DropdownMenuItem>
+                    {/* <DropdownMenuItem className="px-4 py-2 flex items-center gap-2 text-sm rounded-md cursor-pointer hover:bg-black"> */}
+                      <LogOut className="w-4 h-4 text-[#AEFF1C]" />
+                      <span className="text-[#AEFF1C]">Sign Out</span>
+                    {/* </DropdownMenuItem> */}
                   </button>
                 </DropdownMenuContent>
               </DropdownMenu>

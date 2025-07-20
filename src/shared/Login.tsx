@@ -137,7 +137,7 @@ const Login = () => {
               <motion.div className="pt-4" variants={itemVariants}>
                 <Button
                   type="submit"
-                  className="w-full py-3 bg-[#104042] hover:bg-[#0d353a] text-white font-medium rounded-lg"
+                  className="w-full py-3 bg-[#104042] hover:bg-[#0d353a] text-white font-medium rounded-lg cursor-pointer"
                   disabled={isLoading}
                 >
                   {isLoading ? <AuthLoading /> : "Login"}

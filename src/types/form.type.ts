@@ -10,6 +10,7 @@ export type EBInputType = {
   placeholder?: string;
   className?: string;
   defaultValue?: string;
-  readOnly?: any
-  tabIndex?: any
+  readOnly?: any;
+  rows?: number;
+  tabIndex?: any;
 };

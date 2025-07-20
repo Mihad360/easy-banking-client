@@ -52,7 +52,7 @@ export default function Component() {
   return (
     <motion.div
       ref={ref}
-      className="py-16 overflow-hidden"
+      className="pt-32 pb-16 overflow-hidden"
       variants={containerVariants}
       initial="hidden"
       animate={controls}

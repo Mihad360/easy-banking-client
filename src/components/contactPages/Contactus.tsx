@@ -2,7 +2,7 @@
 "use client";
 import { motion, Variants } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -19,9 +19,14 @@ import {
   Youtube,
   Instagram,
 } from "lucide-react";
+import { FieldValues } from "react-hook-form";
+import EBInput from "@/shared/form/EBInput";
+import EBForm from "@/shared/form/EBForm";
+import { toast } from "sonner";
 
 const ContactUs = () => {
   const ref = useRef(null);
+  const [formData, setFormData] = useState();
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   const containerVariants: Variants = {
@@ -35,7 +40,6 @@ const ContactUs = () => {
       },
     },
   };
-
   const itemVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: {
@@ -43,6 +47,34 @@ const ContactUs = () => {
       y: 0,
       transition: { duration: 0.5 },
     },
+  };
+
+  const onSubmit = async (data: FieldValues) => {
+    const body = new URLSearchParams();
+    body.append("name", data.name);
+    body.append("email", data.email);
+    body.append("subject", data.subject);
+    body.append("message", data.message);
+    body.append("_captcha", "false");
+
+    try {
+      const response = await fetch("https://formsubmit.co/el/nebulo", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Accept: "application/json",
+        },
+        body: body.toString(),
+      });
+
+      if (response.ok) {
+        toast.success("Message sent successfully!");
+      } else {
+        toast.error("Failed to send message. Try again later.");
+      }
+    } catch (error) {
+      toast.error("An error occurred.");
+    }
   };
 
   return (
@@ -73,75 +105,86 @@ const ContactUs = () => {
                 <h3 className="text-2xl font-bold text-[#104042] mb-6">
                   Leave Your Message
                 </h3>
-                <form className="space-y-6">
+                <form
+                  action="https://formsubmit.co/el/nebulo"
+                  method="POST"
+                  className="space-y-4"
+                >
                   <div className="grid md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label
+                    <div>
+                      <label
                         htmlFor="name"
-                        className="text-[#104042] font-medium"
+                        className="block mb-1 font-medium text-gray-700"
                       >
                         Your Name
-                      </Label>
-                      <Input
+                      </label>
+                      <input
                         id="name"
+                        name="name"
+                        type="text"
                         placeholder="Your Name"
-                        className="border-gray-200 focus:border-[#104042] focus:ring-[#104042]/20"
+                        required
+                        className="w-full border border-gray-200 rounded-md px-3 py-2 focus:border-[#104042] focus:ring focus:ring-[#104042]/20 outline-none transition"
                       />
                     </div>
-                    <div className="space-y-2">
-                      <Label
+
+                    <div>
+                      <label
                         htmlFor="email"
-                        className="text-[#104042] font-medium"
+                        className="block mb-1 font-medium text-gray-700"
                       >
                         Your Email
-                      </Label>
-                      <Input
+                      </label>
+                      <input
                         id="email"
+                        name="email"
                         type="email"
                         placeholder="Your Email"
-                        className="border-gray-200 focus:border-[#104042] focus:ring-[#104042]/20"
+                        required
+                        className="w-full border border-gray-200 rounded-md px-3 py-2 focus:border-[#104042] focus:ring focus:ring-[#104042]/20 outline-none transition"
                       />
                     </div>
                   </div>
-                  <div className="space-y-2">
-                    <Label
+
+                  <div>
+                    <label
                       htmlFor="subject"
-                      className="text-[#104042] font-medium"
+                      className="block mb-1 font-medium text-gray-700"
                     >
                       Subject
-                    </Label>
-                    <Input
+                    </label>
+                    <input
                       id="subject"
-                      placeholder="Subject"
-                      className="border-gray-200 focus:border-[#104042] focus:ring-[#104042]/20"
+                      name="subject"
+                      type="text"
+                      placeholder="Email Subject"
+                      className="w-full border border-gray-200 rounded-md px-3 py-2 focus:border-[#104042] focus:ring focus:ring-[#104042]/20 outline-none transition"
                     />
                   </div>
-                  <div className="space-y-2">
-                    <Label
+
+                  <div>
+                    <label
                       htmlFor="message"
-                      className="text-[#104042] font-medium"
+                      className="block mb-1 font-medium text-gray-700"
                     >
                       Your Message
-                    </Label>
-                    <Textarea
+                    </label>
+                    <textarea
                       id="message"
+                      name="message"
                       placeholder="Your Message"
-                      cols={12}
-                      rows={12}
-                      className="border-gray-200 focus:border-[#104042] focus:ring-[#104042]/20 resize-none"
-                    />
+                      required
+                      rows={5}
+                      className="w-full border border-gray-200 rounded-md px-3 py-2 focus:border-[#104042] focus:ring focus:ring-[#104042]/20 outline-none transition resize-none"
+                    ></textarea>
                   </div>
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+
+                  <button
+                    type="submit"
+                    className="w-full mt-3 bg-[#104042] hover:bg-[#0d353a] text-white py-3 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 rounded-md"
                   >
-                    <Button
-                      type="submit"
-                      className="w-full bg-[#104042] hover:bg-[#0d353a] text-white py-3 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
-                    >
-                      Send Message
-                    </Button>
-                  </motion.div>
+                    Send Message
+                  </button>
                 </form>
               </CardContent>
             </Card>

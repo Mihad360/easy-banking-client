@@ -7,7 +7,13 @@ import { cookies } from "next/headers";
 type TRole = keyof typeof roleBasedRoutes;
 
 // Private auth routes - if user has token, they shouldn't access these
-const privateAuthRoutes = ["/login", "/signup"];
+const privateAuthRoutes = [
+  "/login",
+  "/signup",
+  "/verify-otp",
+  "forget-password",
+  "reset-password",
+];
 
 // Role-based route patterns
 const roleBasedRoutes = {
@@ -62,5 +68,12 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/login", "/signup", "/dashboard/:path*"],
+  matcher: [
+    "/login",
+    "/signup",
+    "/verify-otp",
+    "/forget-password",
+    "/reset-password",
+    "/dashboard/:path*",
+  ],
 };

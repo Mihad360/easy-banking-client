@@ -15,6 +15,7 @@ const EBInput = ({
   defaultValue,
   readOnly,
   tabIndex,
+  rows,
 }: EBInputType) => {
   const { register } = useFormContext();
   return (
@@ -23,16 +24,30 @@ const EBInput = ({
         {icon}
         {label}
       </Label>
-      <Input
-        className={`${className ? className : ""}`}
-        {...register(name)}
-        type={type}
-        size={size}
-        placeholder={placeholder}
-        defaultValue={defaultValue}
-        readOnly={readOnly}
-        tabIndex={tabIndex}
-      />
+      {type === "textarea" ? (
+        <textarea
+          {...register(name)}
+          rows={rows || 4}
+          placeholder={placeholder}
+          defaultValue={defaultValue}
+          readOnly={readOnly}
+          tabIndex={tabIndex}
+          className={`resize-none border border-input bg-background px-3 py-2 rounded-md text-sm shadow-sm ${
+            className || ""
+          }`}
+        />
+      ) : (
+        <Input
+          {...register(name)}
+          type={type}
+          size={size}
+          placeholder={placeholder}
+          defaultValue={defaultValue}
+          readOnly={readOnly}
+          tabIndex={tabIndex}
+          className={className || ""}
+        />
+      )}
     </div>
   );
 };
